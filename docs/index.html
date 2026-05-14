@@ -382,7 +382,9 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 // ─── CONFIG ──────────────────────────────────────────────────────────────────
 const GITHUB_USER = 'sachin-dehran';
 const GOVERNANCE_REPO = 'dbops-solutions-governance';
-const REGISTRY_URL = `https://raw.githubusercontent.com/${GITHUB_USER}/${GOVERNANCE_REPO}/main/registry.json`;
+// Try relative path first (works on GitHub Pages), then raw GitHub URL
+const REGISTRY_URL = './registry.json';
+const REGISTRY_URL_FALLBACK = `https://raw.githubusercontent.com/${GITHUB_USER}/${GOVERNANCE_REPO}/main/registry.json`;
 
 // ─── INFO CONTENT ─────────────────────────────────────────────────────────────
 const INFO = {
@@ -1190,20 +1192,35 @@ function submitNewTeam() {
 // ─── FETCH + RENDER ───────────────────────────────────────────────────────────
 async function loadDashboard() {
   try {
-    // Try GitHub first, fall back to local
     let data;
+    let dataSource = '';
+
+    // Try 1: Relative path (GitHub Pages same-origin — fastest)
     try {
       const res = await fetch(REGISTRY_URL + '?t=' + Date.now());
-      if (!res.ok) throw new Error('GitHub fetch failed');
+      if (!res.ok) throw new Error('relative fetch failed: ' + res.status);
       data = await res.json();
-      document.getElementById('last-updated').textContent =
-        `⬡ Live data from github.com/sachin-dehran/dbops-solutions-governance · Refreshed ${new Date().toLocaleTimeString()}`;
-    } catch {
-      // Fallback to inline mock if GitHub not accessible
-      data = MOCK_REGISTRY;
-      document.getElementById('last-updated').textContent =
-        `⬡ Demo mode — connect to GitHub for live data · ${new Date().toLocaleTimeString()}`;
+      dataSource = 'GitHub Pages (live)';
+    } catch(e1) {
+      console.log('Relative fetch failed:', e1.message, '— trying raw GitHub...');
+      // Try 2: Raw GitHub URL
+      try {
+        const res2 = await fetch(REGISTRY_URL_FALLBACK + '?t=' + Date.now());
+        if (!res2.ok) throw new Error('raw GitHub fetch failed: ' + res2.status);
+        data = await res2.json();
+        dataSource = 'raw.githubusercontent.com (live)';
+      } catch(e2) {
+        console.log('Raw GitHub fetch failed:', e2.message, '— using demo data');
+        // Try 3: Demo mock data
+        data = MOCK_REGISTRY;
+        dataSource = 'Demo mode';
+      }
     }
+
+    document.getElementById('last-updated').textContent =
+      dataSource === 'Demo mode'
+        ? `⬡ Demo mode — push registry.json to GitHub Pages to see live data · ${new Date().toLocaleTimeString()}`
+        : `⬡ Live data · ${dataSource} · sachin-dehran/dbops-solutions-governance · Refreshed ${new Date().toLocaleTimeString()}`;
 
     registry = data;
     const stats = computeStats();
