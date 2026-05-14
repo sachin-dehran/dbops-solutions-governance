@@ -17,38 +17,12 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create feedback Issues for each team
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const registry = JSON.parse(fs.readFileSync('registry.json', 'utf8'));
-            const now = new Date();
-            const q = Math.ceil((now.getMonth()+1)/3);
-            const quarter = 'Q' + q + '-' + now.getFullYear();
-
-            for (const [sol, sdata] of Object.entries(registry)) {
-              for (const [team, tdata] of Object.entries(sdata.teams || {})) {
-                if (!tdata) continue;
-                try {
-                  await github.rest.issues.create({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    title: '[FEEDBACK] ' + quarter + ' — ' + team + ' / ' + sol,
-                    labels: ['quarterly-feedback'],
-                    body: '## Quarterly Feedback — ' + quarter + '\n\n**Team:** ' + team + ' | **Solution:** ' + sol + '\n**Version:** ' + tdata.local_version + ' | **Master:** ' + sdata.master_version + '\n\n1. Working without issues? Yes / No / Partial\n2. Any workarounds this quarter?\n3. New capability needed?\n4. Want local changes merged to Master? Yes / No\n5. Priority: Stability / Features / Performance\n\n> Close this issue when complete.'
-                  });
-                } catch(e) {
-                  console.log('Could not create issue for ' + team + ': ' + e.message);
-                }
-              }
-            }
-
       - name: Generate audit report
         run: |
           python3 - << 'PYEOF'
           import json
           from datetime import date
+          import os
 
           with open('registry.json') as f:
             registry = json.load(f)
@@ -57,37 +31,63 @@ jobs:
           q = (today.month - 1) // 3 + 1
           quarter = 'Q' + str(q) + '-' + str(today.year)
 
-          total = on_master = deviated = behind = 0
-          lines = ['# DBOps Quarterly Audit — ' + quarter, '**Generated:** ' + str(today), '']
+          total = on_master = deviated = 0
+          lines = ['# DBOps Quarterly Audit - ' + quarter, 'Generated: ' + str(today), '']
 
           for sol, sdata in registry.items():
             mv = sdata.get('master_version', '?')
-            lines.append('## ' + sol + '  —  Master: ' + mv)
+            lines.append('## ' + sol + ' - Master: ' + mv)
             for team, t in sdata.get('teams', {}).items():
               if not t:
                 continue
               total += 1
-              lv  = t.get('local_version', '?')
               bom = t.get('based_on_master', '?')
               dev = t.get('deviation', False)
-              on  = bom == mv and not dev
+              on = bom == mv and not dev
               if on:
                 on_master += 1
                 status = 'ON MASTER'
               else:
                 deviated += 1
                 status = 'DEVIATED'
-              lines.append('- ' + team + ': ' + lv + ' [' + status + ']')
+              lines.append('- ' + team + ': ' + t.get('local_version', '?') + ' [' + status + ']')
 
-          health = round((on_master/total)*100) if total else 0
-          lines.insert(2, 'Health: ' + str(health) + '% | On Master: ' + str(on_master) + ' | Deviated: ' + str(deviated) + ' | Total: ' + str(total))
+          health = round((on_master / total) * 100) if total else 0
+          lines.insert(2, 'Health: ' + str(health) + '% | On Master: ' + str(on_master) + ' | Total: ' + str(total))
 
-          import os
           os.makedirs('audit-reports', exist_ok=True)
-          with open('audit-reports/' + quarter + '-audit.md', 'w') as f:
+          path = 'audit-reports/' + quarter + '-audit.md'
+          with open(path, 'w') as f:
             f.write('\n'.join(lines))
-          print('Audit report generated: ' + quarter)
+          print('Audit report: ' + path)
           PYEOF
+
+      - name: Create feedback Issues
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const registry = JSON.parse(fs.readFileSync('registry.json', 'utf8'));
+            const now = new Date();
+            const q = Math.ceil((now.getMonth()+1)/3);
+            const quarter = 'Q' + q + '-' + now.getFullYear();
+            for (const [sol, sdata] of Object.entries(registry)) {
+              for (const [team, tdata] of Object.entries(sdata.teams || {})) {
+                if (!tdata) continue;
+                try {
+                  await github.rest.issues.create({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    title: '[FEEDBACK] ' + quarter + ' - ' + team + ' / ' + sol,
+                    labels: ['quarterly-feedback'],
+                    body: '## Quarterly Feedback - ' + quarter + '\n\n**Team:** ' + team + '\n**Solution:** ' + sol + '\n**Version:** ' + tdata.local_version + '\n**Master:** ' + sdata.master_version + '\n\n1. Working without issues? Yes / No / Partial\n2. Any workarounds this quarter?\n3. New capability needed?\n4. Want local changes merged to Master?\n5. Priority: Stability / Features / Performance\n\n> Close this issue when complete.'
+                  });
+                  console.log('Created issue for ' + team + '/' + sol);
+                } catch(e) {
+                  console.log('Skipped ' + team + ': ' + e.message);
+                }
+              }
+            }
 
       - name: Commit audit report
         run: |
