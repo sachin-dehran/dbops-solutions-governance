@@ -6,16 +6,9 @@
 <title>DBOps Solutions Governance</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
-:root{
-  --bg:#05080f;--s1:#0c1525;--s2:#101d30;--s3:#162038;
-  --master:#00e5a0;--blue:#4d9fff;--purple:#8b5cf6;
-  --amber:#f59e0b;--red:#ef4444;--pink:#ec4899;
-  --text:#ddeeff;--muted:#3d5a7a;--border:rgba(77,159,255,0.1);
-}
+:root{--bg:#05080f;--s1:#0c1525;--s2:#101d30;--s3:#162038;--master:#00e5a0;--blue:#4d9fff;--purple:#8b5cf6;--amber:#f59e0b;--red:#ef4444;--text:#ddeeff;--muted:#3d5a7a;--border:rgba(77,159,255,0.1);}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
-
-/* TOPBAR */
 .tb{position:sticky;top:0;z-index:200;background:rgba(5,8,15,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:60px;}
 .tb-brand{display:flex;align-items:center;gap:12px;}
 .tb-logo{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,#00e5a0,#0055ff);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;color:#000;}
@@ -25,117 +18,61 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .nb{padding:7px 16px;border-radius:7px;border:none;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;}
 .nb:hover{color:var(--text);background:rgba(255,255,255,0.05);}
 .nb.on{color:var(--master);background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);}
+.nb.prov{color:#a78bfa;}
+.nb.prov.on{color:#a78bfa;background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.3);}
 .tb-right{display:flex;gap:8px;align-items:center;}
 .live-badge{display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;color:var(--master);background:rgba(0,229,160,0.07);border:1px solid rgba(0,229,160,0.18);padding:4px 12px;border-radius:20px;}
 .live-dot{width:6px;height:6px;background:var(--master);border-radius:50%;animation:blink 1.5s infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.2;}}
-.gh-btn{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#fff;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);padding:6px 14px;border-radius:7px;cursor:pointer;text-decoration:none;transition:all .2s;}
-.gh-btn:hover{background:rgba(255,255,255,0.12);}
-.alert-badge{font-family:'DM Mono',monospace;font-size:10px;color:var(--red);background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);padding:4px 10px;border-radius:5px;animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
-
-/* LAYOUT */
+.gh-btn{font-size:12px;font-weight:600;color:#fff;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);padding:6px 14px;border-radius:7px;text-decoration:none;}
+.alert-badge{font-family:'DM Mono',monospace;font-size:10px;color:var(--red);background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);padding:4px 10px;border-radius:5px;}
 .pg{padding:28px 32px;max-width:1440px;margin:0 auto;}
 .page{display:none;}
 .page.on{display:block;}
-
-/* LOADING */
-.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;height:300px;gap:16px;color:var(--muted);}
-.spinner{width:36px;height:36px;border:3px solid rgba(0,229,160,0.1);border-top-color:var(--master);border-radius:50%;animation:spin 0.8s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-
-/* KPI */
 .kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:22px;}
 .kpi{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:16px 18px;position:relative;overflow:visible;}
 .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:12px 12px 0 0;}
 .k1::before{background:linear-gradient(90deg,var(--master),transparent);}
 .k2::before{background:linear-gradient(90deg,var(--blue),transparent);}
-.k3::before{background:linear-gradient(90deg,var(--red),transparent);}
+.k3::before{background:linear-gradient(90deg,var(--purple),transparent);}
 .k4::before{background:linear-gradient(90deg,var(--amber),transparent);}
-.k5::before{background:linear-gradient(90deg,var(--purple),transparent);}
-.k6::before{background:linear-gradient(90deg,#64748b,transparent);}
+.k5::before{background:linear-gradient(90deg,#64748b,transparent);}
+.k6::before{background:linear-gradient(90deg,var(--red),transparent);}
 .kpi-top{display:flex;justify-content:space-between;align-items:flex-start;}
 .kv{font-size:30px;font-weight:800;line-height:1;color:#fff;}
-.kl{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);margin-top:6px;letter-spacing:.5px;text-transform:uppercase;}
+.kl{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);margin-top:6px;text-transform:uppercase;}
 .ks{font-size:10px;color:var(--muted);margin-top:2px;}
-.info-btn{width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:var(--muted);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:'DM Mono',monospace;flex-shrink:0;position:relative;}
-.info-btn:hover{background:rgba(0,229,160,0.1);border-color:rgba(0,229,160,0.3);color:var(--master);}
-.info-popup{position:fixed;width:280px;background:#0d1e38;border:1px solid rgba(0,229,160,0.2);border-radius:11px;padding:14px;z-index:99999;box-shadow:0 16px 48px rgba(0,0,0,0.8),0 0 0 1px rgba(0,229,160,0.08);animation:pop .15s ease;}
-@keyframes pop{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
-.ip-title{font-size:12px;font-weight:700;color:#fff;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.06);}
-.ip-row{margin-bottom:8px;}
-.ip-lbl{font-family:'DM Mono',monospace;font-size:9px;color:var(--master);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;}
-.ip-txt{font-size:11px;color:#7a9bbf;line-height:1.6;}
-
-/* CARD */
 .card{background:var(--s1);border:1px solid var(--border);border-radius:13px;padding:20px 22px;margin-bottom:14px;overflow:visible;}
 .card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
 .card-head-left{display:flex;align-items:center;gap:8px;}
 .card-title{font-size:14px;font-weight:700;color:#fff;}
 .card-badge{font-family:'DM Mono',monospace;font-size:9px;padding:3px 8px;border-radius:4px;background:rgba(255,255,255,0.05);color:var(--muted);}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
-
-/* MATRIX */
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;}
+.info-btn{width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:#64748b;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-family:'DM Mono',monospace;flex-shrink:0;}
+.info-btn:hover{background:rgba(0,229,160,0.12);border-color:rgba(0,229,160,0.3);color:var(--master);}
+.info-popup{position:fixed;width:290px;background:#0f1e35;border:1px solid rgba(0,229,160,0.25);border-radius:12px;padding:16px;z-index:99999;box-shadow:0 16px 48px rgba(0,0,0,0.8);}
+.ip-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.07);}
+.ip-row{margin-bottom:8px;}
+.ip-lbl{font-family:'DM Mono',monospace;font-size:9px;color:var(--master);text-transform:uppercase;margin-bottom:3px;}
+.ip-txt{font-size:11px;color:#7a9bbf;line-height:1.6;}
+.ip-close{float:right;background:none;border:none;color:#64748b;cursor:pointer;font-size:14px;margin:-4px -4px 0 0;}
 .matrix-wrap{overflow-x:auto;}
 .mtbl{width:100%;border-collapse:collapse;}
-.mtbl th{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);padding:8px 12px;text-align:center;border-bottom:1px solid var(--border);font-weight:500;}
+.mtbl th{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);padding:8px 10px;text-align:center;border-bottom:1px solid var(--border);}
 .mtbl th:first-child{text-align:left;}
-.mtbl td{padding:6px 12px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.03);}
+.mtbl td{padding:5px 10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.03);}
 .mtbl td:first-child{text-align:left;font-weight:700;font-size:13px;}
-.mtbl tr:hover td{background:rgba(255,255,255,0.02);}
-.cell{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;min-width:130px;padding:5px 8px;border-radius:7px;font-family:'DM Mono',monospace;font-size:9px;font-weight:600;border:1px solid transparent;cursor:pointer;transition:all .15s;line-height:1.4;position:relative;}
-.cell:hover{transform:scale(1.04);}
+.cell{display:inline-flex;flex-direction:column;align-items:center;min-width:120px;padding:5px 8px;border-radius:7px;font-family:'DM Mono',monospace;font-size:9px;border:1px solid transparent;cursor:pointer;line-height:1.4;}
 .cell.master{background:rgba(0,229,160,.1);color:var(--master);border-color:rgba(0,229,160,.2);}
 .cell.deviated{background:rgba(245,158,11,.1);color:var(--amber);border-color:rgba(245,158,11,.2);}
 .cell.behind{background:rgba(77,159,255,.1);color:var(--blue);border-color:rgba(77,159,255,.2);}
-.cell.wants-merge{background:rgba(139,92,246,.1);color:#a78bfa;border-color:rgba(139,92,246,.25);animation:pulse 2s infinite;}
-.cell.na{background:rgba(255,255,255,.03);color:#1e3a5f;border-color:rgba(255,255,255,.04);cursor:default;}
+.cell.wants-merge{background:rgba(139,92,246,.1);color:#a78bfa;border-color:rgba(139,92,246,.25);}
+.cell.na{background:rgba(255,255,255,.03);color:#1e3a5f;border-color:rgba(255,255,255,.04);}
 .cell-ver{font-size:10px;font-weight:700;}
 .cell-status{font-size:8px;opacity:0.8;margin-top:1px;}
-.leg-row{display:flex;gap:14px;margin-top:14px;flex-wrap:wrap;}
+.leg-row{display:flex;gap:14px;margin-top:12px;flex-wrap:wrap;}
 .leg{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);}
 .ld{width:10px;height:10px;border-radius:3px;}
-
-/* CELL TOOLTIP */
-.cell-tip{position:absolute;bottom:calc(100%+8px);left:50%;transform:translateX(-50%);background:#0d1e38;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 13px;font-size:11px;white-space:nowrap;z-index:999;pointer-events:none;font-family:'DM Mono',monospace;line-height:1.9;min-width:200px;display:none;}
-.cell:hover .cell-tip{display:block;}
-
-/* HEALTH RING */
-.hring{display:flex;align-items:center;gap:22px;}
-.ring-wrap{position:relative;width:120px;height:120px;flex-shrink:0;}
-.ring-val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:#fff;}
-.ring-val span{font-size:10px;color:var(--muted);font-weight:400;font-family:'DM Mono',monospace;}
-.hbars{flex:1;display:flex;flex-direction:column;gap:8px;}
-.hbar-row{display:flex;align-items:center;gap:8px;}
-.hbar-label{font-size:11px;color:#94a3b8;min-width:110px;}
-.hbar-track{flex:1;height:7px;background:rgba(255,255,255,.05);border-radius:3px;overflow:hidden;}
-.hbar-fill{height:100%;border-radius:3px;transition:width 1s ease;}
-.hbar-val{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);min-width:30px;text-align:right;}
-
-/* TREND */
-.trend-bars{display:flex;align-items:flex-end;gap:28px;height:120px;padding-bottom:4px;}
-.tg{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;}
-.tbw{display:flex;gap:4px;align-items:flex-end;height:88px;}
-.tbar{width:24px;border-radius:4px 4px 0 0;position:relative;cursor:pointer;transition:opacity .15s;}
-.tbar:hover{opacity:.8;}
-.tbar:hover .ttip{display:block;}
-.ttip{position:absolute;bottom:calc(100%+4px);left:50%;transform:translateX(-50%);background:#1e293b;border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:4px 8px;font-size:10px;font-family:'DM Mono',monospace;white-space:nowrap;display:none;z-index:10;}
-.tq{font-family:'DM Mono',monospace;font-size:10px;color:#334155;}
-.th-val{font-size:13px;font-weight:700;color:#fff;}
-
-/* QUARTERLY */
-.qgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
-.qstep{background:var(--s2);border-radius:9px;padding:14px;border-top:2px solid transparent;}
-.qstep.w1{border-color:var(--master);}
-.qstep.w2{border-color:var(--blue);}
-.qstep.w3{border-color:var(--amber);}
-.qstep.w4{border-color:var(--purple);}
-.qw{font-family:'DM Mono',monospace;font-size:9px;color:var(--master);margin-bottom:5px;letter-spacing:1px;}
-.qt{font-size:12px;font-weight:700;color:#fff;margin-bottom:5px;}
-.qd{font-size:11px;color:var(--muted);line-height:1.6;}
-
-/* DRIFT ALERTS */
 .drift-item{background:var(--s2);border-radius:9px;padding:12px 14px;border-left:3px solid var(--red);display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;}
 .drift-item.warn{border-color:var(--amber);}
 .drift-item.merge{border-color:var(--purple);}
@@ -146,14 +83,52 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .dtag.ver{background:rgba(255,255,255,.06);color:var(--muted);}
 .di-msg{font-size:12px;color:var(--text);}
 .stag{font-family:'DM Mono',monospace;font-size:9px;padding:3px 9px;border-radius:5px;white-space:nowrap;}
-.stag.danger{background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.2);}
 .stag.warn{background:rgba(245,158,11,.12);color:#fbbf24;border:1px solid rgba(245,158,11,.2);}
 .stag.merge{background:rgba(139,92,246,.12);color:#a78bfa;border:1px solid rgba(139,92,246,.2);}
-
-/* CHANGELOG */
-.sol-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
-.stab{font-family:'DM Mono',monospace;font-size:10px;padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;}
-.stab:hover{color:var(--text);}
+.mc-tbl{width:100%;border-collapse:collapse;}
+.mc-tbl th{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);}
+.mc-tbl td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.03);font-size:12px;}
+.mc-tbl tr:hover td{background:rgba(255,255,255,.02);}
+.mv{font-family:'DM Mono',monospace;font-size:11px;}
+.mv.ok{color:var(--master);}
+.mv.old{color:var(--amber);}
+.gh-link{font-family:'DM Mono',monospace;font-size:10px;color:var(--blue);text-decoration:none;}
+.hring{display:flex;align-items:center;gap:22px;}
+.ring-wrap{position:relative;width:120px;height:120px;flex-shrink:0;}
+.ring-val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:#fff;}
+.ring-val span{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;}
+.hbars{flex:1;display:flex;flex-direction:column;gap:8px;}
+.hbar-row{display:flex;align-items:center;gap:8px;}
+.hbar-label{font-size:11px;color:#94a3b8;min-width:110px;}
+.hbar-track{flex:1;height:7px;background:rgba(255,255,255,.05);border-radius:3px;overflow:hidden;}
+.hbar-fill{height:100%;border-radius:3px;}
+.hbar-val{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);min-width:30px;text-align:right;}
+.trend-bars{display:flex;align-items:flex-end;gap:28px;height:120px;padding-bottom:4px;}
+.tg{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;}
+.tbw{display:flex;gap:4px;align-items:flex-end;height:88px;}
+.tbar{width:24px;border-radius:4px 4px 0 0;position:relative;}
+.tbar:hover .ttip{display:block;}
+.ttip{position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:#1e293b;border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:4px 8px;font-size:10px;font-family:'DM Mono',monospace;white-space:nowrap;display:none;z-index:10;}
+.tq{font-family:'DM Mono',monospace;font-size:10px;color:#334155;}
+.th-val{font-size:13px;font-weight:700;color:#fff;}
+.qgrid{display:grid;gap:10px;}
+.qstep{background:var(--s2);border-radius:9px;padding:14px;border-top:2px solid transparent;}
+.qstep.w1{border-color:var(--master);}
+.qstep.w2{border-color:var(--blue);}
+.qstep.w3{border-color:var(--amber);}
+.qstep.w4{border-color:var(--purple);}
+.qw{font-family:'DM Mono',monospace;font-size:9px;color:var(--master);margin-bottom:5px;}
+.qt{font-size:12px;font-weight:700;color:#fff;margin-bottom:5px;}
+.qd{font-size:11px;color:var(--muted);line-height:1.6;}
+.rules-banner{background:var(--s2);border:1px solid rgba(239,68,68,.15);border-radius:11px;padding:16px 20px;margin-bottom:16px;}
+.rb-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.rb-title{font-size:13px;font-weight:700;color:#f87171;}
+.rules-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.rule{display:flex;align-items:center;gap:8px;font-size:12px;padding:3px 0;}
+.rule.ok{color:#94a3b8;}
+.rule.no{color:#f87171;}
+.sol-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;}
+.stab{font-family:'DM Mono',monospace;font-size:10px;padding:4px 11px;border-radius:5px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;}
 .stab.on{color:var(--master);background:rgba(0,229,160,.07);border-color:rgba(0,229,160,.2);}
 .cl-row{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);}
 .cl-row:last-child{border:none;}
@@ -162,180 +137,62 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .clt.patch{background:rgba(77,159,255,.1);color:var(--blue);}
 .clt.major{background:rgba(239,68,68,.12);color:#f87171;}
 .clv{font-family:'DM Mono',monospace;font-size:11px;color:#94a3b8;min-width:80px;}
-.clv .cur{background:rgba(0,229,160,.1);color:var(--master);font-size:9px;padding:1px 5px;border-radius:3px;margin-left:5px;}
+.cur-tag{background:rgba(0,229,160,.1);color:var(--master);font-size:9px;padding:1px 5px;border-radius:3px;margin-left:5px;}
 .cln{font-size:12px;color:var(--text);flex:1;}
 .cld{font-family:'DM Mono',monospace;font-size:10px;color:#334155;white-space:nowrap;}
-
-/* MASTER COMPARE */
-.mc-tbl{width:100%;border-collapse:collapse;}
-.mc-tbl th{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:500;}
-.mc-tbl td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.03);font-size:12px;vertical-align:middle;}
-.mc-tbl tr:hover td{background:rgba(255,255,255,.02);}
-.match{color:var(--master);font-family:'DM Mono',monospace;font-size:11px;font-weight:600;}
-.drift-t{color:#f87171;font-family:'DM Mono',monospace;font-size:11px;font-weight:600;}
-.mv{font-family:'DM Mono',monospace;font-size:11px;}
-.mv.ok{color:var(--master);}
-.mv.old{color:var(--amber);}
-.gh-link{font-family:'DM Mono',monospace;font-size:10px;color:var(--blue);text-decoration:none;}
-.gh-link:hover{text-decoration:underline;}
-
-/* RULES */
-.rules-banner{background:var(--s2);border:1px solid rgba(239,68,68,.15);border-radius:11px;padding:16px 20px;margin-bottom:16px;}
-.rb-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-.rb-title{font-size:13px;font-weight:700;color:#f87171;}
-.rules-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
-.rule{display:flex;align-items:center;gap:8px;font-size:12px;padding:3px 0;}
-.rule.ok{color:#94a3b8;}
-.rule.no{color:#f87171;}
-
-/* VERSION FLOW */
-.vflow{display:flex;flex-direction:column;gap:0;}
-.vf-step{display:flex;gap:16px;align-items:flex-start;}
-.vf-line{display:flex;flex-direction:column;align-items:center;min-width:32px;}
-.vf-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;border:2px solid transparent;}
-.vf-dot.blue{background:rgba(77,159,255,.15);border-color:rgba(77,159,255,.3);}
-.vf-dot.green{background:rgba(0,229,160,.12);border-color:rgba(0,229,160,.25);}
-.vf-dot.amber{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.25);}
-.vf-dot.purple{background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.25);}
-.vf-dot.red{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.25);}
-.vf-connector{width:2px;flex:1;min-height:20px;background:linear-gradient(180deg,rgba(77,159,255,.3),rgba(77,159,255,.05));margin:3px 0;}
-.vf-body{padding:4px 0 24px;}
-.vf-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;}
-.vf-desc{font-size:11px;color:var(--muted);line-height:1.7;}
-.vf-tag{font-family:'DM Mono',monospace;font-size:10px;padding:2px 8px;border-radius:4px;display:inline-block;margin-top:6px;}
-.vf-tag.auto{background:rgba(0,229,160,.08);color:var(--master);}
-.vf-tag.manual{background:rgba(245,158,11,.08);color:var(--amber);}
-
-/* WORKFLOW CARDS */
 .wf-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .wf-card{background:var(--s2);border:1px solid var(--border);border-radius:11px;padding:16px;border-left:3px solid var(--blue);}
 .wf-card.green{border-left-color:var(--master);}
 .wf-card.amber{border-left-color:var(--amber);}
 .wf-card.purple{border-left-color:var(--purple);}
-.wf-card.red{border-left-color:var(--red);}
-.wf-num{font-family:'DM Mono',monospace;font-size:9px;color:var(--blue);margin-bottom:5px;letter-spacing:1px;}
+.wf-num{font-family:'DM Mono',monospace;font-size:9px;color:var(--blue);margin-bottom:5px;}
 .wf-card.green .wf-num{color:var(--master);}
 .wf-card.amber .wf-num{color:var(--amber);}
 .wf-card.purple .wf-num{color:var(--purple);}
 .wf-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:6px;}
 .wf-trigger{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);background:rgba(255,255,255,.04);padding:3px 8px;border-radius:4px;margin-bottom:8px;display:inline-block;}
-.wf-steps{display:flex;flex-direction:column;gap:5px;}
-.wf-step{font-size:11px;color:#7a9bbf;display:flex;gap:6px;}
-.wf-step::before{content:'→';color:var(--master);flex-shrink:0;}
-
-/* LAST UPDATED */
-.last-updated{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-align:right;margin-bottom:16px;}
-
-  /* ── PROVISIONING ── */
-  .nb.prov-btn{color:#a78bfa;background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.2);}
-  .nb.prov-btn.on{color:#a78bfa;background:rgba(139,92,246,0.12);border-color:rgba(139,92,246,0.35);}
-  .prov-layout{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
-  .prov-full{grid-column:1/-1;}
-  .prov-step{display:flex;flex-direction:column;gap:0;}
-  .ps-item{display:flex;gap:14px;align-items:flex-start;}
-  .ps-line{display:flex;flex-direction:column;align-items:center;min-width:36px;}
-  .ps-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;border:2px solid transparent;}
-  .ps-dot.blue{background:rgba(77,159,255,.12);border-color:rgba(77,159,255,.25);}
-  .ps-dot.green{background:rgba(0,229,160,.1);border-color:rgba(0,229,160,.2);}
-  .ps-dot.amber{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.2);}
-  .ps-dot.purple{background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.2);}
-  .ps-conn{width:2px;flex:1;min-height:18px;background:linear-gradient(180deg,rgba(77,159,255,.2),transparent);margin:3px 0;}
-  .ps-body{padding:4px 0 20px;}
-  .ps-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:3px;}
-  .ps-desc{font-size:11px;color:var(--muted);line-height:1.7;}
-  .ps-tag{font-family:"DM Mono",monospace;font-size:9px;padding:2px 8px;border-radius:4px;display:inline-block;margin-top:5px;}
-  .ps-tag.auto{background:rgba(0,229,160,.08);color:var(--master);}
-  .ps-tag.manual{background:rgba(245,158,11,.08);color:var(--amber);}
-
-  /* FORM */
-  .prov-form{display:flex;flex-direction:column;gap:14px;}
-  .fg{display:flex;flex-direction:column;gap:5px;}
-  .fg label{font-size:12px;font-weight:600;color:#94a3b8;display:flex;align-items:center;gap:6px;}
-  .fg label .req{color:var(--red);font-size:10px;}
-  .fg input,.fg select,.fg textarea{
-    background:var(--s2);border:1px solid var(--border);border-radius:8px;
-    padding:10px 13px;font-size:13px;color:var(--text);
-    font-family:"DM Sans",sans-serif;outline:none;transition:border-color .2s;width:100%;
-  }
-  .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:rgba(139,92,246,.4);}
-  .fg input::placeholder,.fg textarea::placeholder{color:var(--muted);}
-  .fg select option{background:var(--s2);}
-  .fg textarea{resize:vertical;min-height:70px;}
-  .fg .hint{font-size:10px;color:var(--muted);margin-top:2px;}
-  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-  .team-check-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:4px;}
-  .team-check{
-    background:var(--s2);border:1px solid var(--border);border-radius:8px;
-    padding:10px 8px;text-align:center;cursor:pointer;transition:all .2s;
-  }
-  .team-check:hover{border-color:rgba(139,92,246,.3);}
-  .team-check.selected{background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.35);color:#a78bfa;}
-  .team-check .tc-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:3px;}
-  .team-check .tc-status{font-family:"DM Mono",monospace;font-size:9px;color:var(--muted);}
-  .team-check.selected .tc-name{color:#a78bfa;}
-  .team-check.selected .tc-status{color:rgba(167,139,250,.6);}
-
-  /* SUBMIT BUTTON */
-  .submit-btn{
-    padding:13px 28px;border-radius:10px;border:none;
-    background:linear-gradient(135deg,#8b5cf6,#6366f1);
-    color:#fff;font-family:"DM Sans",sans-serif;font-size:14px;font-weight:700;
-    cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;
-    justify-content:center;
-  }
-  .submit-btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(139,92,246,.35);}
-  .submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-  .submit-btn .btn-spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
-  .submit-btn.loading .btn-spinner{display:block;}
-  .submit-btn.loading .btn-text{display:none;}
-
-  /* STATUS */
-  .prov-status{display:none;border-radius:11px;padding:16px 20px;margin-top:4px;}
-  .prov-status.success{background:rgba(0,229,160,.07);border:1px solid rgba(0,229,160,.2);}
-  .prov-status.error{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);}
-  .prov-status.pending{background:rgba(139,92,246,.07);border:1px solid rgba(139,92,246,.2);}
-  .ps-head{font-size:13px;font-weight:700;margin-bottom:8px;}
-  .prov-status.success .ps-head{color:var(--master);}
-  .prov-status.error .ps-head{color:#f87171;}
-  .prov-status.pending .ps-head{color:#a78bfa;}
-  .ps-body-txt{font-size:12px;color:#94a3b8;line-height:1.8;}
-  .ps-issue-link{font-family:"DM Mono",monospace;font-size:11px;color:var(--blue);text-decoration:none;}
-  .ps-issue-link:hover{text-decoration:underline;}
-
-  /* PENDING REQUESTS TABLE */
-  .req-table{width:100%;border-collapse:collapse;}
-  .req-table th{font-family:"DM Mono",monospace;font-size:10px;color:var(--muted);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:500;}
-  .req-table td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.03);font-size:12px;vertical-align:middle;}
-  .req-table tr:hover td{background:rgba(255,255,255,.02);}
-  .req-status{font-family:"DM Mono",monospace;font-size:9px;padding:3px 8px;border-radius:4px;}
-  .rs-pending{background:rgba(245,158,11,.1);color:#fbbf24;border:1px solid rgba(245,158,11,.2);}
-  .rs-approved{background:rgba(0,229,160,.1);color:var(--master);border:1px solid rgba(0,229,160,.2);}
-  .rs-provisioned{background:rgba(77,159,255,.1);color:var(--blue);border:1px solid rgba(77,159,255,.2);}
-  .approve-btn{
-    font-family:"DM Mono",monospace;font-size:9px;padding:4px 10px;border-radius:5px;
-    background:rgba(0,229,160,.1);border:1px solid rgba(0,229,160,.2);color:var(--master);
-    cursor:pointer;transition:all .2s;
-  }
-  .approve-btn:hover{background:rgba(0,229,160,.2);}
-  .new-team-btn{
-    display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:9px;
-    background:rgba(77,159,255,.07);border:1px dashed rgba(77,159,255,.25);
-    color:var(--blue);font-size:12px;font-weight:600;cursor:pointer;
-    transition:all .2s;margin-top:10px;
-  }
-  .new-team-btn:hover{background:rgba(77,159,255,.12);}
-
+.wf-step{font-size:11px;color:#7a9bbf;display:flex;gap:6px;margin-bottom:4px;}
+.wf-step::before{content:'>';color:var(--master);}
+.last-upd{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-align:right;margin-bottom:16px;}
+.prov-layout{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+.fg label{font-size:12px;font-weight:600;color:#94a3b8;}
+.req{color:var(--red);font-size:10px;}
+.fg input,.fg select,.fg textarea{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:10px 13px;font-size:13px;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;width:100%;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:rgba(139,92,246,.4);}
+.fg input::placeholder,.fg textarea::placeholder{color:var(--muted);}
+.fg select option{background:var(--s2);}
+.fg textarea{resize:vertical;min-height:70px;}
+.hint{font-size:10px;color:var(--muted);margin-top:2px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.team-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:4px;}
+.tc{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:10px 8px;text-align:center;cursor:pointer;transition:all .2s;}
+.tc:hover{border-color:rgba(139,92,246,.3);}
+.tc.sel{background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.35);}
+.tc-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.tc-status{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);}
+.tc.sel .tc-name{color:#a78bfa;}
+.submit-btn{padding:13px 28px;border-radius:10px;border:none;background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;width:100%;margin-top:4px;}
+.prov-msg{border-radius:11px;padding:14px 18px;margin-bottom:12px;font-size:12px;line-height:1.7;display:none;}
+.prov-msg.pending{background:rgba(139,92,246,.07);border:1px solid rgba(139,92,246,.2);color:#a78bfa;}
+.prov-msg.error{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);color:#f87171;}
+.req-table{width:100%;border-collapse:collapse;}
+.req-table th{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);}
+.req-table td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.03);font-size:12px;}
+.req-table tr:hover td{background:rgba(255,255,255,.02);}
+.rs{font-family:'DM Mono',monospace;font-size:9px;padding:3px 8px;border-radius:4px;}
+.rs-pending{background:rgba(245,158,11,.1);color:#fbbf24;border:1px solid rgba(245,158,11,.2);}
+.rs-approved{background:rgba(0,229,160,.1);color:var(--master);border:1px solid rgba(0,229,160,.2);}
+.appr-btn{font-family:'DM Mono',monospace;font-size:9px;padding:4px 10px;border-radius:5px;background:rgba(0,229,160,.1);border:1px solid rgba(0,229,160,.2);color:var(--master);cursor:pointer;}
 </style>
 </head>
 <body>
-
-<!-- TOPBAR -->
 <div class="tb">
   <div class="tb-brand">
     <div class="tb-logo">D</div>
     <div>
       <div class="tb-name">DBOps Solutions Governance</div>
-      <div class="tb-sub">sachin-dehran · GitHub-Native · Auto-Versioned</div>
+      <div class="tb-sub">sachin-dehran &middot; GitHub-Native &middot; Auto-Versioned</div>
     </div>
   </div>
   <div class="tb-nav">
@@ -344,1054 +201,414 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
     <button class="nb" onclick="showPage('master',this)">Master Compare</button>
     <button class="nb" onclick="showPage('changelog',this)">Changelog</button>
     <button class="nb" onclick="showPage('workflows',this)">Workflows</button>
-    <button class="nb prov-btn" onclick="showPage('provisioning',this)">⚡ New Solution</button>
+    <button class="nb prov" onclick="showPage('provisioning',this)">&#9889; New Solution</button>
   </div>
   <div class="tb-right">
     <div id="alert-badge" class="alert-badge" style="display:none"></div>
-    <div class="live-badge"><div class="live-dot"></div>Live from GitHub</div>
-    <a class="gh-btn" href="https://github.com/sachin-dehran/dbops-solutions-governance" target="_blank">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-      GitHub
-    </a>
+    <div class="live-badge"><div class="live-dot"></div>Live</div>
+    <a class="gh-btn" href="https://github.com/sachin-dehran/dbops-solutions-governance" target="_blank">GitHub</a>
   </div>
 </div>
-
 <div class="pg">
-  <div id="loading" class="loading">
-    <div class="spinner"></div>
-    <div style="font-family:'DM Mono',monospace;font-size:12px;">Fetching registry from GitHub...</div>
-  </div>
-
-  <div id="dashboard" style="display:none">
-    <div class="last-updated" id="last-updated"></div>
-
-    <!-- KPI STRIP — always visible -->
-    <div class="kpi-row" id="kpi-strip"></div>
-
-    <!-- PAGES -->
-    <div id="page-overview" class="page on"></div>
-    <div id="page-matrix" class="page"></div>
-    <div id="page-master" class="page"></div>
-    <div id="page-changelog" class="page"></div>
-    <div id="page-workflows" class="page"></div>
+  <div class="last-upd" id="last-upd">Loading...</div>
+  <div class="kpi-row" id="kpi-row"></div>
+  <div id="page-overview"  class="page on"></div>
+  <div id="page-matrix"    class="page"></div>
+  <div id="page-master"    class="page"></div>
+  <div id="page-changelog" class="page"></div>
+  <div id="page-workflows" class="page"></div>
   <div id="page-provisioning" class="page"></div>
-  </div>
 </div>
 
 <script>
-// ─── CONFIG ──────────────────────────────────────────────────────────────────
-const GITHUB_USER = 'sachin-dehran';
-const GOVERNANCE_REPO = 'dbops-solutions-governance';
-// GitHub Contents API — supports CORS, works from any browser
-const REGISTRY_API_URL = `https://api.github.com/repos/${GITHUB_USER}/${GOVERNANCE_REPO}/contents/registry.json`;
+// ── ALL LOGIC (no template literals, no fetch, pure ES5-safe) ─────────────────
 
-// ─── INFO CONTENT ─────────────────────────────────────────────────────────────
-const INFO = {
-  kpi_master:    { title:'On Master', what:'Teams running the exact official Master version — no deviations.', why:'Higher = more standardised DBOps practice. This is the ideal state.', look:'Higher is better. Target: all teams on Master.' },
-  kpi_deviated:  { title:'Deviated (Local)', what:'Teams with custom local changes on their branch — within their rights, no approval needed.', why:'Deviations are fine as long as they are tracked. The question is: does the change need to go to Master?', look:'These are OK. Watch the "Wants Merge" count — that needs Solution Owner attention.' },
-  kpi_wants:     { title:'Wants Merge to Master', what:'Teams who have set wants_merge_to_master: true — they want their local change promoted to the official version.', why:'Each of these needs a PR opened by the Project Lead and reviewed by the Solution Owner.', look:'Should be actioned quickly. Pending merges block other teams from benefiting.' },
-  kpi_behind:    { title:'Behind Master', what:'Teams whose branch is based on an older Master version — not the latest.', why:'They may be missing bug fixes or new features. They should sync with latest Master.', look:'Should be kept low. A team more than 1 version behind should be prompted to sync.' },
-  kpi_health:    { title:'Overall Health Score', what:'Percentage of all team-solution combinations that are on the current Master version.', why:'Single most important number. Shows how standardised the entire DBOps practice is.', look:'75%+ = Green (good). Below 75% = action needed.' },
-  kpi_solutions: { title:'Solutions Tracked', what:'Total number of solutions being governed by this dashboard.', why:'Shows the scope of the governance system.', look:'Each solution has its own repo with branches per team.' },
-  matrix:    { title:'Adoption Matrix', what:'Grid showing every team and every solution. Each cell shows the local version and its status.', why:'Gives a complete at-a-glance view of the entire landscape.', look:'Green=On Master. Amber=Deviated. Blue=Behind. Purple pulsing=Wants Merge. Dark=Not using.' },
-  health:    { title:'Compliance Health', what:'Ring chart showing overall health % with bar breakdown by status.', why:'Fast visual read of compliance across all solutions and teams.', look:'Goal: green ring. On Master bar should be longest.' },
-  trend:     { title:'Quarterly Trend', what:'Bar chart comparing health scores across Q4 2025, Q1 2026, Q2 2026.', why:'Shows whether compliance is improving over time.', look:'Health % should increase each quarter. Watch the deviation bars — if growing, action needed.' },
-  cycle:     { title:'Quarterly Governance Cycle', what:'4-week automated process triggered by GitHub Actions at end of each quarter.', why:'Makes the audit process repeatable with minimal manual effort.', look:'Team leads only need to fill one GitHub Issue form. Everything else is automated.' },
-  drift:     { title:'Action Required', what:'Items needing immediate attention — teams wanting to merge, teams far behind, or expiring deviations.', why:'These are blockers to a healthy standardised system.', look:'This section should ideally be empty or small. Each item needs a specific action.' },
-  master:    { title:'Master Compare', what:'Detailed row-by-row comparison of every team branch against the official Master version.', why:'Precise audit trail. Used for quarterly reviews and compliance reporting.', look:'MATCH=good. DEVIATED=has local changes. BEHIND=on old master version.' },
-  changelog: { title:'Version Changelog', what:'Auto-generated history of every official Master release per solution.', why:'Shows what changed, when, who merged it, and what type of change it was.', look:'MINOR=new feature. PATCH=bug fix. MAJOR=breaking change (needs migration).' },
-  workflows: { title:'GitHub Actions Workflows', what:'The 5 automated workflows that power this entire governance system — no external tools needed.', why:'All versioning, registry updates, dashboard deploys, and audit triggers are fully automated.', look:'All 5 should be green. If any fail, check the GitHub Actions tab in the solution repo.' },
+var GITHUB_USER = 'sachin-dehran';
+var GOVERNANCE_REPO = 'dbops-solutions-governance';
+var registry = {};
+var selTeams = [];
+
+var CHANGELOGS = {
+  dbops_versol1: [
+    { v:'v2026.1.3', d:'2026-04-10', t:'patch', n:'fix: connection timeout increased', pr:'#11', by:'sachin-dehran' },
+    { v:'v2026.1.2', d:'2026-03-22', t:'patch', n:'fix: null pointer in retry handler', pr:'#9',  by:'sachin-dehran' },
+    { v:'v2026.1.1', d:'2026-02-15', t:'minor', n:'feat: parallel execution support',  pr:'#7',  by:'sachin-dehran' },
+    { v:'v2026.1.0', d:'2026-01-20', t:'minor', n:'feat: enhanced logging hooks',       pr:'#5',  by:'sachin-dehran' },
+    { v:'v2026.0.0', d:'2026-01-01', t:'major', n:'breaking: initial 2026 architecture',pr:'#1',  by:'sachin-dehran' }
+  ],
+  dbops_versol2: [
+    { v:'v2026.2.0', d:'2026-04-20', t:'minor', n:'feat: rollback capability',          pr:'#8',  by:'sachin-dehran' },
+    { v:'v2026.1.9', d:'2026-03-10', t:'patch', n:'fix: schema migration timeout',      pr:'#6',  by:'sachin-dehran' },
+    { v:'v2026.1.0', d:'2026-01-15', t:'minor', n:'feat: initial feature set',          pr:'#2',  by:'sachin-dehran' }
+  ]
 };
 
-// ─── STATE ────────────────────────────────────────────────────────────────────
-let registry = {};
-let activeInfoBtn = null;
+var QUARTERS = [
+  { n:'Q4 2025', h:62, m:10, d:3, b:3 },
+  { n:'Q1 2026', h:74, m:13, d:3, b:1 },
+  { n:'Q2 2026', h:81, m:15, d:4, b:2 }
+];
 
-// ─── HELPERS ─────────────────────────────────────────────────────────────────
-function getStatus(masterVer, teamData) {
-  if (!teamData) return 'na';
-  const lv = teamData.local_version || '';
-  const bom = teamData.based_on_master || '';
-  if (teamData.wants_merge) return 'wants-merge';
-  if (bom !== masterVer) return 'behind';
-  if (teamData.deviation) return 'deviated';
+var REQS = [
+  { id:'#PR-001', sol:'dbops_versol3', desc:'DB retry handler for on-prem infra', by:'team3-lead', teams:['team1','team2','team3'], status:'pending',  date:'2026-05-10' },
+  { id:'#PR-002', sol:'dbops_versol4', desc:'Query optimisation solution',          by:'team1-lead', teams:['team1','team4','team5'], status:'approved', date:'2026-05-08' }
+];
+
+var INFO = {
+  kpi_m:  'ON MASTER — Teams running the exact official Master version. Higher is better.',
+  kpi_d:  'DEVIATED LOCAL — Teams with custom changes on their branch. No approval needed. Fine as long as tracked.',
+  kpi_w:  'WANTS MERGE — Teams who want their local change promoted to Master. Each needs a PR reviewed by Solution Owner.',
+  kpi_b:  'BEHIND MASTER — Teams on an older Master version. Missing bug fixes or new features. Should sync.',
+  kpi_h:  'HEALTH SCORE — Percentage of adoptions on current Master. 75%+ = Good. Below 75% = action needed.',
+  kpi_s:  'SOLUTIONS TRACKED — Total solutions governed by this dashboard.',
+  matrix: 'ADOPTION MATRIX — Grid showing every team and solution status. Hover cells for details. Green=Master, Amber=Deviated, Blue=Behind, Purple=Wants Merge.',
+  health: 'COMPLIANCE HEALTH — Ring chart showing overall health % with bar breakdown by status.',
+  trend:  'QUARTERLY TREND — Bar chart comparing health scores across 3 quarters. Should improve each quarter.',
+  cycle:  'QUARTERLY CYCLE — 4-week automated process at quarter end. Team leads fill one GitHub Issue form.',
+  drift:  'ACTION REQUIRED — Items needing immediate attention. Should ideally be empty.',
+  mcomp:  'MASTER COMPARE — Row-by-row comparison of every team branch vs Master version.',
+  chlog:  'CHANGELOG — Auto-generated history of every official Master release per solution.',
+  wflows: 'WORKFLOWS — The 5 GitHub Actions workflows powering this system. Zero external tools.',
+  pform:  'NEW SOLUTION REQUEST — Form to request a new governed solution repo.',
+  pflw:   'PROVISIONING FLOW — 9-step process from form to fully configured repo. Only 1 manual step.',
+  preqs:  'PROVISIONING REQUESTS — All requests and their current status.'
+};
+
+function getStatus(masterVer, t) {
+  if (!t) return 'na';
+  if (t.wants_merge) return 'wants-merge';
+  if (t.based_on_master !== masterVer) return 'behind';
+  if (t.deviation) return 'deviated';
   return 'master';
 }
 
-function statusLabel(st) {
-  return { master:'On Master', deviated:'Deviated', behind:'Behind Master', 'wants-merge':'Wants Merge → Master', na:'Not Adopted' }[st] || st;
+function stLabel(st) {
+  return { master:'On Master', deviated:'Deviated', behind:'Behind', 'wants-merge':'Wants Merge', na:'Not Adopted' }[st] || st;
 }
 
-function infoBtn(key) {
-  const info = INFO[key];
-  if (!info) return '';
-  return `<div class="info-btn" onclick="toggleInfo(event,'${key}')">?
-    <div class="info-popup" id="ip-${key}" style="display:none;">
-      <div class="ip-title">ℹ ${info.title}</div>
-      <div class="ip-row"><div class="ip-lbl">What is this?</div><div class="ip-txt">${info.what}</div></div>
-      <div class="ip-row"><div class="ip-lbl">Why it matters</div><div class="ip-txt">${info.why}</div></div>
-      <div class="ip-row"><div class="ip-lbl">What to look for</div><div class="ip-txt">${info.look}</div></div>
-    </div>
-  </div>`;
+function computeStats() {
+  var om=0,dv=0,wm=0,bh=0,tot=0,sols=0;
+  Object.keys(registry).forEach(function(sol) {
+    sols++;
+    var sd = registry[sol];
+    Object.keys(sd.teams||{}).forEach(function(team) {
+      var td = sd.teams[team];
+      if (!td) return;
+      tot++;
+      var st = getStatus(sd.master_version, td);
+      if (st==='master') om++;
+      else if (st==='deviated') dv++;
+      else if (st==='wants-merge') wm++;
+      else if (st==='behind') bh++;
+    });
+  });
+  return { om:om, dv:dv, wm:wm, bh:bh, tot:tot, sols:sols, h: tot ? Math.round((om/tot)*100) : 0 };
 }
 
-function toggleInfo(e, key) {
+function ib(key) {
+  return '<span class="info-btn" onclick="showInfo(event,\''+key+'\')">?</span>';
+}
+
+function showInfo(e, key) {
   e.stopPropagation();
-  const popup = document.getElementById('ip-' + key);
-  if (!popup) return;
-  const isOpen = popup.style.display === 'block';
-  document.querySelectorAll('.info-popup').forEach(p => p.style.display = 'none');
-  if (isOpen) return;
-  
-  // Position popup using fixed coords relative to the button
-  const btn = e.currentTarget;
-  const rect = btn.getBoundingClientRect();
-  const popupW = 280;
-  const margin = 8;
-  
-  // Default: below and right-aligned to button
-  let top = rect.bottom + margin;
-  let left = rect.right - popupW;
-  
-  // If too close to right edge, align left
-  if (left < 8) left = 8;
-  
-  // If too close to bottom, show above
-  if (top + 240 > window.innerHeight) {
-    top = rect.top - 240 - margin;
-  }
-  
-  popup.style.top = top + 'px';
-  popup.style.left = left + 'px';
-  popup.style.display = 'block';
+  var old = document.getElementById('ipop');
+  if (old) { old.remove(); return; }
+  var msg = INFO[key] || '';
+  var btn = e.currentTarget;
+  var r = btn.getBoundingClientRect();
+  var d = document.createElement('div');
+  d.id = 'ipop';
+  d.className = 'info-popup';
+  d.style.top = (r.bottom + 8) + 'px';
+  d.style.left = Math.max(8, r.right - 290) + 'px';
+  d.innerHTML = '<button class="ip-close" onclick="document.getElementById(\'ipop\').remove()">x</button>' +
+    '<div class="ip-title">Info</div>' +
+    '<div class="ip-txt">' + msg + '</div>';
+  document.body.appendChild(d);
 }
-document.addEventListener('click', () => {
-  document.querySelectorAll('.info-popup').forEach(p => p.style.display = 'none');
+document.addEventListener('click', function() {
+  var p = document.getElementById('ipop');
+  if (p) p.remove();
 });
 
-// ─── COMPUTE STATS ────────────────────────────────────────────────────────────
-function computeStats() {
-  let onMaster=0, deviated=0, wantsMerge=0, behind=0, total=0, solutions=0;
-  for (const [sol, sdata] of Object.entries(registry)) {
-    solutions++;
-    for (const [team, tdata] of Object.entries(sdata.teams || {})) {
-      total++;
-      const st = getStatus(sdata.master_version, tdata);
-      if (st === 'master') onMaster++;
-      else if (st === 'deviated') deviated++;
-      else if (st === 'wants-merge') wantsMerge++;
-      else if (st === 'behind') behind++;
-    }
-  }
-  const health = total ? Math.round((onMaster/total)*100) : 0;
-  return { onMaster, deviated, wantsMerge, behind, total, solutions, health };
-}
-
-// ─── RENDER KPI ───────────────────────────────────────────────────────────────
-function renderKpi(stats) {
-  const { onMaster, deviated, wantsMerge, behind, total, solutions, health } = stats;
-  document.getElementById('kpi-strip').innerHTML = `
-    <div class="kpi k1">
-      <div class="kpi-top"><div class="kv" style="color:#00e5a0">${onMaster}</div>${infoBtn('kpi_master')}</div>
-      <div class="kl">ON MASTER</div><div class="ks">of ${total} adoptions</div>
-    </div>
-    <div class="kpi k2">
-      <div class="kpi-top"><div class="kv" style="color:#4d9fff">${deviated}</div>${infoBtn('kpi_deviated')}</div>
-      <div class="kl">DEVIATED LOCAL</div><div class="ks">No approval needed</div>
-    </div>
-    <div class="kpi k3">
-      <div class="kpi-top"><div class="kv" style="color:#a78bfa">${wantsMerge}</div>${infoBtn('kpi_wants')}</div>
-      <div class="kl">WANTS MERGE</div><div class="ks" style="color:#a78bfa">PR needed</div>
-    </div>
-    <div class="kpi k4">
-      <div class="kpi-top"><div class="kv" style="color:#f59e0b">${behind}</div>${infoBtn('kpi_behind')}</div>
-      <div class="kl">BEHIND MASTER</div><div class="ks">Sync recommended</div>
-    </div>
-    <div class="kpi k5">
-      <div class="kpi-top"><div class="kv" style="color:${health>=75?'#00e5a0':'#f59e0b'}">${health}%</div>${infoBtn('kpi_health')}</div>
-      <div class="kl">HEALTH SCORE</div><div class="ks">Q2 2026</div>
-    </div>
-    <div class="kpi k6">
-      <div class="kpi-top"><div class="kv" style="color:#64748b">${solutions}</div>${infoBtn('kpi_solutions')}</div>
-      <div class="kl">SOLUTIONS</div><div class="ks">Governed repos</div>
-    </div>
-  `;
-  if (wantsMerge > 0) {
-    const ab = document.getElementById('alert-badge');
-    ab.textContent = `⚠ ${wantsMerge} Pending Merge${wantsMerge>1?'s':''}`;
-    ab.style.display = 'block';
-  }
-}
-
-// ─── RENDER OVERVIEW ─────────────────────────────────────────────────────────
-function renderOverview(stats) {
-  const { onMaster, deviated, wantsMerge, behind, total, health } = stats;
-  const circum = 2*Math.PI*46;
-  const offset = circum - (health/100)*circum;
-  const ringColor = health>=75 ? '#00e5a0' : '#f59e0b';
-
-  // Drift/action items
-  let driftHtml = '';
-  for (const [sol, sdata] of Object.entries(registry)) {
-    for (const [team, tdata] of Object.entries(sdata.teams||{})) {
-      const st = getStatus(sdata.master_version, tdata);
-      if (st === 'wants-merge') {
-        driftHtml += `<div class="drift-item merge">
-          <div><div class="di-tags"><span class="dtag sol">${sol}</span><span class="dtag team">${team}</span><span class="dtag ver">${tdata.local_version}</span></div>
-          <div class="di-msg">Team wants local change merged to Master — PR required from Project Lead → Solution Owner review</div></div>
-          <span class="stag merge">OPEN PR</span></div>`;
-      } else if (st === 'behind') {
-        driftHtml += `<div class="drift-item warn">
-          <div><div class="di-tags"><span class="dtag sol">${sol}</span><span class="dtag team">${team}</span><span class="dtag ver">based on ${tdata.based_on_master}</span><span class="dtag ver" style="color:#00e5a0">master: ${sdata.master_version}</span></div>
-          <div class="di-msg">Branch is based on an older Master version — recommend syncing to ${sdata.master_version}</div></div>
-          <span class="stag warn">SYNC NEEDED</span></div>`;
-      }
-    }
-  }
-  if (!driftHtml) driftHtml = `<div style="text-align:center;padding:20px;color:#3d5a7a;font-size:12px;">✅ No action items — all teams are in good standing</div>`;
-
-  // Quarterly trend mock
-  const quarters = [
-    { name:'Q4 2025', health:62, master:10, dev:3, behind:3 },
-    { name:'Q1 2026', health:74, master:13, dev:3, behind:1 },
-    { name:'Q2 2026', health:health, master:onMaster, dev:deviated, behind:behind },
-  ];
-  const maxH = 82;
-  const trendHtml = quarters.map(q => {
-    const mh = Math.round((q.master/15)*maxH);
-    const dh = Math.round((q.dev/15)*maxH*0.7);
-    const bh = Math.round((q.behind/15)*maxH*0.6);
-    return `<div class="tg">
-      <div class="tbw">
-        <div class="tbar" style="height:${mh}px;background:#00e5a0"><div class="ttip">On Master: ${q.master}</div></div>
-        <div class="tbar" style="height:${dh}px;background:#f59e0b"><div class="ttip">Deviated: ${q.dev}</div></div>
-        <div class="tbar" style="height:${bh}px;background:#ef4444"><div class="ttip">Behind: ${q.behind}</div></div>
-      </div>
-      <div class="th-val">${q.health}%</div>
-      <div class="tq">${q.name}</div>
-    </div>`;
-  }).join('');
-
-  document.getElementById('page-overview').innerHTML = `
-    <div class="rules-banner">
-      <div class="rb-head"><div class="rb-title">⚡ DBOps Governance Rules</div>${infoBtn('drift')}</div>
-      <div class="rules-grid">
-        <div class="rule ok">✅ Project Lead can customise their branch freely</div>
-        <div class="rule no">❌ Never push directly to main branch</div>
-        <div class="rule ok">✅ Use fix:/feat:/breaking: prefix in PR titles</div>
-        <div class="rule no">❌ Never merge to main without Solution Owner approval</div>
-        <div class="rule ok">✅ Add patch/minor/major label to every PR to main</div>
-        <div class="rule no">❌ Never skip quarterly feedback GitHub Issue</div>
-      </div>
-    </div>
-
-    <div class="g3" style="margin-bottom:14px;">
-      <div class="card" style="margin:0;">
-        <div class="card-head"><div class="card-head-left"><div class="card-title">Master Compliance Health</div>${infoBtn('health')}</div><div class="card-badge">Q2 2026</div></div>
-        <div class="hring">
-          <div class="ring-wrap">
-            <svg width="120" height="120" style="transform:rotate(-90deg)">
-              <circle cx="60" cy="60" r="46" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="10"/>
-              <circle cx="60" cy="60" r="46" fill="none" stroke="${ringColor}" stroke-width="10" stroke-linecap="round"
-                stroke-dasharray="${circum}" stroke-dashoffset="${offset}" style="transition:stroke-dashoffset 1s ease"/>
-            </svg>
-            <div class="ring-val">${health}%<span>health</span></div>
-          </div>
-          <div class="hbars">
-            ${[['On Master',onMaster,total,'#00e5a0'],['Deviated',deviated,total,'#f59e0b'],['Wants Merge',wantsMerge,total,'#8b5cf6'],['Behind',behind,total,'#ef4444']].map(([l,v,t,c])=>`
-              <div class="hbar-row">
-                <div class="hbar-label">${l}</div>
-                <div class="hbar-track"><div class="hbar-fill" style="width:${t?Math.round((v/t)*100):0}%;background:${c}"></div></div>
-                <div class="hbar-val">${v}/${t}</div>
-              </div>`).join('')}
-          </div>
-        </div>
-      </div>
-
-      <div class="card" style="margin:0;">
-        <div class="card-head"><div class="card-head-left"><div class="card-title">Quarterly Trend</div>${infoBtn('trend')}</div><div class="card-badge">3 Quarters</div></div>
-        <div class="trend-bars">${trendHtml}</div>
-        <div class="leg-row" style="margin-top:8px;">
-          <div class="leg"><div class="ld" style="background:#00e5a0"></div>On Master</div>
-          <div class="leg"><div class="ld" style="background:#f59e0b"></div>Deviated</div>
-          <div class="leg"><div class="ld" style="background:#ef4444"></div>Behind</div>
-        </div>
-      </div>
-
-      <div class="card" style="margin:0;">
-        <div class="card-head"><div class="card-head-left"><div class="card-title">Quarterly Cycle</div>${infoBtn('cycle')}</div><div class="card-badge">Auto via Actions</div></div>
-        <div class="qgrid" style="grid-template-columns:1fr 1fr;">
-          <div class="qstep w1"><div class="qw">WEEK 1</div><div class="qt">Auto Audit</div><div class="qd">GitHub Actions creates feedback Issues for all team leads</div></div>
-          <div class="qstep w2"><div class="qw">WEEK 2</div><div class="qt">Feedback In</div><div class="qd">Team leads fill GitHub Issue form — 5 questions</div></div>
-          <div class="qstep w3"><div class="qw">WEEK 3</div><div class="qt">Review</div><div class="qd">Solution Owner reviews GitHub Project board</div></div>
-          <div class="qstep w4"><div class="qw">WEEK 4</div><div class="qt">Release</div><div class="qd">New Master tagged, registry updated, dashboard rebuilt</div></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div class="card-head-left"><div class="card-title">🚨 Action Required</div>${infoBtn('drift')}</div><div class="card-badge">Needs attention</div></div>
-      ${driftHtml}
-    </div>
-  `;
-}
-
-// ─── RENDER MATRIX ────────────────────────────────────────────────────────────
-function renderMatrix() {
-  const solutions = Object.keys(registry);
-  const teams = ['team1','team2','team3','team4','team5'];
-
-  const headers = solutions.map(s => {
-    const mv = registry[s].master_version;
-    return `<th><div>${s}</div><div style="color:#00e5a0;font-size:9px">${mv}</div></th>`;
-  }).join('');
-
-  const rows = teams.map(team => {
-    const cells = solutions.map(sol => {
-      const sdata = registry[sol];
-      const tdata = sdata.teams?.[team];
-      if (!tdata) return `<td><div class="cell na"><div class="cell-ver">—</div><div class="cell-status">Not adopted</div></div></td>`;
-      const st = getStatus(sdata.master_version, tdata);
-      const lv = tdata.local_version || '';
-      const tip = `${team} → ${sol}\nStatus: ${statusLabel(st)}\nLocal: ${lv}\nMaster: ${sdata.master_version}${tdata.deviation?'\nDeviation: '+tdata.deviation_reason:''}${tdata.wants_merge?'\n⚡ Wants merge to Master':''}`;
-      return `<td><div class="cell ${st}" title="${tip}">
-        <div class="cell-ver">${lv.split('-').slice(-1)[0] || lv}</div>
-        <div class="cell-status">${statusLabel(st)}</div>
-        <div class="cell-tip">${tip.replace(/\n/g,'<br>')}</div>
-      </div></td>`;
-    }).join('');
-    return `<tr><td style="font-weight:700;font-family:'DM Mono',monospace">${team}</td>${cells}</tr>`;
-  }).join('');
-
-  document.getElementById('page-matrix').innerHTML = `
-    <div class="card">
-      <div class="card-head"><div class="card-head-left"><div class="card-title">Adoption Matrix</div>${infoBtn('matrix')}</div><div class="card-badge">Hover cells for details</div></div>
-      <div class="matrix-wrap">
-        <table class="mtbl"><thead><tr><th>Team</th>${headers}</tr></thead><tbody>${rows}</tbody></table>
-      </div>
-      <div class="leg-row">
-        <div class="leg"><div class="ld" style="background:#00e5a0"></div>On Master</div>
-        <div class="leg"><div class="ld" style="background:#f59e0b"></div>Deviated (local, no approval needed)</div>
-        <div class="leg"><div class="ld" style="background:#4d9fff"></div>Behind Master version</div>
-        <div class="leg"><div class="ld" style="background:#8b5cf6"></div>Wants Merge to Master (PR needed)</div>
-        <div class="leg"><div class="ld" style="background:#1e293b"></div>Not Adopted</div>
-      </div>
-    </div>
-  `;
-}
-
-// ─── RENDER MASTER COMPARE ────────────────────────────────────────────────────
-function renderMaster() {
-  let rows = '';
-  for (const [sol, sdata] of Object.entries(registry)) {
-    for (const [team, tdata] of Object.entries(sdata.teams||{})) {
-      const st = getStatus(sdata.master_version, tdata);
-      const isMatch = tdata.based_on_master === sdata.master_version && !tdata.deviation;
-      const branchUrl = `https://github.com/sachin-dehran/${sol}/tree/project-${team}`;
-      rows += `<tr>
-        <td style="font-weight:700;font-family:'DM Mono',monospace">${team}</td>
-        <td style="color:#7a9bbf">${sol}</td>
-        <td><span class="mv ${isMatch?'ok':'old'}">${tdata.local_version}</span></td>
-        <td><span class="mv ok">${sdata.master_version}</span></td>
-        <td>${isMatch?'<span class="match">✓ MATCH</span>':'<span class="drift-t">↗ DEVIATED</span>'}</td>
-        <td><span style="font-family:'DM Mono',monospace;font-size:10px;color:${tdata.deviation?'#f59e0b':'#3d5a7a'}">${tdata.deviation?'Yes — '+tdata.deviation_reason:'No'}</span></td>
-        <td><a class="gh-link" href="${branchUrl}" target="_blank">project-${team} ↗</a></td>
-      </tr>`;
-    }
-  }
-
-  document.getElementById('page-master').innerHTML = `
-    <div class="card">
-      <div class="card-head"><div class="card-head-left"><div class="card-title">Master Copy Comparison</div>${infoBtn('master')}</div><div class="card-badge">Live from registry.json</div></div>
-      <table class="mc-tbl">
-        <thead><tr><th>Team</th><th>Solution</th><th>Local Version</th><th>Master Version</th><th>Status</th><th>Deviation Reason</th><th>Branch Link</th></tr></thead>
-        <tbody>${rows}</tbody>
-      </table>
-    </div>
-  `;
-}
-
-// ─── RENDER CHANGELOG ─────────────────────────────────────────────────────────
-function renderChangelog(sol) {
-  sol = sol || Object.keys(registry)[0];
-  const sdata = registry[sol] || {};
-
-  // Mock changelog per solution
-  const logs = {
-    dbops_versol1: [
-      { version:'v2026.1.3', date:'2026-04-10', type:'patch', note:'fix: connection timeout default increased — merged from team2 PR #11', pr:'#11', by:'sachin-dehran' },
-      { version:'v2026.1.2', date:'2026-03-22', type:'patch', note:'fix: null pointer in retry handler edge case', pr:'#9', by:'sachin-dehran' },
-      { version:'v2026.1.1', date:'2026-02-15', type:'minor', note:'feat: added parallel execution support — team3 request', pr:'#7', by:'sachin-dehran' },
-      { version:'v2026.1.0', date:'2026-01-20', type:'minor', note:'feat: enhanced logging and alerting hooks', pr:'#5', by:'sachin-dehran' },
-      { version:'v2026.0.0', date:'2026-01-01', type:'major', note:'breaking: initial 2026 architecture — full rewrite', pr:'#1', by:'sachin-dehran' },
-    ],
-    dbops_versol2: [
-      { version:'v2026.2.0', date:'2026-04-20', type:'minor', note:'feat: rollback capability on failed runs added', pr:'#8', by:'sachin-dehran' },
-      { version:'v2026.1.9', date:'2026-03-10', type:'patch', note:'fix: schema migration timeout — pre-v2 patch', pr:'#6', by:'sachin-dehran' },
-      { version:'v2026.1.0', date:'2026-01-15', type:'minor', note:'feat: initial feature set for solution 2', pr:'#2', by:'sachin-dehran' },
-    ],
-  };
-
-  const tabs = Object.keys(registry).map(s =>
-    `<button class="stab ${s===sol?'on':''}" onclick="renderChangelog('${s}')">${s} <span style="color:#00e5a0">${registry[s].master_version}</span></button>`
-  ).join('');
-
-  const entries = (logs[sol]||[]).map((e,i) => `
-    <div class="cl-row">
-      <span class="clt ${e.type}">${e.type.toUpperCase()}</span>
-      <span class="clv">${e.version}${i===0?'<span class="cur">MASTER</span>':''}</span>
-      <span class="cln">${e.note}</span>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;">
-        <span class="cld">${e.date}</span>
-        <a class="gh-link" href="https://github.com/sachin-dehran/${sol}/pull/${e.pr.replace('#','')}" target="_blank">${e.pr} by @${e.by}</a>
-      </div>
-    </div>`).join('');
-
-  document.getElementById('page-changelog').innerHTML = `
-    <div class="card">
-      <div class="card-head"><div class="card-head-left"><div class="card-title">Master Version Changelog</div>${infoBtn('changelog')}</div><div class="card-badge">Auto-generated on merge</div></div>
-      <div class="sol-tabs">${tabs}</div>
-      <div style="margin-bottom:12px;padding:8px 12px;background:rgba(0,229,160,.05);border-radius:8px;border:1px solid rgba(0,229,160,.1);font-family:'DM Mono',monospace;font-size:10px;display:flex;justify-content:space-between;align-items:center;">
-        <span><span style="color:#00e5a0">CURRENT MASTER:</span> <span style="color:#94a3b8">${sdata.master_version}</span> &nbsp;·&nbsp; <span style="color:#00e5a0">RELEASED:</span> <span style="color:#94a3b8">${sdata.released_date}</span> &nbsp;·&nbsp; <span style="color:#00e5a0">BY:</span> <span style="color:#94a3b8">@${sdata.released_by}</span></span>
-        <a class="gh-link" href="https://github.com/sachin-dehran/${sol}/releases" target="_blank">View on GitHub ↗</a>
-      </div>
-      ${entries}
-    </div>
-  `;
-}
-
-// ─── RENDER WORKFLOWS ─────────────────────────────────────────────────────────
-function renderWorkflows() {
-  const wfs = [
-    { cls:'blue', num:'WORKFLOW 1', name:'branch-auto-tag.yml', trigger:'On push to project-* branches', steps:['Reads master VERSION from main branch','Increments local patch counter','Updates .dbops/config.json with new local version','Creates git tag: team2-v2026.1.3-local.5','Triggers sync-registry workflow'], tag:'auto' },
-    { cls:'amber', num:'WORKFLOW 2', name:'pr-version-check.yml', trigger:'On PR opened to main branch', steps:['Checks PR has a patch/minor/major label','Validates commit prefix matches label (fix:/feat:/breaking:)','Blocks merge if signals mismatch','Posts clear comment explaining what needs fixing'], tag:'auto' },
-    { cls:'green', num:'WORKFLOW 3', name:'master-release.yml', trigger:'On PR merged to main branch', steps:['Reads label to determine bump type','Calculates new version (Hybrid: v2026.MINOR.PATCH)','Updates VERSION file and CHANGELOG.md automatically','Updates .dbops/master.json with release metadata','Creates git tag + GitHub Release'], tag:'auto' },
-    { cls:'purple', num:'WORKFLOW 4', name:'sync-registry.yml', trigger:'After master-release OR branch push', steps:['Reads .dbops/master.json or config.json','Updates registry.json in dbops-solutions-governance repo','Triggers dashboard rebuild on GitHub Pages','Dashboard live within ~60 seconds of any push'], tag:'auto' },
-    { cls:'red', num:'WORKFLOW 5', name:'quarterly-audit.yml', trigger:'Scheduled: 1st of Mar/Jun/Sep/Dec', steps:['Reads registry.json for all teams and solutions','Creates GitHub Issue per team (feedback form)','Assigns to project-{team}-lead','Generates audit-report markdown and commits it','Updates GitHub Project board columns'], tag:'auto' },
-  ];
-
-  const vflow = `
-    <div class="card">
-      <div class="card-head"><div class="card-head-left"><div class="card-title">Version Flow — Branch to Master</div>${infoBtn('workflows')}</div></div>
-      <div class="vflow">
-        ${[
-          { dot:'blue', icon:'✏️', title:'Project Lead makes a change', desc:'Commits to project-team2 branch freely. No approval needed for local changes. Any commit message is fine.', tag:'auto', tagLabel:'No restrictions on branch' },
-          { dot:'green', icon:'⚡', title:'Workflow 1 auto-fires', desc:'GitHub Actions reads latest Master version, increments local patch counter, updates config.json and VERSION file, creates git tag: team2-v2026.1.3-local.5', tag:'auto', tagLabel:'Zero manual steps' },
-          { dot:'amber', icon:'📋', title:'Team sets wants_merge: true (optional)', desc:'If the team wants their change promoted to Master, they set wants_merge_to_master: true in config.json. Dashboard shows it as "Wants Merge".', tag:'manual', tagLabel:'Team decision' },
-          { dot:'purple', icon:'🔀', title:'Project Lead opens PR to main', desc:'PR title must follow: "feat: description" or "fix: description". Add label: minor or patch. Both must agree or Workflow 2 blocks the merge.', tag:'manual', tagLabel:'Project Lead raises PR' },
-          { dot:'blue', icon:'✅', title:'Workflow 2 validates version signals', desc:'Checks commit prefix + PR label agree. Posts ✅ or ❌ comment automatically. Blocks merge if mismatch.', tag:'auto', tagLabel:'Automatic gate' },
-          { dot:'amber', icon:'👤', title:'Solution Owner reviews and merges', desc:'Required reviewer by CODEOWNERS. Reviews the change, approves, merges PR to main.', tag:'manual', tagLabel:'Solution Owner only action' },
-          { dot:'green', icon:'🚀', title:'Workflow 3 releases new Master version', desc:'Auto-calculates: v2026.1.3 → v2026.2.0 (minor bump). Updates CHANGELOG, master.json, creates git tag and GitHub Release.', tag:'auto', tagLabel:'Full release automated' },
-          { dot:'blue', icon:'🔄', title:'Workflow 4 syncs registry + rebuilds dashboard', desc:'registry.json updated in governance repo. GitHub Pages dashboard rebuilt. Live at sachin-dehran.github.io/dbops-solutions-governance within 60 seconds.', tag:'auto', tagLabel:'Dashboard auto-refreshes' },
-        ].map((s,i,arr) => `
-          <div class="vf-step">
-            <div class="vf-line">
-              <div class="vf-dot ${s.dot}">${s.icon}</div>
-              ${i<arr.length-1?'<div class="vf-connector"></div>':''}
-            </div>
-            <div class="vf-body">
-              <div class="vf-title">${s.title}</div>
-              <div class="vf-desc">${s.desc}</div>
-              <span class="vf-tag ${s.tag}">${s.tagLabel}</span>
-            </div>
-          </div>`).join('')}
-      </div>
-    </div>`;
-
-  const wfCards = `
-    <div class="card">
-      <div class="card-head"><div class="card-head-left"><div class="card-title">All 5 GitHub Actions Workflows</div>${infoBtn('workflows')}</div><div class="card-badge">Drop into .github/workflows/</div></div>
-      <div class="wf-grid">
-        ${wfs.map(w => `
-          <div class="wf-card ${w.cls}">
-            <div class="wf-num">${w.num}</div>
-            <div class="wf-title">${w.name}</div>
-            <div class="wf-trigger">${w.trigger}</div>
-            <div class="wf-steps">${w.steps.map(s=>`<div class="wf-step">${s}</div>`).join('')}</div>
-            <span class="vf-tag auto" style="margin-top:10px;display:inline-block;">⚡ Fully Automated</span>
-          </div>`).join('')}
-      </div>
-    </div>`;
-
-  document.getElementById('page-workflows').innerHTML = vflow + wfCards;
-}
-
-// ─── PAGE NAVIGATION ──────────────────────────────────────────────────────────
 function showPage(id, btn) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
-  document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
-  document.getElementById('page-' + id).classList.add('on');
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('on'); });
+  document.querySelectorAll('.nb').forEach(function(b) { b.classList.remove('on'); });
+  document.getElementById('page-'+id).classList.add('on');
   if (btn) btn.classList.add('on');
 }
 
-
-// ─── MOCK PENDING REQUESTS ────────────────────────────────────────────────────
-const PENDING_REQUESTS = [
-  { id: '#PR-001', solution: 'dbops_versol3', desc: 'DB retry handler for on-prem infra', requester: 'team3-lead', teams: ['team1','team2','team3'], status: 'pending', date: '2026-05-10', urgency: 'normal' },
-  { id: '#PR-002', solution: 'dbops_versol4', desc: 'Query optimisation solution for reporting DB', requester: 'team1-lead', teams: ['team1','team4','team5'], status: 'approved', date: '2026-05-08', urgency: 'this-quarter' },
-];
-
-// ─── RENDER PROVISIONING ─────────────────────────────────────────────────────
-function renderProvisioning() {
-  const steps = [
-    { dot:'blue',  icon:'📋', title:'Team Lead fills Request Form', desc:'Submits solution name, description, which teams will use it, urgency. Takes under 2 minutes.', tag:'manual', tagLabel:'Team Lead action' },
-    { dot:'purple',icon:'🎫', title:'GitHub Issue auto-created', desc:'A [REPO-REQUEST] Issue is created in dbops-solutions-governance with all form details. Visible to everyone for transparency.', tag:'auto', tagLabel:'Auto via GitHub API' },
-    { dot:'amber', icon:'👤', title:'Solution Owner reviews and approves', desc:'Solution Owner adds the "approved" label on the GitHub Issue. This is the only manual step required from the owner.', tag:'manual', tagLabel:'Solution Owner only' },
-    { dot:'green', icon:'⚡', title:'Provisioning workflow fires automatically', desc:'GitHub Actions detects the "approved" label, reads the Issue body, and provisions everything without any further human input.', tag:'auto', tagLabel:'Fully automated' },
-    { dot:'blue',  icon:'🏗️', title:'New repo created from template', desc:'Repo created with all 4 workflows, CODEOWNERS, .dbops/ folder, VERSION file, CHANGELOG — all pre-configured.', tag:'auto', tagLabel:'Auto from template' },
-    { dot:'green', icon:'🌿', title:'All 5 team branches created', desc:'project-team1 through project-team5 created. Branches for teams using the solution get a starter config.json. Others stay empty — shown as "Not in Use" on the dashboard.', tag:'auto', tagLabel:'Auto branch setup' },
-    { dot:'purple',icon:'🔒', title:'Branch protection and secrets applied', desc:'Main branch locked to Solution Owner. GOVERNANCE_TOKEN secret added. All rules enforced from day one.', tag:'auto', tagLabel:'Auto security setup' },
-    { dot:'amber', icon:'📊', title:'Registry and dashboard updated', desc:'registry.json updated with new solution. All adopting teams shown in Adoption Matrix. Non-adopting teams show "Not in Use". Dashboard rebuilds on GitHub Pages.', tag:'auto', tagLabel:'Auto — live in 60s' },
-    { dot:'blue',  icon:'✅', title:'Requester notified', desc:'GitHub Actions comments on the original Issue with the new repo URL, branch list, and next steps for the team leads.', tag:'auto', tagLabel:'Auto notification' },
+function renderKpi(s) {
+  var kpis = [
+    { cls:'k1', v:s.om, c:'#00e5a0', l:'ON MASTER',     sub:'of '+s.tot+' adoptions', i:'kpi_m' },
+    { cls:'k2', v:s.dv, c:'#4d9fff', l:'DEVIATED LOCAL', sub:'No approval needed',    i:'kpi_d' },
+    { cls:'k3', v:s.wm, c:'#a78bfa', l:'WANTS MERGE',   sub:'PR needed',              i:'kpi_w' },
+    { cls:'k4', v:s.bh, c:'#f59e0b', l:'BEHIND MASTER', sub:'Sync recommended',       i:'kpi_b' },
+    { cls:'k5', v:s.h+'%', c: s.h>=75 ? '#00e5a0':'#f59e0b', l:'HEALTH SCORE', sub:'Q2 2026', i:'kpi_h' },
+    { cls:'k6', v:s.sols, c:'#64748b', l:'SOLUTIONS',   sub:'Governed repos',         i:'kpi_s' }
   ];
+  document.getElementById('kpi-row').innerHTML = kpis.map(function(k) {
+    return '<div class="kpi '+k.cls+'"><div class="kpi-top"><div class="kv" style="color:'+k.c+'">'+k.v+'</div>'+ib(k.i)+'</div><div class="kl">'+k.l+'</div><div class="ks">'+k.sub+'</div></div>';
+  }).join('');
+  if (s.wm > 0) { var ab=document.getElementById('alert-badge'); ab.textContent='! '+s.wm+' Pending Merge'+(s.wm>1?'s':''); ab.style.display='block'; }
+}
 
-  const stepsHtml = steps.map((s, i, arr) => `
-    <div class="ps-item">
-      <div class="ps-line">
-        <div class="ps-dot ${s.dot}">${s.icon}</div>
-        ${i < arr.length-1 ? '<div class="ps-conn"></div>' : ''}
-      </div>
-      <div class="ps-body">
-        <div class="ps-title">${s.title}</div>
-        <div class="ps-desc">${s.desc}</div>
-        <span class="ps-tag ${s.tag}">${s.tagLabel}</span>
-      </div>
-    </div>`).join('');
+function renderOverview(s) {
+  var circum = 2*3.14159*46;
+  var offset = circum - (s.h/100)*circum;
+  var rc = s.h>=75 ? '#00e5a0':'#f59e0b';
 
-  const pendingRows = PENDING_REQUESTS.map(r => {
-    const statusMap = { pending:'rs-pending', approved:'rs-approved', provisioned:'rs-provisioned' };
-    const statusLabel = { pending:'Awaiting Approval', approved:'Approved — Provisioning', provisioned:'Live' };
-    return `<tr>
-      <td style="font-family:'DM Mono',monospace;color:var(--blue)">${r.id}</td>
-      <td style="font-weight:700">${r.solution}</td>
-      <td style="color:#7a9bbf">${r.desc}</td>
-      <td style="font-family:'DM Mono',monospace;font-size:10px">${r.requester}</td>
-      <td>${r.teams.map(t => `<span style="font-family:'DM Mono',monospace;font-size:9px;background:rgba(0,229,160,.08);color:var(--master);padding:1px 6px;border-radius:3px;margin-right:3px">${t}</span>`).join('')}</td>
-      <td><span class="req-status ${statusMap[r.status]}">${statusLabel[r.status]}</span></td>
-      <td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted)">${r.date}</td>
-      <td>${r.status === 'pending' ? `<button class="approve-btn" onclick="simulateApprove('${r.id}')">✓ Approve</button>` : '<span style="color:var(--muted);font-size:11px">—</span>'}</td>
-    </tr>`;
+  var driftHtml = '';
+  Object.keys(registry).forEach(function(sol) {
+    var sd = registry[sol];
+    Object.keys(sd.teams||{}).forEach(function(team) {
+      var td = sd.teams[team];
+      if (!td) return;
+      var st = getStatus(sd.master_version, td);
+      if (st==='wants-merge') {
+        driftHtml += '<div class="drift-item merge"><div><div class="di-tags"><span class="dtag sol">'+sol+'</span><span class="dtag team">'+team+'</span><span class="dtag ver">'+td.local_version+'</span></div><div class="di-msg">Team wants local change merged to Master &mdash; PR required</div></div><span class="stag merge">OPEN PR</span></div>';
+      } else if (st==='behind') {
+        driftHtml += '<div class="drift-item warn"><div><div class="di-tags"><span class="dtag sol">'+sol+'</span><span class="dtag team">'+team+'</span><span class="dtag ver">on '+td.based_on_master+'</span></div><div class="di-msg">Branch behind Master &mdash; sync to '+sd.master_version+'</div></div><span class="stag warn">SYNC NEEDED</span></div>';
+      }
+    });
+  });
+  if (!driftHtml) driftHtml = '<div style="text-align:center;padding:20px;color:#3d5a7a;font-size:12px;">No action items &mdash; all teams in good standing</div>';
+
+  var trendHtml = '';
+  QUARTERS.forEach(function(q) {
+    var mh=Math.round((q.m/15)*82), dh=Math.round((q.d/15)*57), bh=Math.round((q.b/15)*49);
+    trendHtml += '<div class="tg"><div class="tbw">'+
+      '<div class="tbar" style="height:'+mh+'px;background:#00e5a0"><div class="ttip">Master: '+q.m+'</div></div>'+
+      '<div class="tbar" style="height:'+dh+'px;background:#f59e0b"><div class="ttip">Deviated: '+q.d+'</div></div>'+
+      '<div class="tbar" style="height:'+bh+'px;background:#ef4444"><div class="ttip">Behind: '+q.b+'</div></div>'+
+      '</div><div class="th-val">'+q.h+'%</div><div class="tq">'+q.n+'</div></div>';
+  });
+
+  var bars = [['On Master',s.om,'#00e5a0'],['Deviated',s.dv,'#f59e0b'],['Wants Merge',s.wm,'#8b5cf6'],['Behind',s.bh,'#ef4444']].map(function(r) {
+    var pct = s.tot ? Math.round((r[1]/s.tot)*100) : 0;
+    return '<div class="hbar-row"><div class="hbar-label">'+r[0]+'</div><div class="hbar-track"><div class="hbar-fill" style="width:'+pct+'%;background:'+r[2]+'"></div></div><div class="hbar-val">'+r[1]+'/'+s.tot+'</div></div>';
   }).join('');
 
-  document.getElementById('page-provisioning').innerHTML = `
-    <div class="prov-layout">
+  document.getElementById('page-overview').innerHTML =
+    '<div class="rules-banner"><div class="rb-head"><div class="rb-title">&#9889; DBOps Governance Rules</div>'+ib('drift')+'</div>'+
+    '<div class="rules-grid">'+
+    '<div class="rule ok">&#10003; Project Lead can customise branch freely</div><div class="rule no">&#10007; Never push directly to main</div>'+
+    '<div class="rule ok">&#10003; Use fix:/feat:/breaking: prefix in PR titles</div><div class="rule no">&#10007; Never merge without Solution Owner approval</div>'+
+    '<div class="rule ok">&#10003; Add patch/minor/major label to every PR</div><div class="rule no">&#10007; Never skip quarterly feedback Issue</div>'+
+    '</div></div>'+
+    '<div class="g3">'+
+      '<div class="card" style="margin:0"><div class="card-head"><div class="card-head-left"><div class="card-title">Master Compliance Health</div>'+ib('health')+'</div><div class="card-badge">Q2 2026</div></div>'+
+      '<div class="hring"><div class="ring-wrap">'+
+      '<svg width="120" height="120" style="transform:rotate(-90deg)"><circle cx="60" cy="60" r="46" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="10"/><circle cx="60" cy="60" r="46" fill="none" stroke="'+rc+'" stroke-width="10" stroke-linecap="round" stroke-dasharray="'+circum+'" stroke-dashoffset="'+offset+'"/></svg>'+
+      '<div class="ring-val">'+s.h+'%<span>health</span></div></div><div class="hbars">'+bars+'</div></div></div>'+
 
-      <!-- LEFT — Request Form -->
-      <div class="card" style="margin:0;">
-        <div class="card-head">
-          <div class="card-head-left">
-            <div class="card-title">⚡ Request New Solution Repo</div>
-            ${infoBtn('prov_form')}
-          </div>
-          <div class="card-badge">Submits to GitHub Issues</div>
-        </div>
+      '<div class="card" style="margin:0"><div class="card-head"><div class="card-head-left"><div class="card-title">Quarterly Trend</div>'+ib('trend')+'</div><div class="card-badge">3 Quarters</div></div>'+
+      '<div class="trend-bars">'+trendHtml+'</div>'+
+      '<div class="leg-row" style="margin-top:8px"><div class="leg"><div class="ld" style="background:#00e5a0"></div>Master</div><div class="leg"><div class="ld" style="background:#f59e0b"></div>Deviated</div><div class="leg"><div class="ld" style="background:#ef4444"></div>Behind</div></div></div>'+
 
-        <div class="prov-form" id="prov-form">
-          <div class="form-grid">
-            <div class="fg">
-              <label>Solution Repo Name <span class="req">*</span></label>
-              <input type="text" id="pf-name" placeholder="e.g. dbops_versol3" />
-              <div class="hint">Lowercase, underscores only. Will become: sachin-dehran/dbops_versol3</div>
-            </div>
-            <div class="fg">
-              <label>Urgency <span class="req">*</span></label>
-              <select id="pf-urgency">
-                <option value="normal">Normal — next sprint</option>
-                <option value="this-quarter">This Quarter</option>
-                <option value="asap">ASAP — blocking work</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="fg">
-            <label>Solution Description <span class="req">*</span></label>
-            <textarea id="pf-desc" placeholder="What does this solution do? What problem does it solve?"></textarea>
-          </div>
-
-          <div class="fg">
-            <label>Requested By (your GitHub username) <span class="req">*</span></label>
-            <input type="text" id="pf-requester" placeholder="e.g. team3-lead" />
-          </div>
-
-          <div class="fg">
-            <label>Which teams will use this solution? ${infoBtn('prov_teams')}</label>
-            <div class="hint" style="margin-bottom:6px">Selected teams get a starter config. Others get an empty branch — shown as "Not in Use" on the dashboard.</div>
-            <div class="team-check-grid" id="team-selector">
-              ${['team1','team2','team3','team4','team5'].map(t => `
-                <div class="team-check" id="tc-${t}" onclick="toggleTeam('${t}')">
-                  <div class="tc-name">${t}</div>
-                  <div class="tc-status">Click to select</div>
-                </div>`).join('')}
-            </div>
-            <div class="new-team-btn" onclick="showAddTeamModal()">
-              <span>+</span> Add a new team (future onboarding)
-            </div>
-          </div>
-
-          <div class="fg">
-            <label>Additional Notes</label>
-            <textarea id="pf-notes" placeholder="Any special requirements, dependencies, or context for the Solution Owner..." style="min-height:50px;"></textarea>
-          </div>
-
-          <div id="prov-status" class="prov-status"></div>
-
-          <button class="submit-btn" id="submit-btn" onclick="submitProvRequest()">
-            <div class="btn-spinner"></div>
-            <span class="btn-text">🚀 Submit Request to Solution Owner</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- RIGHT — Flow + Info -->
-      <div style="display:flex;flex-direction:column;gap:14px;">
-        <div class="card" style="margin:0;">
-          <div class="card-head">
-            <div class="card-head-left">
-              <div class="card-title">How Provisioning Works</div>
-              ${infoBtn('prov_flow')}
-            </div>
-          </div>
-          <div class="prov-step">${stepsHtml}</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PENDING REQUESTS TABLE -->
-    <div class="card">
-      <div class="card-head">
-        <div class="card-head-left">
-          <div class="card-title">📋 Provisioning Requests</div>
-          ${infoBtn('prov_requests')}
-        </div>
-        <div class="card-badge">${PENDING_REQUESTS.length} requests</div>
-      </div>
-      <table class="req-table">
-        <thead>
-          <tr>
-            <th>ID</th><th>Solution Name</th><th>Description</th>
-            <th>Requested By</th><th>Teams</th><th>Status</th><th>Date</th><th>Action</th>
-          </tr>
-        </thead>
-        <tbody id="req-tbody">${pendingRows}</tbody>
-      </table>
-    </div>
-
-    <!-- ADD TEAM MODAL -->
-    <div id="add-team-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99999;display:none;align-items:center;justify-content:center;">
-      <div style="background:#0d1e38;border:1px solid rgba(139,92,246,.3);border-radius:14px;padding:28px;width:420px;position:relative;">
-        <button onclick="closeAddTeamModal()" style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,.06);border:none;color:#64748b;width:24px;height:24px;border-radius:5px;cursor:pointer;font-size:14px;">✕</button>
-        <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:6px;">➕ Onboard New Team</div>
-        <div style="font-size:12px;color:var(--muted);margin-bottom:18px;">This adds a new team branch to all governed solution repos. Used when a new customer or project team is onboarded.</div>
-        <div class="fg" style="margin-bottom:12px;">
-          <label>New Team Name <span class="req">*</span></label>
-          <input type="text" id="new-team-name" placeholder="e.g. team6 or customer-acme" />
-          <div class="hint">Will create project-{teamname} branch in all active solution repos</div>
-        </div>
-        <div class="fg" style="margin-bottom:16px;">
-          <label>Team Lead GitHub Username</label>
-          <input type="text" id="new-team-lead" placeholder="e.g. acme-dba-lead" />
-        </div>
-        <div class="fg" style="margin-bottom:16px;">
-          <label>Which solutions does this team need?</label>
-          <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px;">
-            ${Object.keys(MOCK_REGISTRY).map(sol => `
-              <label style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:400;color:#94a3b8;cursor:pointer;">
-                <input type="checkbox" id="nt-${sol}" style="width:14px;height:14px;accent-color:#8b5cf6;"> ${sol}
-              </label>`).join('')}
-          </div>
-        </div>
-        <button class="submit-btn" onclick="submitNewTeam()" style="background:linear-gradient(135deg,#3b82f6,#6366f1);">
-          <span class="btn-text">➕ Submit New Team Request</span>
-        </button>
-        <div id="new-team-status" style="margin-top:10px;font-size:11px;color:var(--muted);text-align:center;"></div>
-      </div>
-    </div>
-  `;
+      '<div class="card" style="margin:0"><div class="card-head"><div class="card-head-left"><div class="card-title">Quarterly Cycle</div>'+ib('cycle')+'</div><div class="card-badge">Auto via Actions</div></div>'+
+      '<div class="qgrid" style="grid-template-columns:1fr 1fr">'+
+      '<div class="qstep w1"><div class="qw">WEEK 1</div><div class="qt">Auto Audit</div><div class="qd">Actions creates feedback Issues for all team leads</div></div>'+
+      '<div class="qstep w2"><div class="qw">WEEK 2</div><div class="qt">Feedback In</div><div class="qd">Team leads fill 5-question GitHub Issue form</div></div>'+
+      '<div class="qstep w3"><div class="qw">WEEK 3</div><div class="qt">Review</div><div class="qd">Solution Owner reviews GitHub Project board</div></div>'+
+      '<div class="qstep w4"><div class="qw">WEEK 4</div><div class="qt">Release</div><div class="qd">New Master tagged, registry updated, dashboard rebuilt</div></div>'+
+      '</div></div>'+
+    '</div>'+
+    '<div class="card"><div class="card-head"><div class="card-head-left"><div class="card-title">Action Required</div>'+ib('drift')+'</div><div class="card-badge">Needs attention</div></div>'+driftHtml+'</div>';
 }
 
-// ─── TEAM SELECTOR TOGGLE ─────────────────────────────────────────────────────
-const selectedTeams = new Set();
-function toggleTeam(team) {
-  const el = document.getElementById('tc-' + team);
-  if (selectedTeams.has(team)) {
-    selectedTeams.delete(team);
-    el.classList.remove('selected');
-    el.querySelector('.tc-status').textContent = 'Click to select';
-  } else {
-    selectedTeams.add(team);
-    el.classList.add('selected');
-    el.querySelector('.tc-status').textContent = '✓ Will adopt';
-  }
+function renderMatrix() {
+  var sols = Object.keys(registry);
+  var teams = ['team1','team2','team3','team4','team5'];
+  var heads = sols.map(function(s) { return '<th><div>'+s+'</div><div style="color:#00e5a0;font-size:9px">'+registry[s].master_version+'</div></th>'; }).join('');
+  var rows = teams.map(function(team) {
+    var cells = sols.map(function(sol) {
+      var sd = registry[sol], td = sd.teams && sd.teams[team];
+      if (!td) return '<td><div class="cell na"><div class="cell-ver">&#8212;</div><div class="cell-status">Not adopted</div></div></td>';
+      var st = getStatus(sd.master_version, td);
+      var sv = (td.local_version||'').split('-').slice(-1)[0] || td.local_version;
+      return '<td><div class="cell '+st+'" title="'+team+' > '+sol+' | '+stLabel(st)+'"><div class="cell-ver">'+sv+'</div><div class="cell-status">'+stLabel(st)+'</div></div></td>';
+    }).join('');
+    return '<tr><td style="font-weight:700;font-family:\'DM Mono\',monospace">'+team+'</td>'+cells+'</tr>';
+  }).join('');
+  document.getElementById('page-matrix').innerHTML =
+    '<div class="card"><div class="card-head"><div class="card-head-left"><div class="card-title">Adoption Matrix</div>'+ib('matrix')+'</div><div class="card-badge">Live from registry</div></div>'+
+    '<div class="matrix-wrap"><table class="mtbl"><thead><tr><th>Team</th>'+heads+'</tr></thead><tbody>'+rows+'</tbody></table></div>'+
+    '<div class="leg-row"><div class="leg"><div class="ld" style="background:#00e5a0"></div>On Master</div><div class="leg"><div class="ld" style="background:#f59e0b"></div>Deviated</div><div class="leg"><div class="ld" style="background:#4d9fff"></div>Behind</div><div class="leg"><div class="ld" style="background:#8b5cf6"></div>Wants Merge</div><div class="leg"><div class="ld" style="background:#1e293b"></div>Not Adopted</div></div></div>';
 }
 
-// ─── SUBMIT PROVISIONING REQUEST ─────────────────────────────────────────────
-async function submitProvRequest() {
-  const name      = document.getElementById('pf-name').value.trim();
-  const desc      = document.getElementById('pf-desc').value.trim();
-  const requester = document.getElementById('pf-requester').value.trim();
-  const urgency   = document.getElementById('pf-urgency').value;
-  const notes     = document.getElementById('pf-notes').value.trim();
-  const teams     = [...selectedTeams];
-  const statusEl  = document.getElementById('prov-status');
-  const btn       = document.getElementById('submit-btn');
-
-  // Validation
-  if (!name || !desc || !requester) {
-    statusEl.style.display = 'block';
-    statusEl.className = 'prov-status error';
-    statusEl.innerHTML = '<div class="ps-head">❌ Missing Required Fields</div><div class="ps-body-txt">Please fill in Solution Name, Description, and your GitHub username.</div>';
-    return;
-  }
-  if (!/^[a-z0-9_-]+$/.test(name)) {
-    statusEl.style.display = 'block';
-    statusEl.className = 'prov-status error';
-    statusEl.innerHTML = '<div class="ps-head">❌ Invalid Repo Name</div><div class="ps-body-txt">Repo name must be lowercase letters, numbers, underscores or hyphens only.<br>Example: <code style="color:var(--master)">dbops_versol3</code></div>';
-    return;
-  }
-
-  // Loading state
-  btn.classList.add('loading');
-  btn.disabled = true;
-  statusEl.style.display = 'block';
-  statusEl.className = 'prov-status pending';
-  statusEl.innerHTML = '<div class="ps-head">⏳ Submitting to GitHub...</div><div class="ps-body-txt">Creating GitHub Issue in dbops-solutions-governance repo...</div>';
-
-  const issueBody = `## 🚀 New Solution Repo Request
-
-| Field | Value |
-|---|---|
-| **Solution Name** | `${name}` |
-| **Description** | ${desc} |
-| **Requested By** | @${requester} |
-| **Urgency** | ${urgency} |
-| **Adopting Teams** | ${teams.length > 0 ? teams.map(t => '`'+t+'`').join(', ') : 'None specified — all branches empty'} |
-| **Non-Adopting Teams** | ${['team1','team2','team3','team4','team5'].filter(t => !teams.includes(t)).map(t => '`'+t+'`').join(', ') || 'None'} |
-
-### Additional Notes
-${notes || '_No additional notes_'}
-
----
-### What will be auto-provisioned on approval:
-- New repo: `sachin-dehran/${name}`
-- All 5 team branches (adopting teams get starter config, others stay empty)
-- Branch protection rules on main
-- GOVERNANCE_TOKEN secret
-- registry.json entry (adopting teams shown in matrix, others as "Not in Use")
-- Dashboard rebuilt on GitHub Pages
-
-> **Solution Owner:** Add label `approved` to trigger automatic provisioning.
-> **Auto-created by DBOps Governance Dashboard**`;
-
-  try {
-    const token = window.GITHUB_TOKEN || '';
-    if (!token) throw new Error('NO_TOKEN');
-
-    const res = await fetch('https://api.github.com/repos/sachin-dehran/dbops-solutions-governance/issues', {
-      method: 'POST',
-      headers: {
-        'Authorization': 'token ' + token,
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.github.v3+json'
-      },
-      body: JSON.stringify({
-        title: '[REPO-REQUEST] ' + name + ' — requested by @' + requester,
-        body: issueBody,
-        labels: ['repo-request', 'urgency:' + urgency]
-      })
+function renderMaster() {
+  var rows = '';
+  Object.keys(registry).forEach(function(sol) {
+    var sd = registry[sol];
+    Object.keys(sd.teams||{}).forEach(function(team) {
+      var td = sd.teams[team];
+      if (!td) return;
+      var st = getStatus(sd.master_version, td);
+      var ok = td.based_on_master===sd.master_version && !td.deviation;
+      rows += '<tr>'+
+        '<td style="font-weight:700;font-family:\'DM Mono\',monospace">'+team+'</td>'+
+        '<td style="color:#7a9bbf">'+sol+'</td>'+
+        '<td><span class="mv '+(ok?'ok':'old')+'">'+td.local_version+'</span></td>'+
+        '<td><span class="mv ok">'+sd.master_version+'</span></td>'+
+        '<td style="font-family:\'DM Mono\',monospace;font-size:11px;color:'+(ok?'#00e5a0':'#f87171')+'">'+(ok?'MATCH':'DRIFT')+'</td>'+
+        '<td style="font-size:11px;color:'+(td.deviation?'#f59e0b':'#3d5a7a')+'">'+(td.deviation ? (td.deviation_reason||'Yes') : 'No')+'</td>'+
+        '<td><a class="gh-link" href="https://github.com/sachin-dehran/'+sol+'/tree/project-'+team+'" target="_blank">project-'+team+' &#8599;</a></td>'+
+        '</tr>';
     });
-
-    if (res.ok) {
-      const issue = await res.json();
-      statusEl.className = 'prov-status success';
-      statusEl.innerHTML = `<div class="ps-head">✅ Request Submitted Successfully!</div>
-        <div class="ps-body-txt">
-          Your request has been created as a GitHub Issue.<br>
-          <strong>Issue:</strong> <a class="ps-issue-link" href="${issue.html_url}" target="_blank">#${issue.number} — ${issue.title} ↗</a><br><br>
-          <strong>What happens next:</strong><br>
-          1. Solution Owner will review the Issue<br>
-          2. They add the <code style="color:var(--master)">approved</code> label<br>
-          3. Everything provisions automatically — you'll get a comment on the Issue when ready
-        </div>`;
-      document.getElementById('pf-name').value = '';
-      document.getElementById('pf-desc').value = '';
-      document.getElementById('pf-requester').value = '';
-      document.getElementById('pf-notes').value = '';
-      selectedTeams.clear();
-      document.querySelectorAll('.team-check').forEach(el => {
-        el.classList.remove('selected');
-        el.querySelector('.tc-status').textContent = 'Click to select';
-      });
-    } else {
-      throw new Error('API_ERROR_' + res.status);
-    }
-  } catch(err) {
-    if (err.message === 'NO_TOKEN') {
-      // Demo mode — show what would happen
-      statusEl.className = 'prov-status pending';
-      statusEl.innerHTML = `<div class="ps-head">🔑 GitHub Token Required for Live Submission</div>
-        <div class="ps-body-txt">
-          In demo mode — the form is valid and ready.<br><br>
-          <strong>To enable live submission:</strong><br>
-          Add your GitHub token to the dashboard URL:<br>
-          <code style="color:var(--master);font-size:10px">?token=YOUR_GITHUB_PAT</code><br><br>
-          <strong>What WOULD be created on GitHub:</strong><br>
-          📋 Issue: <code style="color:var(--master)">[REPO-REQUEST] ${name}</code><br>
-          🏷️ Labels: <code style="color:var(--master)">repo-request, urgency:${urgency}</code><br>
-          👥 Adopting teams: <code style="color:var(--master)">${teams.join(', ') || 'none'}</code><br>
-          🌿 Non-adopting: <code style="color:var(--blue)">${['team1','team2','team3','team4','team5'].filter(t=>!teams.includes(t)).join(', ') || 'none'}</code>
-        </div>`;
-    } else {
-      statusEl.className = 'prov-status error';
-      statusEl.innerHTML = '<div class="ps-head">❌ Submission Failed</div><div class="ps-body-txt">Error: ' + err.message + '<br>Check your token permissions and try again.</div>';
-    }
-  }
-
-  btn.classList.remove('loading');
-  btn.disabled = false;
+  });
+  document.getElementById('page-master').innerHTML =
+    '<div class="card"><div class="card-head"><div class="card-head-left"><div class="card-title">Master Copy Comparison</div>'+ib('mcomp')+'</div><div class="card-badge">Live from registry</div></div>'+
+    '<table class="mc-tbl"><thead><tr><th>Team</th><th>Solution</th><th>Local Version</th><th>Master Version</th><th>Status</th><th>Deviation</th><th>Branch</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
 }
 
-// ─── SIMULATE APPROVE ─────────────────────────────────────────────────────────
-function simulateApprove(id) {
-  const req = PENDING_REQUESTS.find(r => r.id === id);
-  if (!req) return;
-  req.status = 'approved';
-  renderProvisioning();
-  setTimeout(() => {
-    const req2 = PENDING_REQUESTS.find(r => r.id === id);
-    if (req2) req2.status = 'provisioned';
-    renderProvisioning();
-  }, 2000);
-}
-
-// ─── ADD TEAM MODAL ───────────────────────────────────────────────────────────
-function showAddTeamModal() {
-  const modal = document.getElementById('add-team-modal');
-  if (modal) modal.style.display = 'flex';
-}
-function closeAddTeamModal() {
-  const modal = document.getElementById('add-team-modal');
-  if (modal) modal.style.display = 'none';
-}
-function submitNewTeam() {
-  const name = document.getElementById('new-team-name').value.trim();
-  const lead = document.getElementById('new-team-lead').value.trim();
-  const statusEl = document.getElementById('new-team-status');
-  if (!name) { statusEl.textContent = '❌ Team name is required'; statusEl.style.color = '#f87171'; return; }
-  statusEl.textContent = '✅ Request submitted! Issue will be created for Solution Owner review.';
-  statusEl.style.color = 'var(--master)';
-  setTimeout(closeAddTeamModal, 2000);
-}
-
-// ─── TOKEN FROM URL ───────────────────────────────────────────────────────────
-(function() {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('token')) window.GITHUB_TOKEN = params.get('token');
-})();
-
-// ─── FETCH + RENDER ───────────────────────────────────────────────────────────
-async function loadDashboard() {
-  try {
-    let data;
-    let source = '';
-
-    // PRIMARY: Use embedded registry (injected by GitHub Actions — always works)
-    if (window.EMBEDDED_REGISTRY) {
-      data = window.EMBEDDED_REGISTRY;
-      source = 'embedded';
-    } else {
-      // SECONDARY: Try fetching registry.json from same folder (GitHub Pages)
-      try {
-        const r = await fetch('./registry.json?v=' + Date.now());
-        if (r.ok) { data = await r.json(); source = 'pages'; }
-      } catch(e) { /* try next */ }
-    }
-
-    // TERTIARY: GitHub Contents API with token
-    if (!data) {
-      const headers = { 'Accept': 'application/vnd.github.v3+json' };
-      if (window.GITHUB_TOKEN) headers['Authorization'] = 'token ' + window.GITHUB_TOKEN;
-      const res = await fetch(REGISTRY_API_URL, { headers });
-      if (!res.ok) throw new Error('GitHub API returned ' + res.status + ' — Add ?token=YOUR_PAT to URL for authenticated access');
-      const apiData = await res.json();
-      data = JSON.parse(atob(apiData.content.replace(/\n/g, '')));
-      source = 'api';
-    }
-
-    const sourceLabel = { embedded: 'Live (embedded)', pages: 'Live (GitHub Pages)', api: 'Live (GitHub API)' }[source] || 'Live';
-    document.getElementById('last-updated').textContent =
-      sourceLabel + ' · ' + GITHUB_USER + '/' + GOVERNANCE_REPO + ' · ' + new Date().toLocaleTimeString();
-
-    registry = data;
-    const stats = computeStats();
-
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-
-    renderKpi(stats);
-    renderOverview(stats);
-    renderMatrix();
-    renderMaster();
-    renderChangelog();
-    renderWorkflows();
-    renderProvisioning();
-
-  } catch(err) {
-    console.error('GitHub API fetch failed:', err.message);
-    let reason = err.message;
-    let action = '';
-
-    if (err.message.includes('403')) {
-      reason = 'GitHub API rate limit reached (60 req/hr unauthenticated)';
-      action = 'Add your PAT token to the URL: <code style="color:#00e5a0">?token=YOUR_GITHUB_PAT</code>';
-    } else if (err.message.includes('404')) {
-      reason = 'registry.json not found in repo';
-      action = 'Make sure <code style="color:#00e5a0">registry.json</code> exists at the root of <code style="color:#00e5a0">dbops-solutions-governance</code> repo';
-    } else if (err.message.includes('401')) {
-      reason = 'GitHub token invalid or expired';
-      action = 'Generate a new PAT token and add to URL: <code style="color:#00e5a0">?token=YOUR_NEW_PAT</code>';
-    } else if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
-      reason = 'Network error — cannot reach GitHub API';
-      action = 'Check your internet connection and try refreshing';
-    }
-
-    var actionHtml = action
-      ? '<div style="font-size:12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;padding:12px 16px;color:#94a3b8;text-align:left;margin-bottom:16px;">' + action + '</div>'
-      : '';
-    document.getElementById('loading').innerHTML =
-      '<div style="text-align:center;max-width:480px;padding:32px;">' +
-        '<div style="font-size:32px;margin-bottom:12px;">&#9888;</div>' +
-        '<div style="font-size:16px;font-weight:700;color:#f87171;margin-bottom:8px;">Failed to Load Live Data</div>' +
-        '<div style="font-size:13px;color:#64748b;margin-bottom:16px;">' + reason + '</div>' +
-        actionHtml +
-        '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">' +
-          '<button onclick="loadDashboard()" style="padding:9px 20px;border-radius:8px;border:1px solid rgba(0,229,160,0.3);background:rgba(0,229,160,0.08);color:#00e5a0;font-size:13px;font-weight:600;cursor:pointer;">&#8635; Retry</button>' +
-          '<a href="https://github.com/sachin-dehran/dbops-solutions-governance/blob/main/registry.json" target="_blank" style="padding:9px 20px;border-radius:8px;border:1px solid rgba(77,159,255,0.3);background:rgba(77,159,255,0.08);color:#4d9fff;font-size:13px;font-weight:600;text-decoration:none;">&#128196; View registry.json on GitHub</a>' +
-        '</div>' +
-        '<div style="font-size:11px;color:#334155;margin-top:16px;font-family:monospace;">API: api.github.com/repos/sachin-dehran/dbops-solutions-governance/contents/registry.json</div>' +
+function renderChangelog(sol) {
+  var sols = Object.keys(registry);
+  sol = sol || sols[0];
+  var sd = registry[sol]||{};
+  var tabs = sols.map(function(s) {
+    return '<button class="stab'+(s===sol?' on':'')+'" onclick="renderChangelog(\''+s+'\')">'+s+' <span style="color:#00e5a0">'+registry[s].master_version+'</span></button>';
+  }).join('');
+  var log = CHANGELOGS[sol]||[];
+  var entries = log.map(function(e, i) {
+    return '<div class="cl-row">'+
+      '<span class="clt '+e.t+'">'+e.t.toUpperCase()+'</span>'+
+      '<span class="clv">'+e.v+(i===0?'<span class="cur-tag">MASTER</span>':'')+'</span>'+
+      '<span class="cln">'+e.n+'</span>'+
+      '<div style="text-align:right"><div class="cld">'+e.d+'</div><a class="gh-link" href="https://github.com/sachin-dehran/'+sol+'" target="_blank">'+e.pr+' @'+e.by+'</a></div>'+
       '</div>';
-  }
+  }).join('');
+  document.getElementById('page-changelog').innerHTML =
+    '<div class="card"><div class="card-head"><div class="card-head-left"><div class="card-title">Master Version Changelog</div>'+ib('chlog')+'</div><div class="card-badge">Auto-generated on merge</div></div>'+
+    '<div class="sol-tabs">'+tabs+'</div>'+
+    '<div style="margin-bottom:12px;padding:8px 12px;background:rgba(0,229,160,.05);border-radius:8px;border:1px solid rgba(0,229,160,.1);font-family:\'DM Mono\',monospace;font-size:10px;display:flex;justify-content:space-between">'+
+      '<span><span style="color:#00e5a0">MASTER:</span> <span style="color:#94a3b8">'+(sd.master_version||'')+'</span> &nbsp;&middot;&nbsp; <span style="color:#00e5a0">RELEASED:</span> <span style="color:#94a3b8">'+(sd.released_date||'')+'</span></span>'+
+      '<a class="gh-link" href="https://github.com/sachin-dehran/'+sol+'/releases" target="_blank">Releases &#8599;</a>'+
+    '</div>'+entries+'</div>';
 }
 
-// ─── MOCK FALLBACK ────────────────────────────────────────────────────────────
-const MOCK_REGISTRY = {
-  "dbops_versol1":{"repo":"sachin-dehran/dbops_versol1","master_version":"v2026.1.3","master_branch":"main","released_date":"2026-04-10","released_by":"sachin-dehran","teams":{"team1":{"branch":"project-team1","local_version":"team1-v2026.1.3-local.2","based_on_master":"v2026.1.3","deviation":false,"wants_merge":false,"last_updated":"2026-05-01T10:22:00"},"team2":{"branch":"project-team2","local_version":"team2-v2026.1.3-local.5","based_on_master":"v2026.1.3","deviation":true,"deviation_reason":"Increased connection timeout for on-prem DB","wants_merge":true,"gh_issue_ref":"#12","last_updated":"2026-05-03T14:10:00"},"team3":{"branch":"project-team3","local_version":"team3-v2026.1.2-local.1","based_on_master":"v2026.1.2","deviation":false,"wants_merge":false,"last_updated":"2026-04-20T09:15:00"},"team4":{"branch":"project-team4","local_version":"team4-v2026.1.3-local.0","based_on_master":"v2026.1.3","deviation":false,"wants_merge":false,"last_updated":"2026-05-05T11:00:00"},"team5":{"branch":"project-team5","local_version":"team5-v2026.1.1-local.3","based_on_master":"v2026.1.1","deviation":true,"deviation_reason":"Legacy infra — cannot upgrade past v2026.1.1","wants_merge":false,"gh_issue_ref":"#8","last_updated":"2026-04-28T16:45:00"}}},
-  "dbops_versol2":{"repo":"sachin-dehran/dbops_versol2","master_version":"v2026.2.0","master_branch":"main","released_date":"2026-04-20","released_by":"sachin-dehran","teams":{"team1":{"branch":"project-team1","local_version":"team1-v2026.2.0-local.1","based_on_master":"v2026.2.0","deviation":false,"wants_merge":false,"last_updated":"2026-05-02T08:30:00"},"team2":{"branch":"project-team2","local_version":"team2-v2026.2.0-local.0","based_on_master":"v2026.2.0","deviation":false,"wants_merge":false,"last_updated":"2026-05-04T12:00:00"},"team3":{"branch":"project-team3","local_version":"team3-v2026.1.9-local.2","based_on_master":"v2026.1.9","deviation":true,"deviation_reason":"Pre-migration hold on v2 schema change","wants_merge":false,"gh_issue_ref":"#15","last_updated":"2026-04-25T10:00:00"},"team4":{"branch":"project-team4","local_version":"team4-v2026.2.0-local.3","based_on_master":"v2026.2.0","deviation":false,"wants_merge":false,"last_updated":"2026-05-06T09:45:00"},"team5":{"branch":"project-team5","local_version":"team5-v2026.2.0-local.1","based_on_master":"v2026.2.0","deviation":false,"wants_merge":false,"last_updated":"2026-05-01T14:20:00"}}}
-};
+function renderWorkflows() {
+  var wfs = [
+    { cls:'',       n:'WORKFLOW 1', name:'1-branch-auto-tag.yml',    trig:'Push to project-* branches',     steps:['Reads master VERSION','Increments local patch counter','Updates .dbops/config.json','Creates git tag automatically','Triggers registry sync'] },
+    { cls:'amber',  n:'WORKFLOW 2', name:'2-pr-version-check.yml',   trig:'PR opened to main',              steps:['Checks patch/minor/major label','Validates commit prefix matches label','Blocks merge if mismatch','Posts comment explaining issue'] },
+    { cls:'green',  n:'WORKFLOW 3', name:'3-master-release.yml',     trig:'PR merged to main',              steps:['Reads label for bump type','Calculates new version v2026.MINOR.PATCH','Updates VERSION + CHANGELOG.md','Creates git tag + GitHub Release'] },
+    { cls:'purple', n:'WORKFLOW 4', name:'4-sync-registry.yml',      trig:'After release or branch push',   steps:['Updates registry.json','Injects data into index.html','Deploys to GitHub Pages','Live within 60 seconds'] },
+    { cls:'amber',  n:'WORKFLOW 5', name:'5-quarterly-audit.yml',    trig:'Scheduled: 1st Mar/Jun/Sep/Dec', steps:['Reads registry for all teams','Creates GitHub Issues per team','Generates audit report markdown','Updates GitHub Project board'] }
+  ];
+  document.getElementById('page-workflows').innerHTML =
+    '<div class="card"><div class="card-head"><div class="card-head-left"><div class="card-title">GitHub Actions Workflows</div>'+ib('wflows')+'</div><div class="card-badge">Drop into .github/workflows/</div></div>'+
+    '<div class="wf-grid">'+wfs.map(function(w) {
+      return '<div class="wf-card '+w.cls+'"><div class="wf-num">'+w.n+'</div><div class="wf-title">'+w.name+'</div><div class="wf-trigger">'+w.trig+'</div>'+
+        w.steps.map(function(s) { return '<div class="wf-step">'+s+'</div>'; }).join('')+'</div>';
+    }).join('')+'</div></div>';
+}
 
-loadDashboard();
-// Auto-refresh every 5 minutes
-setInterval(loadDashboard, 300000);
+function toggleTeam(t) {
+  var el = document.getElementById('tc-'+t);
+  var idx = selTeams.indexOf(t);
+  if (idx>-1) { selTeams.splice(idx,1); el.classList.remove('sel'); el.querySelector('.tc-status').textContent='Click to select'; }
+  else { selTeams.push(t); el.classList.add('sel'); el.querySelector('.tc-status').textContent='Will adopt'; }
+}
+
+function simApprove(id) {
+  var r = REQS.filter(function(x){return x.id===id;})[0];
+  if (r) { r.status='approved'; renderProvisioning(); }
+}
+
+function submitProv() {
+  var name = document.getElementById('pf-name').value.trim();
+  var desc = document.getElementById('pf-desc').value.trim();
+  var who  = document.getElementById('pf-requester').value.trim();
+  var msg  = document.getElementById('prov-msg');
+  if (!name||!desc||!who) {
+    msg.style.display='block'; msg.className='prov-msg error';
+    msg.innerHTML='<strong>Missing required fields.</strong> Please fill Solution Name, Description and GitHub Username.';
+    return;
+  }
+  msg.style.display='block'; msg.className='prov-msg pending';
+  msg.innerHTML='<strong>Demo Mode</strong><br>Would create GitHub Issue: [REPO-REQUEST] '+name+'<br>'+
+    'Adopting teams: '+(selTeams.length?selTeams.join(', '):'none selected')+'<br>'+
+    'Add ?token=YOUR_PAT to the URL to enable live GitHub Issue creation.';
+}
+
+function renderProvisioning() {
+  var tcHtml = ['team1','team2','team3','team4','team5'].map(function(t) {
+    var isSel = selTeams.indexOf(t)>-1;
+    return '<div class="tc'+(isSel?' sel':'')+'" id="tc-'+t+'" onclick="toggleTeam(\''+t+'\')"><div class="tc-name">'+t+'</div><div class="tc-status">'+(isSel?'Will adopt':'Click to select')+'</div></div>';
+  }).join('');
+
+  var reqRows = REQS.map(function(r) {
+    var sc = { pending:'rs-pending', approved:'rs-approved' }[r.status]||'';
+    var sl = { pending:'Awaiting Approval', approved:'Approved' }[r.status]||r.status;
+    return '<tr>'+
+      '<td style="font-family:\'DM Mono\',monospace;color:var(--blue)">'+r.id+'</td>'+
+      '<td style="font-weight:700">'+r.sol+'</td>'+
+      '<td style="color:#7a9bbf">'+r.desc+'</td>'+
+      '<td style="font-family:\'DM Mono\',monospace;font-size:10px">'+r.by+'</td>'+
+      '<td>'+r.teams.map(function(t){return '<span style="font-family:\'DM Mono\',monospace;font-size:9px;background:rgba(0,229,160,.08);color:var(--master);padding:1px 6px;border-radius:3px;margin-right:3px">'+t+'</span>';}).join('')+'</td>'+
+      '<td><span class="rs '+sc+'">'+sl+'</span></td>'+
+      '<td style="font-family:\'DM Mono\',monospace;font-size:10px;color:var(--muted)">'+r.date+'</td>'+
+      '<td>'+(r.status==='pending'?'<button class="appr-btn" onclick="simApprove(\''+r.id+'\')">Approve</button>':'<span style="color:var(--muted)">&#8212;</span>')+'</td>'+
+      '</tr>';
+  }).join('');
+
+  document.getElementById('page-provisioning').innerHTML =
+    '<div class="prov-layout">'+
+      '<div class="card" style="margin:0"><div class="card-head"><div class="card-head-left"><div class="card-title">Request New Solution Repo</div>'+ib('pform')+'</div><div class="card-badge">Submits to GitHub Issues</div></div>'+
+        '<div id="prov-msg" class="prov-msg"></div>'+
+        '<div class="form-grid">'+
+          '<div class="fg"><label>Solution Name <span class="req">*</span></label><input type="text" id="pf-name" placeholder="e.g. dbops_versol3"/><div class="hint">Lowercase, underscores only</div></div>'+
+          '<div class="fg"><label>Urgency</label><select id="pf-urgency"><option value="normal">Normal</option><option value="quarter">This Quarter</option><option value="asap">ASAP</option></select></div>'+
+        '</div>'+
+        '<div class="fg"><label>Description <span class="req">*</span></label><textarea id="pf-desc" placeholder="What does this solution do?"></textarea></div>'+
+        '<div class="fg"><label>Your GitHub Username <span class="req">*</span></label><input type="text" id="pf-requester" placeholder="e.g. team3-lead"/></div>'+
+        '<div class="fg"><label>Which teams will use this solution?</label><div class="hint" style="margin-bottom:6px">Selected = starter config. Others = empty branch shown as Not in Use.</div>'+
+          '<div class="team-grid">'+tcHtml+'</div>'+
+        '</div>'+
+        '<button class="submit-btn" onclick="submitProv()">&#128640; Submit Request to Solution Owner</button>'+
+      '</div>'+
+      '<div class="card" style="margin:0"><div class="card-head"><div class="card-head-left"><div class="card-title">How Provisioning Works</div>'+ib('pflw')+'</div></div>'+
+        '<div style="font-size:12px;color:#7a9bbf;line-height:2.2">'+
+          '1. &#x1F4CB; Team Lead fills this form<br>'+
+          '2. &#x1F3AB; GitHub Issue auto-created <span style="color:#00e5a0;font-size:10px">[auto]</span><br>'+
+          '3. &#x1F464; Solution Owner adds "approved" label<br>'+
+          '4. &#x26A1; Workflow 6 fires automatically <span style="color:#00e5a0;font-size:10px">[auto]</span><br>'+
+          '5. &#x1F3D7; New repo created from template <span style="color:#00e5a0;font-size:10px">[auto]</span><br>'+
+          '6. &#x1F33F; All 5 team branches created <span style="color:#00e5a0;font-size:10px">[auto]</span><br>'+
+          '7. &#x1F512; Branch protection + secrets applied <span style="color:#00e5a0;font-size:10px">[auto]</span><br>'+
+          '8. &#x1F4CA; Registry + dashboard updated <span style="color:#00e5a0;font-size:10px">[auto]</span><br>'+
+          '9. &#x2705; Requester notified via Issue comment <span style="color:#00e5a0;font-size:10px">[auto]</span>'+
+        '</div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="card"><div class="card-head"><div class="card-head-left"><div class="card-title">Provisioning Requests</div>'+ib('preqs')+'</div><div class="card-badge">'+REQS.length+' requests</div></div>'+
+    '<table class="req-table"><thead><tr><th>ID</th><th>Solution</th><th>Description</th><th>Requested By</th><th>Teams</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>'+
+    '<tbody>'+reqRows+'</tbody></table></div>';
+}
+
+// ── MAIN INIT — called after registry data is defined below ───────────────────
+function init() {
+  registry = window.LIVE_REGISTRY;
+  var s = computeStats();
+  document.getElementById('last-upd').textContent =
+    'Live (embedded) - sachin-dehran/dbops-solutions-governance - ' + new Date().toLocaleTimeString();
+  renderKpi(s);
+  renderOverview(s);
+  renderMatrix();
+  renderMaster();
+  renderChangelog();
+  renderWorkflows();
+  renderProvisioning();
+}
 </script>
 
 <script>
-// AUTO-INJECTED BY GITHUB ACTIONS — DO NOT EDIT MANUALLY
-// Last updated: 2026-05-15
-window.EMBEDDED_REGISTRY = {
-  "dbops_versol1": {
-    "repo": "sachin-dehran/dbops_versol1",
-    "master_version": "v2026.1.3",
-    "master_branch": "main",
-    "released_date": "2026-04-10",
-    "released_by": "sachin-dehran",
-    "teams": {
-      "team1": {
-        "branch": "project-team1",
-        "local_version": "team1-v2026.1.3-local.2",
-        "based_on_master": "v2026.1.3",
-        "deviation": false,
-        "wants_merge": false,
-        "last_updated": "2026-05-01T10:22:00"
-      },
-      "team2": {
-        "branch": "project-team2",
-        "local_version": "team2-v2026.1.3-local.5",
-        "based_on_master": "v2026.1.3",
-        "deviation": true,
-        "deviation_reason": "Increased connection timeout for on-prem DB",
-        "wants_merge": true,
-        "gh_issue_ref": "#12",
-        "last_updated": "2026-05-03T14:10:00"
-      },
-      "team3": {
-        "branch": "project-team3",
-        "local_version": "team3-v2026.1.2-local.1",
-        "based_on_master": "v2026.1.2",
-        "deviation": false,
-        "wants_merge": false,
-        "last_updated": "2026-04-20T09:15:00"
-      },
-      "team4": {
-        "branch": "project-team4",
-        "local_version": "team4-v2026.1.3-local.0",
-        "based_on_master": "v2026.1.3",
-        "deviation": false,
-        "wants_merge": false,
-        "last_updated": "2026-05-05T11:00:00"
-      },
-      "team5": {
-        "branch": "project-team5",
-        "local_version": "team5-v2026.1.1-local.3",
-        "based_on_master": "v2026.1.1",
-        "deviation": true,
-        "deviation_reason": "Legacy infra — cannot upgrade past v2026.1.1",
-        "wants_merge": false,
-        "gh_issue_ref": "#8",
-        "last_updated": "2026-04-28T16:45:00"
-      }
-    }
-  },
-  "dbops_versol2": {
-    "repo": "sachin-dehran/dbops_versol2",
-    "master_version": "v2026.2.0",
-    "master_branch": "main",
-    "released_date": "2026-04-20",
-    "released_by": "sachin-dehran",
-    "teams": {
-      "team1": {
-        "branch": "project-team1",
-        "local_version": "team1-v2026.2.0-local.1",
-        "based_on_master": "v2026.2.0",
-        "deviation": false,
-        "wants_merge": false,
-        "last_updated": "2026-05-02T08:30:00"
-      },
-      "team2": {
-        "branch": "project-team2",
-        "local_version": "team2-v2026.2.0-local.0",
-        "based_on_master": "v2026.2.0",
-        "deviation": false,
-        "wants_merge": false,
-        "last_updated": "2026-05-04T12:00:00"
-      },
-      "team3": {
-        "branch": "project-team3",
-        "local_version": "team3-v2026.1.9-local.2",
-        "based_on_master": "v2026.1.9",
-        "deviation": true,
-        "deviation_reason": "Pre-migration hold on v2 schema change",
-        "wants_merge": false,
-        "gh_issue_ref": "#15",
-        "last_updated": "2026-04-25T10:00:00"
-      },
-      "team4": {
-        "branch": "project-team4",
-        "local_version": "team4-v2026.2.0-local.3",
-        "based_on_master": "v2026.2.0",
-        "deviation": false,
-        "wants_merge": false,
-        "last_updated": "2026-05-06T09:45:00"
-      },
-      "team5": {
-        "branch": "project-team5",
-        "local_version": "team5-v2026.2.0-local.1",
-        "based_on_master": "v2026.2.0",
-        "deviation": false,
-        "wants_merge": false,
-        "last_updated": "2026-05-01T14:20:00"
-      }
-    }
-  }
-};
+// ── REGISTRY DATA — AUTO-UPDATED BY GITHUB ACTIONS WORKFLOW 4 ────────────────
+window.LIVE_REGISTRY = {"dbops_versol1":{"repo":"sachin-dehran/dbops_versol1","master_version":"v2026.1.3","master_branch":"main","released_date":"2026-04-10","released_by":"sachin-dehran","teams":{"team1":{"branch":"project-team1","local_version":"team1-v2026.1.3-local.2","based_on_master":"v2026.1.3","deviation":false,"wants_merge":false,"last_updated":"2026-05-01T10:22:00"},"team2":{"branch":"project-team2","local_version":"team2-v2026.1.3-local.5","based_on_master":"v2026.1.3","deviation":true,"deviation_reason":"Increased connection timeout for on-prem DB","wants_merge":true,"last_updated":"2026-05-03T14:10:00"},"team3":{"branch":"project-team3","local_version":"team3-v2026.1.2-local.1","based_on_master":"v2026.1.2","deviation":false,"wants_merge":false,"last_updated":"2026-04-20T09:15:00"},"team4":{"branch":"project-team4","local_version":"team4-v2026.1.3-local.0","based_on_master":"v2026.1.3","deviation":false,"wants_merge":false,"last_updated":"2026-05-05T11:00:00"},"team5":{"branch":"project-team5","local_version":"team5-v2026.1.1-local.3","based_on_master":"v2026.1.1","deviation":true,"deviation_reason":"Legacy infra","wants_merge":false,"last_updated":"2026-04-28T16:45:00"}}},"dbops_versol2":{"repo":"sachin-dehran/dbops_versol2","master_version":"v2026.2.0","master_branch":"main","released_date":"2026-04-20","released_by":"sachin-dehran","teams":{"team1":{"branch":"project-team1","local_version":"team1-v2026.2.0-local.1","based_on_master":"v2026.2.0","deviation":false,"wants_merge":false,"last_updated":"2026-05-02T08:30:00"},"team2":{"branch":"project-team2","local_version":"team2-v2026.2.0-local.0","based_on_master":"v2026.2.0","deviation":false,"wants_merge":false,"last_updated":"2026-05-04T12:00:00"},"team3":{"branch":"project-team3","local_version":"team3-v2026.1.9-local.2","based_on_master":"v2026.1.9","deviation":true,"deviation_reason":"Pre-migration hold on v2 schema change","wants_merge":false,"last_updated":"2026-04-25T10:00:00"},"team4":{"branch":"project-team4","local_version":"team4-v2026.2.0-local.3","based_on_master":"v2026.2.0","deviation":false,"wants_merge":false,"last_updated":"2026-05-06T09:45:00"},"team5":{"branch":"project-team5","local_version":"team5-v2026.2.0-local.1","based_on_master":"v2026.2.0","deviation":false,"wants_merge":false,"last_updated":"2026-05-01T14:20:00"}}}};
+
+// ── RUN NOW — data is defined above, functions are defined above ──────────────
+init();
 </script>
+
 </body>
 </html>
