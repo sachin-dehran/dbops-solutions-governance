@@ -1,0 +1,11 @@
+# Only Solution Owner can approve merges to main
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default — solution owner reviews everything merged to main
+*                           @sachin-dehran
+
+# Specifically lock these critical files
+/VERSION                    @sachin-dehran
+/CHANGELOG.md               @sachin-dehran
+/.dbops/master.json         @sachin-dehran
+/solution/**                @sachin-dehran

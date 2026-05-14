@@ -1,0 +1,135 @@
+name: 3 — Master Release
+
+on:
+  pull_request:
+    branches: [main]
+    types: [closed]
+
+jobs:
+  release:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Determine bump type from label
+        id: bump
+        uses: actions/github-script@v7
+        with:
+          result-encoding: string
+          script: |
+            const labels = context.payload.pull_request.labels.map(l => l.name);
+            const bump = labels.includes('major') ? 'major'
+                       : labels.includes('minor') ? 'minor' : 'patch';
+            console.log(`Bump type: ${bump}`);
+            return bump;
+
+      - name: Calculate new version
+        id: version
+        run: |
+          CURRENT=$(cat VERSION 2>/dev/null || echo "v2026.0.0")
+          YEAR=$(echo $CURRENT | sed 's/v//' | cut -d. -f1)
+          MINOR=$(echo $CURRENT | cut -d. -f2)
+          PATCH=$(echo $CURRENT | cut -d. -f3)
+          CUR_YEAR=$(date +%Y)
+          BUMP="${{ steps.bump.outputs.result }}"
+
+          case $BUMP in
+            major) NEW="v${CUR_YEAR}.0.0" ;;
+            minor) NEW="v${CUR_YEAR}.$((MINOR+1)).0" ;;
+            *)     NEW="v${YEAR}.${MINOR}.$((PATCH+1))" ;;
+          esac
+
+          echo "new=$NEW" >> $GITHUB_OUTPUT
+          echo "old=$CURRENT" >> $GITHUB_OUTPUT
+          echo "bump=$BUMP" >> $GITHUB_OUTPUT
+          echo "New version: $CURRENT → $NEW ($BUMP)"
+
+      - name: Update VERSION + CHANGELOG + master.json
+        run: |
+          NEW="${{ steps.version.outputs.new }}"
+          OLD="${{ steps.version.outputs.old }}"
+          BUMP="${{ steps.version.outputs.bump }}"
+          DATE=$(date +%Y-%m-%d)
+          PR_NUM="${{ github.event.pull_request.number }}"
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          AUTHOR="${{ github.event.pull_request.user.login }}"
+
+          # Update VERSION
+          echo "$NEW" > VERSION
+
+          # Prepend to CHANGELOG
+          python3 - << PYEOF
+          import json, datetime
+
+          entry = f"""## {NEW_VER} — {date}
+          > Released by: @{author} | PR #{pr} | Bump type: {bump}
+
+          ### {title}
+
+          ---
+          """.replace("NEW_VER", "$NEW").replace("{date}","$DATE").replace("{author}","$AUTHOR").replace("{pr}","$PR_NUM").replace("{bump}","$BUMP").replace("{title}","$PR_TITLE")
+
+          try:
+            with open('CHANGELOG.md') as f:
+              existing = f.read()
+          except:
+            existing = "# Changelog\n\n"
+
+          marker = "# Changelog\n\n"
+          updated = existing.replace(marker, marker + entry, 1)
+          with open('CHANGELOG.md', 'w') as f:
+            f.write(updated)
+
+          # Update master.json
+          try:
+            with open('.dbops/master.json') as f:
+              mj = json.load(f)
+          except:
+            mj = {}
+
+          mj.update({
+            "current_version": "$NEW",
+            "previous_version": "$OLD",
+            "released_date": "$DATE",
+            "released_by": "$AUTHOR",
+            "pr_ref": "#$PR_NUM",
+            "bump_type": "$BUMP"
+          })
+          import os
+          os.makedirs('.dbops', exist_ok=True)
+          with open('.dbops/master.json', 'w') as f:
+            json.dump(mj, f, indent=2)
+
+          print(f"✅ Released {NEW_VER}".replace("NEW_VER", "$NEW"))
+          PYEOF
+
+      - name: Commit release
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add VERSION CHANGELOG.md .dbops/master.json
+          git commit -m "release: ${{ steps.version.outputs.new }}"
+          git tag "${{ steps.version.outputs.new }}"
+          git push origin main --tags
+          echo "✅ Released ${{ steps.version.outputs.new }}"
+
+      - name: Create GitHub Release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.repos.createRelease({
+              ...context.repo,
+              tag_name: '${{ steps.version.outputs.new }}',
+              name: '🚀 Release ${{ steps.version.outputs.new }}',
+              body: `**Type:** ${{ steps.version.outputs.bump }}\n**PR:** #${{ github.event.pull_request.number }}\n**By:** @${{ github.event.pull_request.user.login }}\n\n${{ github.event.pull_request.body }}`,
+              draft: false,
+              prerelease: false
+            });
+            console.log('✅ GitHub Release created');

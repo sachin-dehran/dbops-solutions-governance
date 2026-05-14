@@ -1,0 +1,156 @@
+name: 5 — Quarterly Audit
+
+on:
+  schedule:
+    - cron: '0 9 1 3,6,9,12 *'   # 1st of Mar, Jun, Sep, Dec at 09:00 UTC
+  workflow_dispatch:               # Manual trigger anytime
+
+jobs:
+  quarterly-audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create feedback Issues for every team
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const registry = JSON.parse(fs.readFileSync('registry.json', 'utf8'));
+            const now = new Date();
+            const q = Math.ceil((now.getMonth()+1)/3);
+            const quarter = `Q${q}-${now.getFullYear()}`;
+
+            for (const [sol, sdata] of Object.entries(registry)) {
+              for (const [team, tdata] of Object.entries(sdata.teams || {})) {
+                const masterVer = sdata.master_version;
+                const localVer  = tdata.local_version || '?';
+                const onMaster  = tdata.based_on_master === masterVer && !tdata.deviation;
+                const statusLine = onMaster
+                  ? `✅ **You are on the current Master version**`
+                  : `⚠️ **You are deviated or behind** — Running \`${localVer}\`, Master is \`${masterVer}\``;
+
+                try {
+                  await github.rest.issues.create({
+                    ...context.repo,
+                    title: `[FEEDBACK] ${quarter} — ${team} / ${sol}`,
+                    labels: ['quarterly-feedback', `sol:${sol}`, `team:${team}`],
+                    assignees: [`${team}-lead`],
+                    body: `## 📋 Quarterly Feedback Form — ${quarter}
+
+**Team:** \`${team}\` | **Solution:** \`${sol}\`
+**Your Version:** \`${localVer}\` | **Master:** \`${masterVer}\`
+${statusLine}
+
+---
+
+Please answer all 5 questions and **close this issue** when done:
+
+**1.** Is the current version working without issues for your project?
+- [ ] Yes, fully working
+- [ ] Partially — minor issues (describe below)
+- [ ] No — blocking issues (describe below)
+
+**2.** Did you apply any workarounds this quarter? If yes, describe briefly:
+> _Your answer here_
+
+**3.** Do you need any new capability added to the Master version? If yes:
+> _Your answer here_
+
+**4.** Do you want any of your local customisations merged to Master?
+- [ ] Yes — I will open a PR to \`main\` with label \`feat:\` or \`fix:\`
+- [ ] No — keeping locally
+
+**5.** Priority for next Master version release:
+- [ ] Stability / Bug fixes
+- [ ] New Features
+- [ ] Performance improvements
+
+---
+> 🤖 Auto-created by GitHub Actions quarterly audit workflow.
+> Due: **end of this week**. Close this issue when complete.`
+                  });
+                  console.log(`✅ Created feedback issue: ${team}/${sol}`);
+                } catch(e) {
+                  console.log(`⚠️ Could not assign to ${team}-lead: ${e.message} (user may not exist in prototype)`);
+                }
+              }
+            }
+
+      - name: Generate audit report markdown
+        run: |
+          python3 - << 'PYEOF'
+          import json
+          from datetime import date
+
+          with open('registry.json') as f:
+            registry = json.load(f)
+
+          today = date.today()
+          q = (today.month - 1) // 3 + 1
+          quarter = f"Q{q}-{today.year}"
+
+          total = on_master = deviated = behind = wants_merge = 0
+          lines = [
+            f"# DBOps Quarterly Audit Report — {quarter}",
+            f"**Generated:** {today}  |  **Trigger:** GitHub Actions scheduled",
+            "",
+          ]
+
+          for sol, sdata in registry.items():
+            mv = sdata.get('master_version', '?')
+            lines.append(f"\n## {sol}  —  Master: `{mv}`")
+            lines.append(f"**Repo:** [{sdata.get('repo',sol)}](https://github.com/{sdata.get('repo',sol)})\n")
+            lines.append("| Team | Local Version | Based On | Status | Wants Merge |")
+            lines.append("|---|---|---|---|---|")
+            for team, t in sdata.get('teams', {}).items():
+              total += 1
+              lv  = t.get('local_version','?')
+              bom = t.get('based_on_master','?')
+              dev = t.get('deviation', False)
+              wm  = t.get('wants_merge', False)
+              on  = bom == mv and not dev
+              if on:        on_master   += 1; status = "✅ On Master"
+              elif wm:      wants_merge += 1; status = "🟣 Wants Merge"
+              elif bom!=mv: behind      += 1; status = "🔵 Behind Master"
+              else:         deviated    += 1; status = "🟡 Deviated"
+              lines.append(f"| {team} | `{lv}` | `{bom}` | {status} | {'Yes →PR' if wm else 'No'} |")
+
+          health = round((on_master/total)*100) if total else 0
+          summary = f"""
+## Summary
+| Metric | Count |
+|---|---|
+| Total Adoptions | {total} |
+| On Master | {on_master} |
+| Deviated (local) | {deviated} |
+| Behind Master | {behind} |
+| Wants Merge to Master | {wants_merge} |
+| **Health Score** | **{health}%** |
+"""
+          lines.insert(3, summary)
+
+          import os
+          os.makedirs('audit-reports', exist_ok=True)
+          report_path = f'audit-reports/{quarter}-audit.md'
+          with open(report_path, 'w') as f:
+            f.write('\n'.join(lines))
+          print(f"✅ Audit report generated: {report_path}")
+          print(f"   Health: {health}% | On Master: {on_master}/{total}")
+          PYEOF
+
+      - name: Commit audit report
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add audit-reports/
+          git diff --staged --quiet && echo "No new report" && exit 0
+          git commit -m "audit: quarterly report generated — $(date +%Y-Q%q)"
+          git push
+          echo "✅ Audit report committed"

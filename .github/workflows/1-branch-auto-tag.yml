@@ -1,0 +1,91 @@
+name: 1 — Branch Auto Tag
+
+on:
+  push:
+    branches:
+      - 'project-*'
+
+jobs:
+  auto-tag:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get master version
+        id: master
+        run: |
+          git fetch origin main --quiet
+          MASTER_VER=$(git show origin/main:VERSION 2>/dev/null || echo "v2026.0.0")
+          BRANCH=${GITHUB_REF#refs/heads/}
+          echo "master=$MASTER_VER" >> $GITHUB_OUTPUT
+          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+          echo "Master version: $MASTER_VER | Branch: $BRANCH"
+
+      - name: Compute new local version
+        id: newver
+        run: |
+          BRANCH="${{ steps.master.outputs.branch }}"
+          MASTER="${{ steps.master.outputs.master }}"
+          CONFIG=".dbops/config.json"
+
+          if [ -f "$CONFIG" ]; then
+            LOCAL_PATCH=$(python3 -c "import json; d=json.load(open('$CONFIG')); print(d.get('local_patch',0))" 2>/dev/null || echo "0")
+          else
+            LOCAL_PATCH=0
+          fi
+
+          NEW_PATCH=$(( LOCAL_PATCH + 1 ))
+          LOCAL_VER="${BRANCH}-${MASTER}-local.${NEW_PATCH}"
+          echo "local_ver=$LOCAL_VER" >> $GITHUB_OUTPUT
+          echo "local_patch=$NEW_PATCH" >> $GITHUB_OUTPUT
+          echo "New local version: $LOCAL_VER"
+
+      - name: Update config.json
+        run: |
+          mkdir -p .dbops
+          python3 - << 'PYEOF'
+          import json, datetime, os
+
+          config_path = '.dbops/config.json'
+          try:
+            with open(config_path) as f:
+              config = json.load(f)
+          except:
+            config = {}
+
+          config.update({
+            'team': os.environ.get('GITHUB_REF','').replace('refs/heads/project-',''),
+            'branch': '${{ steps.master.outputs.branch }}',
+            'based_on_master': '${{ steps.master.outputs.master }}',
+            'local_version': '${{ steps.newver.outputs.local_ver }}',
+            'local_patch': int('${{ steps.newver.outputs.local_patch }}'),
+            'auto_updated': True,
+            'last_updated': datetime.datetime.utcnow().isoformat() + 'Z',
+            'commit_sha': '${{ github.sha }}'[:8]
+          })
+
+          with open(config_path, 'w') as f:
+            json.dump(config, f, indent=2)
+          print(f"Updated config: {config['local_version']}")
+          PYEOF
+
+          echo "${{ steps.newver.outputs.local_ver }}" > VERSION
+
+      - name: Commit and tag
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .dbops/config.json VERSION
+          git diff --staged --quiet && echo "No changes" && exit 0
+          git commit -m "chore(auto): bump local version → ${{ steps.newver.outputs.local_ver }}"
+          TAG="${{ steps.newver.outputs.local_ver }}"
+          git tag "$TAG" 2>/dev/null || echo "Tag already exists"
+          git push origin HEAD
+          git push origin "$TAG" 2>/dev/null || echo "Tag push skipped"
+          echo "✅ Tagged: $TAG"

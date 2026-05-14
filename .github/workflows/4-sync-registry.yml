@@ -1,0 +1,93 @@
+name: 4 — Sync Registry & Deploy Dashboard
+
+on:
+  repository_dispatch:
+    types: [registry-update]
+  workflow_dispatch:
+    inputs:
+      solution:
+        description: 'Solution repo name (e.g. dbops_versol1)'
+        required: true
+      branch:
+        description: 'Branch updated (e.g. project-team2 or main)'
+        required: true
+      config_json:
+        description: 'JSON string of updated config'
+        required: true
+
+jobs:
+  sync-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update registry.json
+        run: |
+          python3 - << 'PYEOF'
+          import json, os, datetime
+
+          solution = os.environ.get('INPUT_SOLUTION', '${{ github.event.inputs.solution }}')
+          branch   = os.environ.get('INPUT_BRANCH',   '${{ github.event.inputs.branch }}')
+          raw_cfg  = os.environ.get('INPUT_CONFIG',   '${{ github.event.inputs.config_json }}')
+
+          try:
+            incoming = json.loads(raw_cfg) if raw_cfg else {}
+          except:
+            incoming = {}
+
+          with open('registry.json') as f:
+            registry = json.load(f)
+
+          if solution not in registry:
+            registry[solution] = {"teams": {}}
+
+          if branch == 'main':
+            registry[solution]['master_version'] = incoming.get('current_version', registry[solution].get('master_version'))
+            registry[solution]['released_date']  = incoming.get('released_date', '')
+            registry[solution]['released_by']    = incoming.get('released_by', '')
+          else:
+            team = branch.replace('project-', '')
+            registry[solution]['teams'][team] = {
+              'branch':          branch,
+              'local_version':   incoming.get('local_version', ''),
+              'based_on_master': incoming.get('based_on_master', ''),
+              'deviation':       incoming.get('deviation', False),
+              'deviation_reason':incoming.get('deviation_reason', ''),
+              'wants_merge':     incoming.get('wants_merge_to_master', False),
+              'last_updated':    incoming.get('last_updated', datetime.datetime.utcnow().isoformat())
+            }
+
+          with open('registry.json', 'w') as f:
+            json.dump(registry, f, indent=2)
+          print(f"✅ Registry updated: {solution} / {branch}")
+          PYEOF
+
+      - name: Copy registry to docs for GitHub Pages
+        run: |
+          cp registry.json docs/registry.json
+          echo "✅ registry.json synced to docs/"
+
+      - name: Commit updated registry
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add registry.json docs/registry.json
+          git diff --staged --quiet && echo "No registry changes" && exit 0
+          git commit -m "sync: registry updated — ${{ github.event.inputs.solution }}/${{ github.event.inputs.branch }} @ $(date +%H:%M)"
+          git push
+          echo "✅ Registry committed and pushed"
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          publish_branch: gh-pages
+          commit_message: "deploy: dashboard rebuild — $(date +%Y-%m-%dT%H:%M)"

@@ -1,0 +1,58 @@
+name: 2 — PR Version Check
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, labeled, unlabeled]
+
+jobs:
+  version-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate version signals
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const labels = pr.labels.map(l => l.name);
+            const title = pr.title.toLowerCase().trim();
+
+            const VERSION_LABELS = ['patch', 'minor', 'major'];
+            const PREFIX_MAP = {
+              patch: ['fix:', 'fix!:'],
+              minor: ['feat:', 'feat!:'],
+              major: ['breaking:', 'breaking!:']
+            };
+
+            // 1. Check label exists
+            const labelType = VERSION_LABELS.find(l => labels.includes(l));
+            if (!labelType) {
+              await github.rest.issues.createComment({
+                ...context.repo, issue_number: pr.number,
+                body: `## ❌ Version Label Missing\n\nThis PR needs a version label before it can be merged.\n\n| Label | Use When | Commit Prefix |\n|---|---|---|\n| \`patch\` | Bug fix, small tweak | \`fix: description\` |\n| \`minor\` | New feature, backward compatible | \`feat: description\` |\n| \`major\` | Breaking change | \`breaking: description\` |\n\n> Add the label and the PR title will be re-checked automatically.`
+              });
+              core.setFailed('❌ Missing version label (patch/minor/major)');
+              return;
+            }
+
+            // 2. Check prefix matches label
+            const expectedPrefixes = PREFIX_MAP[labelType];
+            const prefixMatch = expectedPrefixes.some(p => title.startsWith(p));
+
+            if (!prefixMatch) {
+              await github.rest.issues.createComment({
+                ...context.repo, issue_number: pr.number,
+                body: `## ❌ Version Signal Mismatch\n\n| Signal | Value |\n|---|---|\n| PR Label | \`${labelType}\` |\n| PR Title | \`${pr.title}\` |\n| Expected prefix | ${expectedPrefixes.map(p => '`'+p+'`').join(' or ')} |\n\n**Fix:** Update the PR title to start with \`${expectedPrefixes[0]}\` OR change the label to match your commit type.\n\n> Both signals must agree for the merge to proceed.`
+              });
+              core.setFailed(`❌ PR title prefix doesn't match label "${labelType}"`);
+              return;
+            }
+
+            // 3. All good
+            await github.rest.issues.createComment({
+              ...context.repo, issue_number: pr.number,
+              body: `## ✅ Version Check Passed\n\n| Signal | Value | Status |\n|---|---|---|\n| PR Label | \`${labelType}\` | ✅ |\n| Commit Prefix | \`${expectedPrefixes[0]}\` | ✅ |\n\nBoth signals agree. **Ready for Solution Owner review.**\n\n> After merge, a new Master version will be auto-calculated and released by GitHub Actions.`
+            });
+            console.log(`✅ Version check passed: ${labelType}`);

@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>DBOps Solutions Governance</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#05080f;--s1:#0c1525;--s2:#101d30;--s3:#162038;
+  --master:#00e5a0;--blue:#4d9fff;--purple:#8b5cf6;
+  --amber:#f59e0b;--red:#ef4444;--pink:#ec4899;
+  --text:#ddeeff;--muted:#3d5a7a;--border:rgba(77,159,255,0.1);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+
+/* TOPBAR */
+.tb{position:sticky;top:0;z-index:200;background:rgba(5,8,15,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:60px;}
+.tb-brand{display:flex;align-items:center;gap:12px;}
+.tb-logo{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,#00e5a0,#0055ff);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;color:#000;}
+.tb-name{font-size:15px;font-weight:700;color:#fff;}
+.tb-sub{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:1px;}
+.tb-nav{display:flex;gap:2px;}
+.nb{padding:7px 16px;border-radius:7px;border:none;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;}
+.nb:hover{color:var(--text);background:rgba(255,255,255,0.05);}
+.nb.on{color:var(--master);background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);}
+.tb-right{display:flex;gap:8px;align-items:center;}
+.live-badge{display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;color:var(--master);background:rgba(0,229,160,0.07);border:1px solid rgba(0,229,160,0.18);padding:4px 12px;border-radius:20px;}
+.live-dot{width:6px;height:6px;background:var(--master);border-radius:50%;animation:blink 1.5s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.2;}}
+.gh-btn{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#fff;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);padding:6px 14px;border-radius:7px;cursor:pointer;text-decoration:none;transition:all .2s;}
+.gh-btn:hover{background:rgba(255,255,255,0.12);}
+.alert-badge{font-family:'DM Mono',monospace;font-size:10px;color:var(--red);background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);padding:4px 10px;border-radius:5px;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+
+/* LAYOUT */
+.pg{padding:28px 32px;max-width:1440px;margin:0 auto;}
+.page{display:none;}
+.page.on{display:block;}
+
+/* LOADING */
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;height:300px;gap:16px;color:var(--muted);}
+.spinner{width:36px;height:36px;border:3px solid rgba(0,229,160,0.1);border-top-color:var(--master);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* KPI */
+.kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:22px;}
+.kpi{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:16px 18px;position:relative;overflow:hidden;}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:12px 12px 0 0;}
+.k1::before{background:linear-gradient(90deg,var(--master),transparent);}
+.k2::before{background:linear-gradient(90deg,var(--blue),transparent);}
+.k3::before{background:linear-gradient(90deg,var(--red),transparent);}
+.k4::before{background:linear-gradient(90deg,var(--amber),transparent);}
+.k5::before{background:linear-gradient(90deg,var(--purple),transparent);}
+.k6::before{background:linear-gradient(90deg,#64748b,transparent);}
+.kpi-top{display:flex;justify-content:space-between;align-items:flex-start;}
+.kv{font-size:30px;font-weight:800;line-height:1;color:#fff;}
+.kl{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);margin-top:6px;letter-spacing:.5px;text-transform:uppercase;}
+.ks{font-size:10px;color:var(--muted);margin-top:2px;}
+.info-btn{width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:var(--muted);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:'DM Mono',monospace;flex-shrink:0;position:relative;}
+.info-btn:hover{background:rgba(0,229,160,0.1);border-color:rgba(0,229,160,0.3);color:var(--master);}
+.info-popup{position:absolute;top:calc(100% + 6px);right:0;width:280px;background:#0d1e38;border:1px solid rgba(0,229,160,0.2);border-radius:11px;padding:14px;z-index:9999;box-shadow:0 16px 48px rgba(0,0,0,0.7);animation:pop .15s ease;}
+@keyframes pop{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
+.ip-title{font-size:12px;font-weight:700;color:#fff;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.06);}
+.ip-row{margin-bottom:8px;}
+.ip-lbl{font-family:'DM Mono',monospace;font-size:9px;color:var(--master);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;}
+.ip-txt{font-size:11px;color:#7a9bbf;line-height:1.6;}
+
+/* CARD */
+.card{background:var(--s1);border:1px solid var(--border);border-radius:13px;padding:20px 22px;margin-bottom:14px;}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.card-head-left{display:flex;align-items:center;gap:8px;}
+.card-title{font-size:14px;font-weight:700;color:#fff;}
+.card-badge{font-family:'DM Mono',monospace;font-size:9px;padding:3px 8px;border-radius:4px;background:rgba(255,255,255,0.05);color:var(--muted);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+
+/* MATRIX */
+.matrix-wrap{overflow-x:auto;}
+.mtbl{width:100%;border-collapse:collapse;}
+.mtbl th{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);padding:8px 12px;text-align:center;border-bottom:1px solid var(--border);font-weight:500;}
+.mtbl th:first-child{text-align:left;}
+.mtbl td{padding:6px 12px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.03);}
+.mtbl td:first-child{text-align:left;font-weight:700;font-size:13px;}
+.mtbl tr:hover td{background:rgba(255,255,255,0.02);}
+.cell{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;min-width:130px;padding:5px 8px;border-radius:7px;font-family:'DM Mono',monospace;font-size:9px;font-weight:600;border:1px solid transparent;cursor:pointer;transition:all .15s;line-height:1.4;position:relative;}
+.cell:hover{transform:scale(1.04);}
+.cell.master{background:rgba(0,229,160,.1);color:var(--master);border-color:rgba(0,229,160,.2);}
+.cell.deviated{background:rgba(245,158,11,.1);color:var(--amber);border-color:rgba(245,158,11,.2);}
+.cell.behind{background:rgba(77,159,255,.1);color:var(--blue);border-color:rgba(77,159,255,.2);}
+.cell.wants-merge{background:rgba(139,92,246,.1);color:#a78bfa;border-color:rgba(139,92,246,.25);animation:pulse 2s infinite;}
+.cell.na{background:rgba(255,255,255,.03);color:#1e3a5f;border-color:rgba(255,255,255,.04);cursor:default;}
+.cell-ver{font-size:10px;font-weight:700;}
+.cell-status{font-size:8px;opacity:0.8;margin-top:1px;}
+.leg-row{display:flex;gap:14px;margin-top:14px;flex-wrap:wrap;}
+.leg{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);}
+.ld{width:10px;height:10px;border-radius:3px;}
+
+/* CELL TOOLTIP */
+.cell-tip{position:absolute;bottom:calc(100%+8px);left:50%;transform:translateX(-50%);background:#0d1e38;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 13px;font-size:11px;white-space:nowrap;z-index:999;pointer-events:none;font-family:'DM Mono',monospace;line-height:1.9;min-width:200px;display:none;}
+.cell:hover .cell-tip{display:block;}
+
+/* HEALTH RING */
+.hring{display:flex;align-items:center;gap:22px;}
+.ring-wrap{position:relative;width:120px;height:120px;flex-shrink:0;}
+.ring-val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:#fff;}
+.ring-val span{font-size:10px;color:var(--muted);font-weight:400;font-family:'DM Mono',monospace;}
+.hbars{flex:1;display:flex;flex-direction:column;gap:8px;}
+.hbar-row{display:flex;align-items:center;gap:8px;}
+.hbar-label{font-size:11px;color:#94a3b8;min-width:110px;}
+.hbar-track{flex:1;height:7px;background:rgba(255,255,255,.05);border-radius:3px;overflow:hidden;}
+.hbar-fill{height:100%;border-radius:3px;transition:width 1s ease;}
+.hbar-val{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);min-width:30px;text-align:right;}
+
+/* TREND */
+.trend-bars{display:flex;align-items:flex-end;gap:28px;height:120px;padding-bottom:4px;}
+.tg{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;}
+.tbw{display:flex;gap:4px;align-items:flex-end;height:88px;}
+.tbar{width:24px;border-radius:4px 4px 0 0;position:relative;cursor:pointer;transition:opacity .15s;}
+.tbar:hover{opacity:.8;}
+.tbar:hover .ttip{display:block;}
+.ttip{position:absolute;bottom:calc(100%+4px);left:50%;transform:translateX(-50%);background:#1e293b;border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:4px 8px;font-size:10px;font-family:'DM Mono',monospace;white-space:nowrap;display:none;z-index:10;}
+.tq{font-family:'DM Mono',monospace;font-size:10px;color:#334155;}
+.th-val{font-size:13px;font-weight:700;color:#fff;}
+
+/* QUARTERLY */
+.qgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.qstep{background:var(--s2);border-radius:9px;padding:14px;border-top:2px solid transparent;}
+.qstep.w1{border-color:var(--master);}
+.qstep.w2{border-color:var(--blue);}
+.qstep.w3{border-color:var(--amber);}
+.qstep.w4{border-color:var(--purple);}
+.qw{font-family:'DM Mono',monospace;font-size:9px;color:var(--master);margin-bottom:5px;letter-spacing:1px;}
+.qt{font-size:12px;font-weight:700;color:#fff;margin-bottom:5px;}
+.qd{font-size:11px;color:var(--muted);line-height:1.6;}
+
+/* DRIFT ALERTS */
+.drift-item{background:var(--s2);border-radius:9px;padding:12px 14px;border-left:3px solid var(--red);display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;}
+.drift-item.warn{border-color:var(--amber);}
+.drift-item.merge{border-color:var(--purple);}
+.di-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px;}
+.dtag{font-family:'DM Mono',monospace;font-size:9px;padding:2px 7px;border-radius:4px;}
+.dtag.sol{background:rgba(139,92,246,.1);color:#a78bfa;}
+.dtag.team{background:rgba(0,229,160,.1);color:var(--master);}
+.dtag.ver{background:rgba(255,255,255,.06);color:var(--muted);}
+.di-msg{font-size:12px;color:var(--text);}
+.stag{font-family:'DM Mono',monospace;font-size:9px;padding:3px 9px;border-radius:5px;white-space:nowrap;}
+.stag.danger{background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.2);}
+.stag.warn{background:rgba(245,158,11,.12);color:#fbbf24;border:1px solid rgba(245,158,11,.2);}
+.stag.merge{background:rgba(139,92,246,.12);color:#a78bfa;border:1px solid rgba(139,92,246,.2);}
+
+/* CHANGELOG */
+.sol-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.stab{font-family:'DM Mono',monospace;font-size:10px;padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;}
+.stab:hover{color:var(--text);}
+.stab.on{color:var(--master);background:rgba(0,229,160,.07);border-color:rgba(0,229,160,.2);}
+.cl-row{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.cl-row:last-child{border:none;}
+.clt{font-family:'DM Mono',monospace;font-size:9px;padding:3px 7px;border-radius:4px;min-width:52px;text-align:center;font-weight:600;}
+.clt.minor{background:rgba(0,229,160,.1);color:var(--master);}
+.clt.patch{background:rgba(77,159,255,.1);color:var(--blue);}
+.clt.major{background:rgba(239,68,68,.12);color:#f87171;}
+.clv{font-family:'DM Mono',monospace;font-size:11px;color:#94a3b8;min-width:80px;}
+.clv .cur{background:rgba(0,229,160,.1);color:var(--master);font-size:9px;padding:1px 5px;border-radius:3px;margin-left:5px;}
+.cln{font-size:12px;color:var(--text);flex:1;}
+.cld{font-family:'DM Mono',monospace;font-size:10px;color:#334155;white-space:nowrap;}
+
+/* MASTER COMPARE */
+.mc-tbl{width:100%;border-collapse:collapse;}
+.mc-tbl th{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:500;}
+.mc-tbl td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.03);font-size:12px;vertical-align:middle;}
+.mc-tbl tr:hover td{background:rgba(255,255,255,.02);}
+.match{color:var(--master);font-family:'DM Mono',monospace;font-size:11px;font-weight:600;}
+.drift-t{color:#f87171;font-family:'DM Mono',monospace;font-size:11px;font-weight:600;}
+.mv{font-family:'DM Mono',monospace;font-size:11px;}
+.mv.ok{color:var(--master);}
+.mv.old{color:var(--amber);}
+.gh-link{font-family:'DM Mono',monospace;font-size:10px;color:var(--blue);text-decoration:none;}
+.gh-link:hover{text-decoration:underline;}
+
+/* RULES */
+.rules-banner{background:var(--s2);border:1px solid rgba(239,68,68,.15);border-radius:11px;padding:16px 20px;margin-bottom:16px;}
+.rb-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.rb-title{font-size:13px;font-weight:700;color:#f87171;}
+.rules-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.rule{display:flex;align-items:center;gap:8px;font-size:12px;padding:3px 0;}
+.rule.ok{color:#94a3b8;}
+.rule.no{color:#f87171;}
+
+/* VERSION FLOW */
+.vflow{display:flex;flex-direction:column;gap:0;}
+.vf-step{display:flex;gap:16px;align-items:flex-start;}
+.vf-line{display:flex;flex-direction:column;align-items:center;min-width:32px;}
+.vf-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;border:2px solid transparent;}
+.vf-dot.blue{background:rgba(77,159,255,.15);border-color:rgba(77,159,255,.3);}
+.vf-dot.green{background:rgba(0,229,160,.12);border-color:rgba(0,229,160,.25);}
+.vf-dot.amber{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.25);}
+.vf-dot.purple{background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.25);}
+.vf-dot.red{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.25);}
+.vf-connector{width:2px;flex:1;min-height:20px;background:linear-gradient(180deg,rgba(77,159,255,.3),rgba(77,159,255,.05));margin:3px 0;}
+.vf-body{padding:4px 0 24px;}
+.vf-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;}
+.vf-desc{font-size:11px;color:var(--muted);line-height:1.7;}
+.vf-tag{font-family:'DM Mono',monospace;font-size:10px;padding:2px 8px;border-radius:4px;display:inline-block;margin-top:6px;}
+.vf-tag.auto{background:rgba(0,229,160,.08);color:var(--master);}
+.vf-tag.manual{background:rgba(245,158,11,.08);color:var(--amber);}
+
+/* WORKFLOW CARDS */
+.wf-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.wf-card{background:var(--s2);border:1px solid var(--border);border-radius:11px;padding:16px;border-left:3px solid var(--blue);}
+.wf-card.green{border-left-color:var(--master);}
+.wf-card.amber{border-left-color:var(--amber);}
+.wf-card.purple{border-left-color:var(--purple);}
+.wf-card.red{border-left-color:var(--red);}
+.wf-num{font-family:'DM Mono',monospace;font-size:9px;color:var(--blue);margin-bottom:5px;letter-spacing:1px;}
+.wf-card.green .wf-num{color:var(--master);}
+.wf-card.amber .wf-num{color:var(--amber);}
+.wf-card.purple .wf-num{color:var(--purple);}
+.wf-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:6px;}
+.wf-trigger{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);background:rgba(255,255,255,.04);padding:3px 8px;border-radius:4px;margin-bottom:8px;display:inline-block;}
+.wf-steps{display:flex;flex-direction:column;gap:5px;}
+.wf-step{font-size:11px;color:#7a9bbf;display:flex;gap:6px;}
+.wf-step::before{content:'→';color:var(--master);flex-shrink:0;}
+
+/* LAST UPDATED */
+.last-updated{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-align:right;margin-bottom:16px;}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="tb">
+  <div class="tb-brand">
+    <div class="tb-logo">D</div>
+    <div>
+      <div class="tb-name">DBOps Solutions Governance</div>
+      <div class="tb-sub">sachin-dehran · GitHub-Native · Auto-Versioned</div>
+    </div>
+  </div>
+  <div class="tb-nav">
+    <button class="nb on" onclick="showPage('overview',this)">Overview</button>
+    <button class="nb" onclick="showPage('matrix',this)">Adoption Matrix</button>
+    <button class="nb" onclick="showPage('master',this)">Master Compare</button>
+    <button class="nb" onclick="showPage('changelog',this)">Changelog</button>
+    <button class="nb" onclick="showPage('workflows',this)">Workflows</button>
+  </div>
+  <div class="tb-right">
+    <div id="alert-badge" class="alert-badge" style="display:none"></div>
+    <div class="live-badge"><div class="live-dot"></div>Live from GitHub</div>
+    <a class="gh-btn" href="https://github.com/sachin-dehran/dbops-solutions-governance" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      GitHub
+    </a>
+  </div>
+</div>
+
+<div class="pg">
+  <div id="loading" class="loading">
+    <div class="spinner"></div>
+    <div style="font-family:'DM Mono',monospace;font-size:12px;">Fetching registry from GitHub...</div>
+  </div>
+
+  <div id="dashboard" style="display:none">
+    <div class="last-updated" id="last-updated"></div>
+
+    <!-- KPI STRIP — always visible -->
+    <div class="kpi-row" id="kpi-strip"></div>
+
+    <!-- PAGES -->
+    <div id="page-overview" class="page on"></div>
+    <div id="page-matrix" class="page"></div>
+    <div id="page-master" class="page"></div>
+    <div id="page-changelog" class="page"></div>
+    <div id="page-workflows" class="page"></div>
+  </div>
+</div>
+
+<script>
+// ─── CONFIG ──────────────────────────────────────────────────────────────────
+const GITHUB_USER = 'sachin-dehran';
+const GOVERNANCE_REPO = 'dbops-solutions-governance';
+const REGISTRY_URL = `https://raw.githubusercontent.com/${GITHUB_USER}/${GOVERNANCE_REPO}/main/registry.json`;
+
+// ─── INFO CONTENT ─────────────────────────────────────────────────────────────
+const INFO = {
+  kpi_master:    { title:'On Master', what:'Teams running the exact official Master version — no deviations.', why:'Higher = more standardised DBOps practice. This is the ideal state.', look:'Higher is better. Target: all teams on Master.' },
+  kpi_deviated:  { title:'Deviated (Local)', what:'Teams with custom local changes on their branch — within their rights, no approval needed.', why:'Deviations are fine as long as they are tracked. The question is: does the change need to go to Master?', look:'These are OK. Watch the "Wants Merge" count — that needs Solution Owner attention.' },
+  kpi_wants:     { title:'Wants Merge to Master', what:'Teams who have set wants_merge_to_master: true — they want their local change promoted to the official version.', why:'Each of these needs a PR opened by the Project Lead and reviewed by the Solution Owner.', look:'Should be actioned quickly. Pending merges block other teams from benefiting.' },
+  kpi_behind:    { title:'Behind Master', what:'Teams whose branch is based on an older Master version — not the latest.', why:'They may be missing bug fixes or new features. They should sync with latest Master.', look:'Should be kept low. A team more than 1 version behind should be prompted to sync.' },
+  kpi_health:    { title:'Overall Health Score', what:'Percentage of all team-solution combinations that are on the current Master version.', why:'Single most important number. Shows how standardised the entire DBOps practice is.', look:'75%+ = Green (good). Below 75% = action needed.' },
+  kpi_solutions: { title:'Solutions Tracked', what:'Total number of solutions being governed by this dashboard.', why:'Shows the scope of the governance system.', look:'Each solution has its own repo with branches per team.' },
+  matrix:    { title:'Adoption Matrix', what:'Grid showing every team and every solution. Each cell shows the local version and its status.', why:'Gives a complete at-a-glance view of the entire landscape.', look:'Green=On Master. Amber=Deviated. Blue=Behind. Purple pulsing=Wants Merge. Dark=Not using.' },
+  health:    { title:'Compliance Health', what:'Ring chart showing overall health % with bar breakdown by status.', why:'Fast visual read of compliance across all solutions and teams.', look:'Goal: green ring. On Master bar should be longest.' },
+  trend:     { title:'Quarterly Trend', what:'Bar chart comparing health scores across Q4 2025, Q1 2026, Q2 2026.', why:'Shows whether compliance is improving over time.', look:'Health % should increase each quarter. Watch the deviation bars — if growing, action needed.' },
+  cycle:     { title:'Quarterly Governance Cycle', what:'4-week automated process triggered by GitHub Actions at end of each quarter.', why:'Makes the audit process repeatable with minimal manual effort.', look:'Team leads only need to fill one GitHub Issue form. Everything else is automated.' },
+  drift:     { title:'Action Required', what:'Items needing immediate attention — teams wanting to merge, teams far behind, or expiring deviations.', why:'These are blockers to a healthy standardised system.', look:'This section should ideally be empty or small. Each item needs a specific action.' },
+  master:    { title:'Master Compare', what:'Detailed row-by-row comparison of every team branch against the official Master version.', why:'Precise audit trail. Used for quarterly reviews and compliance reporting.', look:'MATCH=good. DEVIATED=has local changes. BEHIND=on old master version.' },
+  changelog: { title:'Version Changelog', what:'Auto-generated history of every official Master release per solution.', why:'Shows what changed, when, who merged it, and what type of change it was.', look:'MINOR=new feature. PATCH=bug fix. MAJOR=breaking change (needs migration).' },
+  workflows: { title:'GitHub Actions Workflows', what:'The 5 automated workflows that power this entire governance system — no external tools needed.', why:'All versioning, registry updates, dashboard deploys, and audit triggers are fully automated.', look:'All 5 should be green. If any fail, check the GitHub Actions tab in the solution repo.' },
+};
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let registry = {};
+let activeInfoBtn = null;
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function getStatus(masterVer, teamData) {
+  if (!teamData) return 'na';
+  const lv = teamData.local_version || '';
+  const bom = teamData.based_on_master || '';
+  if (teamData.wants_merge) return 'wants-merge';
+  if (bom !== masterVer) return 'behind';
+  if (teamData.deviation) return 'deviated';
+  return 'master';
+}
+
+function statusLabel(st) {
+  return { master:'On Master', deviated:'Deviated', behind:'Behind Master', 'wants-merge':'Wants Merge → Master', na:'Not Adopted' }[st] || st;
+}
+
+function infoBtn(key) {
+  const info = INFO[key];
+  if (!info) return '';
+  return `<div class="info-btn" onclick="toggleInfo(event,'${key}')">?
+    <div class="info-popup" id="ip-${key}" style="display:none;">
+      <div class="ip-title">ℹ ${info.title}</div>
+      <div class="ip-row"><div class="ip-lbl">What is this?</div><div class="ip-txt">${info.what}</div></div>
+      <div class="ip-row"><div class="ip-lbl">Why it matters</div><div class="ip-txt">${info.why}</div></div>
+      <div class="ip-row"><div class="ip-lbl">What to look for</div><div class="ip-txt">${info.look}</div></div>
+    </div>
+  </div>`;
+}
+
+function toggleInfo(e, key) {
+  e.stopPropagation();
+  const popup = document.getElementById('ip-' + key);
+  if (!popup) return;
+  const isOpen = popup.style.display === 'block';
+  document.querySelectorAll('.info-popup').forEach(p => p.style.display = 'none');
+  popup.style.display = isOpen ? 'none' : 'block';
+}
+document.addEventListener('click', () => {
+  document.querySelectorAll('.info-popup').forEach(p => p.style.display = 'none');
+});
+
+// ─── COMPUTE STATS ────────────────────────────────────────────────────────────
+function computeStats() {
+  let onMaster=0, deviated=0, wantsMerge=0, behind=0, total=0, solutions=0;
+  for (const [sol, sdata] of Object.entries(registry)) {
+    solutions++;
+    for (const [team, tdata] of Object.entries(sdata.teams || {})) {
+      total++;
+      const st = getStatus(sdata.master_version, tdata);
+      if (st === 'master') onMaster++;
+      else if (st === 'deviated') deviated++;
+      else if (st === 'wants-merge') wantsMerge++;
+      else if (st === 'behind') behind++;
+    }
+  }
+  const health = total ? Math.round((onMaster/total)*100) : 0;
+  return { onMaster, deviated, wantsMerge, behind, total, solutions, health };
+}
+
+// ─── RENDER KPI ───────────────────────────────────────────────────────────────
+function renderKpi(stats) {
+  const { onMaster, deviated, wantsMerge, behind, total, solutions, health } = stats;
+  document.getElementById('kpi-strip').innerHTML = `
+    <div class="kpi k1">
+      <div class="kpi-top"><div class="kv" style="color:#00e5a0">${onMaster}</div>${infoBtn('kpi_master')}</div>
+      <div class="kl">ON MASTER</div><div class="ks">of ${total} adoptions</div>
+    </div>
+    <div class="kpi k2">
+      <div class="kpi-top"><div class="kv" style="color:#4d9fff">${deviated}</div>${infoBtn('kpi_deviated')}</div>
+      <div class="kl">DEVIATED LOCAL</div><div class="ks">No approval needed</div>
+    </div>
+    <div class="kpi k3">
+      <div class="kpi-top"><div class="kv" style="color:#a78bfa">${wantsMerge}</div>${infoBtn('kpi_wants')}</div>
+      <div class="kl">WANTS MERGE</div><div class="ks" style="color:#a78bfa">PR needed</div>
+    </div>
+    <div class="kpi k4">
+      <div class="kpi-top"><div class="kv" style="color:#f59e0b">${behind}</div>${infoBtn('kpi_behind')}</div>
+      <div class="kl">BEHIND MASTER</div><div class="ks">Sync recommended</div>
+    </div>
+    <div class="kpi k5">
+      <div class="kpi-top"><div class="kv" style="color:${health>=75?'#00e5a0':'#f59e0b'}">${health}%</div>${infoBtn('kpi_health')}</div>
+      <div class="kl">HEALTH SCORE</div><div class="ks">Q2 2026</div>
+    </div>
+    <div class="kpi k6">
+      <div class="kpi-top"><div class="kv" style="color:#64748b">${solutions}</div>${infoBtn('kpi_solutions')}</div>
+      <div class="kl">SOLUTIONS</div><div class="ks">Governed repos</div>
+    </div>
+  `;
+  if (wantsMerge > 0) {
+    const ab = document.getElementById('alert-badge');
+    ab.textContent = `⚠ ${wantsMerge} Pending Merge${wantsMerge>1?'s':''}`;
+    ab.style.display = 'block';
+  }
+}
+
+// ─── RENDER OVERVIEW ─────────────────────────────────────────────────────────
+function renderOverview(stats) {
+  const { onMaster, deviated, wantsMerge, behind, total, health } = stats;
+  const circum = 2*Math.PI*46;
+  const offset = circum - (health/100)*circum;
+  const ringColor = health>=75 ? '#00e5a0' : '#f59e0b';
+
+  // Drift/action items
+  let driftHtml = '';
+  for (const [sol, sdata] of Object.entries(registry)) {
+    for (const [team, tdata] of Object.entries(sdata.teams||{})) {
+      const st = getStatus(sdata.master_version, tdata);
+      if (st === 'wants-merge') {
+        driftHtml += `<div class="drift-item merge">
+          <div><div class="di-tags"><span class="dtag sol">${sol}</span><span class="dtag team">${team}</span><span class="dtag ver">${tdata.local_version}</span></div>
+          <div class="di-msg">Team wants local change merged to Master — PR required from Project Lead → Solution Owner review</div></div>
+          <span class="stag merge">OPEN PR</span></div>`;
+      } else if (st === 'behind') {
+        driftHtml += `<div class="drift-item warn">
+          <div><div class="di-tags"><span class="dtag sol">${sol}</span><span class="dtag team">${team}</span><span class="dtag ver">based on ${tdata.based_on_master}</span><span class="dtag ver" style="color:#00e5a0">master: ${sdata.master_version}</span></div>
+          <div class="di-msg">Branch is based on an older Master version — recommend syncing to ${sdata.master_version}</div></div>
+          <span class="stag warn">SYNC NEEDED</span></div>`;
+      }
+    }
+  }
+  if (!driftHtml) driftHtml = `<div style="text-align:center;padding:20px;color:#3d5a7a;font-size:12px;">✅ No action items — all teams are in good standing</div>`;
+
+  // Quarterly trend mock
+  const quarters = [
+    { name:'Q4 2025', health:62, master:10, dev:3, behind:3 },
+    { name:'Q1 2026', health:74, master:13, dev:3, behind:1 },
+    { name:'Q2 2026', health:health, master:onMaster, dev:deviated, behind:behind },
+  ];
+  const maxH = 82;
+  const trendHtml = quarters.map(q => {
+    const mh = Math.round((q.master/15)*maxH);
+    const dh = Math.round((q.dev/15)*maxH*0.7);
+    const bh = Math.round((q.behind/15)*maxH*0.6);
+    return `<div class="tg">
+      <div class="tbw">
+        <div class="tbar" style="height:${mh}px;background:#00e5a0"><div class="ttip">On Master: ${q.master}</div></div>
+        <div class="tbar" style="height:${dh}px;background:#f59e0b"><div class="ttip">Deviated: ${q.dev}</div></div>
+        <div class="tbar" style="height:${bh}px;background:#ef4444"><div class="ttip">Behind: ${q.behind}</div></div>
+      </div>
+      <div class="th-val">${q.health}%</div>
+      <div class="tq">${q.name}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('page-overview').innerHTML = `
+    <div class="rules-banner">
+      <div class="rb-head"><div class="rb-title">⚡ DBOps Governance Rules</div>${infoBtn('drift')}</div>
+      <div class="rules-grid">
+        <div class="rule ok">✅ Project Lead can customise their branch freely</div>
+        <div class="rule no">❌ Never push directly to main branch</div>
+        <div class="rule ok">✅ Use fix:/feat:/breaking: prefix in PR titles</div>
+        <div class="rule no">❌ Never merge to main without Solution Owner approval</div>
+        <div class="rule ok">✅ Add patch/minor/major label to every PR to main</div>
+        <div class="rule no">❌ Never skip quarterly feedback GitHub Issue</div>
+      </div>
+    </div>
+
+    <div class="g3" style="margin-bottom:14px;">
+      <div class="card" style="margin:0;">
+        <div class="card-head"><div class="card-head-left"><div class="card-title">Master Compliance Health</div>${infoBtn('health')}</div><div class="card-badge">Q2 2026</div></div>
+        <div class="hring">
+          <div class="ring-wrap">
+            <svg width="120" height="120" style="transform:rotate(-90deg)">
+              <circle cx="60" cy="60" r="46" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="10"/>
+              <circle cx="60" cy="60" r="46" fill="none" stroke="${ringColor}" stroke-width="10" stroke-linecap="round"
+                stroke-dasharray="${circum}" stroke-dashoffset="${offset}" style="transition:stroke-dashoffset 1s ease"/>
+            </svg>
+            <div class="ring-val">${health}%<span>health</span></div>
+          </div>
+          <div class="hbars">
+            ${[['On Master',onMaster,total,'#00e5a0'],['Deviated',deviated,total,'#f59e0b'],['Wants Merge',wantsMerge,total,'#8b5cf6'],['Behind',behind,total,'#ef4444']].map(([l,v,t,c])=>`
+              <div class="hbar-row">
+                <div class="hbar-label">${l}</div>
+                <div class="hbar-track"><div class="hbar-fill" style="width:${t?Math.round((v/t)*100):0}%;background:${c}"></div></div>
+                <div class="hbar-val">${v}/${t}</div>
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin:0;">
+        <div class="card-head"><div class="card-head-left"><div class="card-title">Quarterly Trend</div>${infoBtn('trend')}</div><div class="card-badge">3 Quarters</div></div>
+        <div class="trend-bars">${trendHtml}</div>
+        <div class="leg-row" style="margin-top:8px;">
+          <div class="leg"><div class="ld" style="background:#00e5a0"></div>On Master</div>
+          <div class="leg"><div class="ld" style="background:#f59e0b"></div>Deviated</div>
+          <div class="leg"><div class="ld" style="background:#ef4444"></div>Behind</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin:0;">
+        <div class="card-head"><div class="card-head-left"><div class="card-title">Quarterly Cycle</div>${infoBtn('cycle')}</div><div class="card-badge">Auto via Actions</div></div>
+        <div class="qgrid" style="grid-template-columns:1fr 1fr;">
+          <div class="qstep w1"><div class="qw">WEEK 1</div><div class="qt">Auto Audit</div><div class="qd">GitHub Actions creates feedback Issues for all team leads</div></div>
+          <div class="qstep w2"><div class="qw">WEEK 2</div><div class="qt">Feedback In</div><div class="qd">Team leads fill GitHub Issue form — 5 questions</div></div>
+          <div class="qstep w3"><div class="qw">WEEK 3</div><div class="qt">Review</div><div class="qd">Solution Owner reviews GitHub Project board</div></div>
+          <div class="qstep w4"><div class="qw">WEEK 4</div><div class="qt">Release</div><div class="qd">New Master tagged, registry updated, dashboard rebuilt</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><div class="card-head-left"><div class="card-title">🚨 Action Required</div>${infoBtn('drift')}</div><div class="card-badge">Needs attention</div></div>
+      ${driftHtml}
+    </div>
+  `;
+}
+
+// ─── RENDER MATRIX ────────────────────────────────────────────────────────────
+function renderMatrix() {
+  const solutions = Object.keys(registry);
+  const teams = ['team1','team2','team3','team4','team5'];
+
+  const headers = solutions.map(s => {
+    const mv = registry[s].master_version;
+    return `<th><div>${s}</div><div style="color:#00e5a0;font-size:9px">${mv}</div></th>`;
+  }).join('');
+
+  const rows = teams.map(team => {
+    const cells = solutions.map(sol => {
+      const sdata = registry[sol];
+      const tdata = sdata.teams?.[team];
+      if (!tdata) return `<td><div class="cell na"><div class="cell-ver">—</div><div class="cell-status">Not adopted</div></div></td>`;
+      const st = getStatus(sdata.master_version, tdata);
+      const lv = tdata.local_version || '';
+      const tip = `${team} → ${sol}\nStatus: ${statusLabel(st)}\nLocal: ${lv}\nMaster: ${sdata.master_version}${tdata.deviation?'\nDeviation: '+tdata.deviation_reason:''}${tdata.wants_merge?'\n⚡ Wants merge to Master':''}`;
+      return `<td><div class="cell ${st}" title="${tip}">
+        <div class="cell-ver">${lv.split('-').slice(-1)[0] || lv}</div>
+        <div class="cell-status">${statusLabel(st)}</div>
+        <div class="cell-tip">${tip.replace(/\n/g,'<br>')}</div>
+      </div></td>`;
+    }).join('');
+    return `<tr><td style="font-weight:700;font-family:'DM Mono',monospace">${team}</td>${cells}</tr>`;
+  }).join('');
+
+  document.getElementById('page-matrix').innerHTML = `
+    <div class="card">
+      <div class="card-head"><div class="card-head-left"><div class="card-title">Adoption Matrix</div>${infoBtn('matrix')}</div><div class="card-badge">Hover cells for details</div></div>
+      <div class="matrix-wrap">
+        <table class="mtbl"><thead><tr><th>Team</th>${headers}</tr></thead><tbody>${rows}</tbody></table>
+      </div>
+      <div class="leg-row">
+        <div class="leg"><div class="ld" style="background:#00e5a0"></div>On Master</div>
+        <div class="leg"><div class="ld" style="background:#f59e0b"></div>Deviated (local, no approval needed)</div>
+        <div class="leg"><div class="ld" style="background:#4d9fff"></div>Behind Master version</div>
+        <div class="leg"><div class="ld" style="background:#8b5cf6"></div>Wants Merge to Master (PR needed)</div>
+        <div class="leg"><div class="ld" style="background:#1e293b"></div>Not Adopted</div>
+      </div>
+    </div>
+  `;
+}
+
+// ─── RENDER MASTER COMPARE ────────────────────────────────────────────────────
+function renderMaster() {
+  let rows = '';
+  for (const [sol, sdata] of Object.entries(registry)) {
+    for (const [team, tdata] of Object.entries(sdata.teams||{})) {
+      const st = getStatus(sdata.master_version, tdata);
+      const isMatch = tdata.based_on_master === sdata.master_version && !tdata.deviation;
+      const branchUrl = `https://github.com/sachin-dehran/${sol}/tree/project-${team}`;
+      rows += `<tr>
+        <td style="font-weight:700;font-family:'DM Mono',monospace">${team}</td>
+        <td style="color:#7a9bbf">${sol}</td>
+        <td><span class="mv ${isMatch?'ok':'old'}">${tdata.local_version}</span></td>
+        <td><span class="mv ok">${sdata.master_version}</span></td>
+        <td>${isMatch?'<span class="match">✓ MATCH</span>':'<span class="drift-t">↗ DEVIATED</span>'}</td>
+        <td><span style="font-family:'DM Mono',monospace;font-size:10px;color:${tdata.deviation?'#f59e0b':'#3d5a7a'}">${tdata.deviation?'Yes — '+tdata.deviation_reason:'No'}</span></td>
+        <td><a class="gh-link" href="${branchUrl}" target="_blank">project-${team} ↗</a></td>
+      </tr>`;
+    }
+  }
+
+  document.getElementById('page-master').innerHTML = `
+    <div class="card">
+      <div class="card-head"><div class="card-head-left"><div class="card-title">Master Copy Comparison</div>${infoBtn('master')}</div><div class="card-badge">Live from registry.json</div></div>
+      <table class="mc-tbl">
+        <thead><tr><th>Team</th><th>Solution</th><th>Local Version</th><th>Master Version</th><th>Status</th><th>Deviation Reason</th><th>Branch Link</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  `;
+}
+
+// ─── RENDER CHANGELOG ─────────────────────────────────────────────────────────
+function renderChangelog(sol) {
+  sol = sol || Object.keys(registry)[0];
+  const sdata = registry[sol] || {};
+
+  // Mock changelog per solution
+  const logs = {
+    dbops_versol1: [
+      { version:'v2026.1.3', date:'2026-04-10', type:'patch', note:'fix: connection timeout default increased — merged from team2 PR #11', pr:'#11', by:'sachin-dehran' },
+      { version:'v2026.1.2', date:'2026-03-22', type:'patch', note:'fix: null pointer in retry handler edge case', pr:'#9', by:'sachin-dehran' },
+      { version:'v2026.1.1', date:'2026-02-15', type:'minor', note:'feat: added parallel execution support — team3 request', pr:'#7', by:'sachin-dehran' },
+      { version:'v2026.1.0', date:'2026-01-20', type:'minor', note:'feat: enhanced logging and alerting hooks', pr:'#5', by:'sachin-dehran' },
+      { version:'v2026.0.0', date:'2026-01-01', type:'major', note:'breaking: initial 2026 architecture — full rewrite', pr:'#1', by:'sachin-dehran' },
+    ],
+    dbops_versol2: [
+      { version:'v2026.2.0', date:'2026-04-20', type:'minor', note:'feat: rollback capability on failed runs added', pr:'#8', by:'sachin-dehran' },
+      { version:'v2026.1.9', date:'2026-03-10', type:'patch', note:'fix: schema migration timeout — pre-v2 patch', pr:'#6', by:'sachin-dehran' },
+      { version:'v2026.1.0', date:'2026-01-15', type:'minor', note:'feat: initial feature set for solution 2', pr:'#2', by:'sachin-dehran' },
+    ],
+  };
+
+  const tabs = Object.keys(registry).map(s =>
+    `<button class="stab ${s===sol?'on':''}" onclick="renderChangelog('${s}')">${s} <span style="color:#00e5a0">${registry[s].master_version}</span></button>`
+  ).join('');
+
+  const entries = (logs[sol]||[]).map((e,i) => `
+    <div class="cl-row">
+      <span class="clt ${e.type}">${e.type.toUpperCase()}</span>
+      <span class="clv">${e.version}${i===0?'<span class="cur">MASTER</span>':''}</span>
+      <span class="cln">${e.note}</span>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;">
+        <span class="cld">${e.date}</span>
+        <a class="gh-link" href="https://github.com/sachin-dehran/${sol}/pull/${e.pr.replace('#','')}" target="_blank">${e.pr} by @${e.by}</a>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('page-changelog').innerHTML = `
+    <div class="card">
+      <div class="card-head"><div class="card-head-left"><div class="card-title">Master Version Changelog</div>${infoBtn('changelog')}</div><div class="card-badge">Auto-generated on merge</div></div>
+      <div class="sol-tabs">${tabs}</div>
+      <div style="margin-bottom:12px;padding:8px 12px;background:rgba(0,229,160,.05);border-radius:8px;border:1px solid rgba(0,229,160,.1);font-family:'DM Mono',monospace;font-size:10px;display:flex;justify-content:space-between;align-items:center;">
+        <span><span style="color:#00e5a0">CURRENT MASTER:</span> <span style="color:#94a3b8">${sdata.master_version}</span> &nbsp;·&nbsp; <span style="color:#00e5a0">RELEASED:</span> <span style="color:#94a3b8">${sdata.released_date}</span> &nbsp;·&nbsp; <span style="color:#00e5a0">BY:</span> <span style="color:#94a3b8">@${sdata.released_by}</span></span>
+        <a class="gh-link" href="https://github.com/sachin-dehran/${sol}/releases" target="_blank">View on GitHub ↗</a>
+      </div>
+      ${entries}
+    </div>
+  `;
+}
+
+// ─── RENDER WORKFLOWS ─────────────────────────────────────────────────────────
+function renderWorkflows() {
+  const wfs = [
+    { cls:'blue', num:'WORKFLOW 1', name:'branch-auto-tag.yml', trigger:'On push to project-* branches', steps:['Reads master VERSION from main branch','Increments local patch counter','Updates .dbops/config.json with new local version','Creates git tag: team2-v2026.1.3-local.5','Triggers sync-registry workflow'], tag:'auto' },
+    { cls:'amber', num:'WORKFLOW 2', name:'pr-version-check.yml', trigger:'On PR opened to main branch', steps:['Checks PR has a patch/minor/major label','Validates commit prefix matches label (fix:/feat:/breaking:)','Blocks merge if signals mismatch','Posts clear comment explaining what needs fixing'], tag:'auto' },
+    { cls:'green', num:'WORKFLOW 3', name:'master-release.yml', trigger:'On PR merged to main branch', steps:['Reads label to determine bump type','Calculates new version (Hybrid: v2026.MINOR.PATCH)','Updates VERSION file and CHANGELOG.md automatically','Updates .dbops/master.json with release metadata','Creates git tag + GitHub Release'], tag:'auto' },
+    { cls:'purple', num:'WORKFLOW 4', name:'sync-registry.yml', trigger:'After master-release OR branch push', steps:['Reads .dbops/master.json or config.json','Updates registry.json in dbops-solutions-governance repo','Triggers dashboard rebuild on GitHub Pages','Dashboard live within ~60 seconds of any push'], tag:'auto' },
+    { cls:'red', num:'WORKFLOW 5', name:'quarterly-audit.yml', trigger:'Scheduled: 1st of Mar/Jun/Sep/Dec', steps:['Reads registry.json for all teams and solutions','Creates GitHub Issue per team (feedback form)','Assigns to project-{team}-lead','Generates audit-report markdown and commits it','Updates GitHub Project board columns'], tag:'auto' },
+  ];
+
+  const vflow = `
+    <div class="card">
+      <div class="card-head"><div class="card-head-left"><div class="card-title">Version Flow — Branch to Master</div>${infoBtn('workflows')}</div></div>
+      <div class="vflow">
+        ${[
+          { dot:'blue', icon:'✏️', title:'Project Lead makes a change', desc:'Commits to project-team2 branch freely. No approval needed for local changes. Any commit message is fine.', tag:'auto', tagLabel:'No restrictions on branch' },
+          { dot:'green', icon:'⚡', title:'Workflow 1 auto-fires', desc:'GitHub Actions reads latest Master version, increments local patch counter, updates config.json and VERSION file, creates git tag: team2-v2026.1.3-local.5', tag:'auto', tagLabel:'Zero manual steps' },
+          { dot:'amber', icon:'📋', title:'Team sets wants_merge: true (optional)', desc:'If the team wants their change promoted to Master, they set wants_merge_to_master: true in config.json. Dashboard shows it as "Wants Merge".', tag:'manual', tagLabel:'Team decision' },
+          { dot:'purple', icon:'🔀', title:'Project Lead opens PR to main', desc:'PR title must follow: "feat: description" or "fix: description". Add label: minor or patch. Both must agree or Workflow 2 blocks the merge.', tag:'manual', tagLabel:'Project Lead raises PR' },
+          { dot:'blue', icon:'✅', title:'Workflow 2 validates version signals', desc:'Checks commit prefix + PR label agree. Posts ✅ or ❌ comment automatically. Blocks merge if mismatch.', tag:'auto', tagLabel:'Automatic gate' },
+          { dot:'amber', icon:'👤', title:'Solution Owner reviews and merges', desc:'Required reviewer by CODEOWNERS. Reviews the change, approves, merges PR to main.', tag:'manual', tagLabel:'Solution Owner only action' },
+          { dot:'green', icon:'🚀', title:'Workflow 3 releases new Master version', desc:'Auto-calculates: v2026.1.3 → v2026.2.0 (minor bump). Updates CHANGELOG, master.json, creates git tag and GitHub Release.', tag:'auto', tagLabel:'Full release automated' },
+          { dot:'blue', icon:'🔄', title:'Workflow 4 syncs registry + rebuilds dashboard', desc:'registry.json updated in governance repo. GitHub Pages dashboard rebuilt. Live at sachin-dehran.github.io/dbops-solutions-governance within 60 seconds.', tag:'auto', tagLabel:'Dashboard auto-refreshes' },
+        ].map((s,i,arr) => `
+          <div class="vf-step">
+            <div class="vf-line">
+              <div class="vf-dot ${s.dot}">${s.icon}</div>
+              ${i<arr.length-1?'<div class="vf-connector"></div>':''}
+            </div>
+            <div class="vf-body">
+              <div class="vf-title">${s.title}</div>
+              <div class="vf-desc">${s.desc}</div>
+              <span class="vf-tag ${s.tag}">${s.tagLabel}</span>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+
+  const wfCards = `
+    <div class="card">
+      <div class="card-head"><div class="card-head-left"><div class="card-title">All 5 GitHub Actions Workflows</div>${infoBtn('workflows')}</div><div class="card-badge">Drop into .github/workflows/</div></div>
+      <div class="wf-grid">
+        ${wfs.map(w => `
+          <div class="wf-card ${w.cls}">
+            <div class="wf-num">${w.num}</div>
+            <div class="wf-title">${w.name}</div>
+            <div class="wf-trigger">${w.trigger}</div>
+            <div class="wf-steps">${w.steps.map(s=>`<div class="wf-step">${s}</div>`).join('')}</div>
+            <span class="vf-tag auto" style="margin-top:10px;display:inline-block;">⚡ Fully Automated</span>
+          </div>`).join('')}
+      </div>
+    </div>`;
+
+  document.getElementById('page-workflows').innerHTML = vflow + wfCards;
+}
+
+// ─── PAGE NAVIGATION ──────────────────────────────────────────────────────────
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
+  document.getElementById('page-' + id).classList.add('on');
+  if (btn) btn.classList.add('on');
+}
+
+// ─── FETCH + RENDER ───────────────────────────────────────────────────────────
+async function loadDashboard() {
+  try {
+    // Try GitHub first, fall back to local
+    let data;
+    try {
+      const res = await fetch(REGISTRY_URL + '?t=' + Date.now());
+      if (!res.ok) throw new Error('GitHub fetch failed');
+      data = await res.json();
+      document.getElementById('last-updated').textContent =
+        `⬡ Live data from github.com/sachin-dehran/dbops-solutions-governance · Refreshed ${new Date().toLocaleTimeString()}`;
+    } catch {
+      // Fallback to inline mock if GitHub not accessible
+      data = MOCK_REGISTRY;
+      document.getElementById('last-updated').textContent =
+        `⬡ Demo mode — connect to GitHub for live data · ${new Date().toLocaleTimeString()}`;
+    }
+
+    registry = data;
+    const stats = computeStats();
+
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+
+    renderKpi(stats);
+    renderOverview(stats);
+    renderMatrix();
+    renderMaster();
+    renderChangelog();
+    renderWorkflows();
+
+  } catch(err) {
+    document.getElementById('loading').innerHTML =
+      `<div style="color:#f87171;text-align:center"><div style="font-size:24px;margin-bottom:8px">⚠</div><div>Failed to load registry</div><div style="font-size:11px;color:#3d5a7a;margin-top:4px">${err.message}</div></div>`;
+  }
+}
+
+// ─── MOCK FALLBACK ────────────────────────────────────────────────────────────
+const MOCK_REGISTRY = {
+  "dbops_versol1":{"repo":"sachin-dehran/dbops_versol1","master_version":"v2026.1.3","master_branch":"main","released_date":"2026-04-10","released_by":"sachin-dehran","teams":{"team1":{"branch":"project-team1","local_version":"team1-v2026.1.3-local.2","based_on_master":"v2026.1.3","deviation":false,"wants_merge":false,"last_updated":"2026-05-01T10:22:00"},"team2":{"branch":"project-team2","local_version":"team2-v2026.1.3-local.5","based_on_master":"v2026.1.3","deviation":true,"deviation_reason":"Increased connection timeout for on-prem DB","wants_merge":true,"gh_issue_ref":"#12","last_updated":"2026-05-03T14:10:00"},"team3":{"branch":"project-team3","local_version":"team3-v2026.1.2-local.1","based_on_master":"v2026.1.2","deviation":false,"wants_merge":false,"last_updated":"2026-04-20T09:15:00"},"team4":{"branch":"project-team4","local_version":"team4-v2026.1.3-local.0","based_on_master":"v2026.1.3","deviation":false,"wants_merge":false,"last_updated":"2026-05-05T11:00:00"},"team5":{"branch":"project-team5","local_version":"team5-v2026.1.1-local.3","based_on_master":"v2026.1.1","deviation":true,"deviation_reason":"Legacy infra — cannot upgrade past v2026.1.1","wants_merge":false,"gh_issue_ref":"#8","last_updated":"2026-04-28T16:45:00"}}},
+  "dbops_versol2":{"repo":"sachin-dehran/dbops_versol2","master_version":"v2026.2.0","master_branch":"main","released_date":"2026-04-20","released_by":"sachin-dehran","teams":{"team1":{"branch":"project-team1","local_version":"team1-v2026.2.0-local.1","based_on_master":"v2026.2.0","deviation":false,"wants_merge":false,"last_updated":"2026-05-02T08:30:00"},"team2":{"branch":"project-team2","local_version":"team2-v2026.2.0-local.0","based_on_master":"v2026.2.0","deviation":false,"wants_merge":false,"last_updated":"2026-05-04T12:00:00"},"team3":{"branch":"project-team3","local_version":"team3-v2026.1.9-local.2","based_on_master":"v2026.1.9","deviation":true,"deviation_reason":"Pre-migration hold on v2 schema change","wants_merge":false,"gh_issue_ref":"#15","last_updated":"2026-04-25T10:00:00"},"team4":{"branch":"project-team4","local_version":"team4-v2026.2.0-local.3","based_on_master":"v2026.2.0","deviation":false,"wants_merge":false,"last_updated":"2026-05-06T09:45:00"},"team5":{"branch":"project-team5","local_version":"team5-v2026.2.0-local.1","based_on_master":"v2026.2.0","deviation":false,"wants_merge":false,"last_updated":"2026-05-01T14:20:00"}}}
+};
+
+loadDashboard();
+// Auto-refresh every 5 minutes
+setInterval(loadDashboard, 300000);
+</script>
+</body>
+</html>
