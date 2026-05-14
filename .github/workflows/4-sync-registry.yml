@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pages: write
-      id-token: write
 
     steps:
       - uses: actions/checkout@v4
@@ -58,49 +56,43 @@ jobs:
 
           with open('registry.json', 'w') as f:
             json.dump(registry, f, indent=2)
-          print(f"Registry updated: {solution}/{branch}")
+          print("Registry updated: {}/{}".format(solution, branch))
           PYEOF
         env:
           EVENT_PAYLOAD: ${{ toJson(github.event.client_payload) }}
 
-      - name: Inject registry into index.html + copy to docs/
+      - name: Inject registry into dashboard + copy to docs/
         run: |
           python3 - << 'PYEOF'
-          import json
+          import json, re
           from datetime import datetime
 
-          # Read latest registry
           with open('registry.json') as f:
             registry_raw = f.read()
-            registry = json.loads(registry_raw)
 
-          # Read index.html
           with open('docs/index.html') as f:
             html = f.read()
 
-          # Replace the embedded registry block
-          import re
-          new_block = f'<script>\n// AUTO-INJECTED BY GITHUB ACTIONS — DO NOT EDIT MANUALLY\n// Last updated: {datetime.utcnow().isoformat()}\nwindow.EMBEDDED_REGISTRY = {registry_raw.strip()};\n</script>'
+          # Update the LIVE_REGISTRY variable in the dashboard
+          # This is what the new dashboard reads
+          new_data = 'window.LIVE_REGISTRY = ' + registry_raw.strip() + ';'
 
-          # Remove old injection if exists
           html = re.sub(
-            r'<script>\s*// AUTO-INJECTED BY GITHUB ACTIONS.*?</script>\s*',
-            '',
+            r'window\.LIVE_REGISTRY = \{.*?\};',
+            new_data,
             html,
             flags=re.DOTALL
           )
 
-          # Inject before </body>
-          html = html.replace('</body>', new_block + '\n</body>')
-
-          # Also copy registry.json to docs/
+          # Copy registry.json to docs/ as well
           with open('docs/registry.json', 'w') as f:
             f.write(registry_raw)
 
           with open('docs/index.html', 'w') as f:
             f.write(html)
 
-          print(f"Injected registry ({len(registry)} solutions) into index.html")
+          solutions = list(json.loads(registry_raw).keys())
+          print("Dashboard updated with {} solutions: {}".format(len(solutions), solutions))
           PYEOF
 
       - name: Commit and push
@@ -108,7 +100,7 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
           git add registry.json docs/registry.json docs/index.html
-          git diff --staged --quiet && echo "No changes" && exit 0
-          git commit -m "sync: registry updated + dashboard rebuilt $(date +%Y-%m-%dT%H:%M)"
+          git diff --staged --quiet && echo "No changes to commit" && exit 0
+          git commit -m "sync: registry + dashboard auto-updated $(date +%Y-%m-%dT%H:%M)"
           git push
-          echo "Done"
+          echo "Dashboard synced successfully"
