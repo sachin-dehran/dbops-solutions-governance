@@ -382,9 +382,8 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 // ─── CONFIG ──────────────────────────────────────────────────────────────────
 const GITHUB_USER = 'sachin-dehran';
 const GOVERNANCE_REPO = 'dbops-solutions-governance';
-// Try relative path first (works on GitHub Pages), then raw GitHub URL
-const REGISTRY_URL = './registry.json';
-const REGISTRY_URL_FALLBACK = `https://raw.githubusercontent.com/${GITHUB_USER}/${GOVERNANCE_REPO}/main/registry.json`;
+// GitHub Contents API — supports CORS, works from any browser
+const REGISTRY_API_URL = `https://api.github.com/repos/${GITHUB_USER}/${GOVERNANCE_REPO}/contents/registry.json`;
 
 // ─── INFO CONTENT ─────────────────────────────────────────────────────────────
 const INFO = {
@@ -1107,7 +1106,7 @@ ${notes || '_No additional notes_'}
       statusEl.innerHTML = `<div class="ps-head">✅ Request Submitted Successfully!</div>
         <div class="ps-body-txt">
           Your request has been created as a GitHub Issue.<br>
-          <strong>Issue:</strong> <a class="ps-issue-link" href="\${issue.html_url}" target="_blank">#\${issue.number} — \${issue.title} ↗</a><br><br>
+          <strong>Issue:</strong> <a class="ps-issue-link" href="${issue.html_url}" target="_blank">#${issue.number} — ${issue.title} ↗</a><br><br>
           <strong>What happens next:</strong><br>
           1. Solution Owner will review the Issue<br>
           2. They add the <code style="color:var(--master)">approved</code> label<br>
@@ -1193,34 +1192,21 @@ function submitNewTeam() {
 async function loadDashboard() {
   try {
     let data;
-    let dataSource = '';
 
-    // Try 1: Relative path (GitHub Pages same-origin — fastest)
-    try {
-      const res = await fetch(REGISTRY_URL + '?t=' + Date.now());
-      if (!res.ok) throw new Error('relative fetch failed: ' + res.status);
-      data = await res.json();
-      dataSource = 'GitHub Pages (live)';
-    } catch(e1) {
-      console.log('Relative fetch failed:', e1.message, '— trying raw GitHub...');
-      // Try 2: Raw GitHub URL
-      try {
-        const res2 = await fetch(REGISTRY_URL_FALLBACK + '?t=' + Date.now());
-        if (!res2.ok) throw new Error('raw GitHub fetch failed: ' + res2.status);
-        data = await res2.json();
-        dataSource = 'raw.githubusercontent.com (live)';
-      } catch(e2) {
-        console.log('Raw GitHub fetch failed:', e2.message, '— using demo data');
-        // Try 3: Demo mock data
-        data = MOCK_REGISTRY;
-        dataSource = 'Demo mode';
-      }
-    }
+    // GitHub Contents API — CORS-enabled, works from any browser including GitHub Pages
+    const headers = { 'Accept': 'application/vnd.github.v3+json' };
+    if (window.GITHUB_TOKEN) headers['Authorization'] = 'token ' + window.GITHUB_TOKEN;
+
+    const res = await fetch(REGISTRY_API_URL, { headers });
+    if (!res.ok) throw new Error('GitHub API returned ' + res.status);
+
+    const apiData = await res.json();
+    // Content is base64 encoded — decode it
+    const decoded = atob(apiData.content.replace(/\n/g, ''));
+    data = JSON.parse(decoded);
 
     document.getElementById('last-updated').textContent =
-      dataSource === 'Demo mode'
-        ? `⬡ Demo mode — push registry.json to GitHub Pages to see live data · ${new Date().toLocaleTimeString()}`
-        : `⬡ Live data · ${dataSource} · sachin-dehran/dbops-solutions-governance · Refreshed ${new Date().toLocaleTimeString()}`;
+      `⬡ Live · github.com/${GITHUB_USER}/${GOVERNANCE_REPO} · Updated: ${new Date(Date.now()).toLocaleString()} · Refreshed ${new Date().toLocaleTimeString()}`;
 
     registry = data;
     const stats = computeStats();
@@ -1237,8 +1223,43 @@ async function loadDashboard() {
     renderProvisioning();
 
   } catch(err) {
-    document.getElementById('loading').innerHTML =
-      `<div style="color:#f87171;text-align:center"><div style="font-size:24px;margin-bottom:8px">⚠</div><div>Failed to load registry</div><div style="font-size:11px;color:#3d5a7a;margin-top:4px">${err.message}</div></div>`;
+    console.error('GitHub API fetch failed:', err.message);
+    let reason = err.message;
+    let action = '';
+
+    if (err.message.includes('403')) {
+      reason = 'GitHub API rate limit reached (60 req/hr unauthenticated)';
+      action = 'Add your PAT token to the URL: <code style="color:#00e5a0">?token=YOUR_GITHUB_PAT</code>';
+    } else if (err.message.includes('404')) {
+      reason = 'registry.json not found in repo';
+      action = 'Make sure <code style="color:#00e5a0">registry.json</code> exists at the root of <code style="color:#00e5a0">dbops-solutions-governance</code> repo';
+    } else if (err.message.includes('401')) {
+      reason = 'GitHub token invalid or expired';
+      action = 'Generate a new PAT token and add to URL: <code style="color:#00e5a0">?token=YOUR_NEW_PAT</code>';
+    } else if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
+      reason = 'Network error — cannot reach GitHub API';
+      action = 'Check your internet connection and try refreshing';
+    }
+
+    document.getElementById('loading').innerHTML = `
+      <div style="text-align:center;max-width:480px;padding:32px;">
+        <div style="font-size:32px;margin-bottom:12px;">⚠</div>
+        <div style="font-size:16px;font-weight:700;color:#f87171;margin-bottom:8px;">Failed to Load Live Data</div>
+        <div style="font-size:13px;color:#64748b;margin-bottom:16px;">${reason}</div>
+        ${action ? '<div style="font-size:12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;padding:12px 16px;color:#94a3b8;text-align:left;margin-bottom:16px;">' + action + '</div>' : ''}
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button onclick="loadDashboard()" style="padding:9px 20px;border-radius:8px;border:1px solid rgba(0,229,160,0.3);background:rgba(0,229,160,0.08);color:#00e5a0;font-size:13px;font-weight:600;cursor:pointer;">
+            🔄 Retry
+          </button>
+          <a href="https://github.com/sachin-dehran/dbops-solutions-governance/blob/main/registry.json" target="_blank"
+             style="padding:9px 20px;border-radius:8px;border:1px solid rgba(77,159,255,0.3);background:rgba(77,159,255,0.08);color:#4d9fff;font-size:13px;font-weight:600;text-decoration:none;">
+            📄 View registry.json on GitHub
+          </a>
+        </div>
+        <div style="font-size:11px;color:#334155;margin-top:16px;font-family:'DM Mono',monospace;">
+          API: api.github.com/repos/sachin-dehran/dbops-solutions-governance/contents/registry.json
+        </div>
+      </div>`;
   }
 }
 
