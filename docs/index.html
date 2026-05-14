@@ -46,7 +46,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 
 /* KPI */
 .kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:22px;}
-.kpi{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:16px 18px;position:relative;overflow:hidden;}
+.kpi{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:16px 18px;position:relative;overflow:visible;}
 .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:12px 12px 0 0;}
 .k1::before{background:linear-gradient(90deg,var(--master),transparent);}
 .k2::before{background:linear-gradient(90deg,var(--blue),transparent);}
@@ -60,7 +60,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .ks{font-size:10px;color:var(--muted);margin-top:2px;}
 .info-btn{width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:var(--muted);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:'DM Mono',monospace;flex-shrink:0;position:relative;}
 .info-btn:hover{background:rgba(0,229,160,0.1);border-color:rgba(0,229,160,0.3);color:var(--master);}
-.info-popup{position:absolute;top:calc(100% + 6px);right:0;width:280px;background:#0d1e38;border:1px solid rgba(0,229,160,0.2);border-radius:11px;padding:14px;z-index:9999;box-shadow:0 16px 48px rgba(0,0,0,0.7);animation:pop .15s ease;}
+.info-popup{position:fixed;width:280px;background:#0d1e38;border:1px solid rgba(0,229,160,0.2);border-radius:11px;padding:14px;z-index:99999;box-shadow:0 16px 48px rgba(0,0,0,0.8),0 0 0 1px rgba(0,229,160,0.08);animation:pop .15s ease;}
 @keyframes pop{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
 .ip-title{font-size:12px;font-weight:700;color:#fff;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.06);}
 .ip-row{margin-bottom:8px;}
@@ -68,7 +68,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .ip-txt{font-size:11px;color:#7a9bbf;line-height:1.6;}
 
 /* CARD */
-.card{background:var(--s1);border:1px solid var(--border);border-radius:13px;padding:20px 22px;margin-bottom:14px;}
+.card{background:var(--s1);border:1px solid var(--border);border-radius:13px;padding:20px 22px;margin-bottom:14px;overflow:visible;}
 .card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
 .card-head-left{display:flex;align-items:center;gap:8px;}
 .card-title{font-size:14px;font-weight:700;color:#fff;}
@@ -225,6 +225,106 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 
 /* LAST UPDATED */
 .last-updated{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-align:right;margin-bottom:16px;}
+
+  /* ── PROVISIONING ── */
+  .nb.prov-btn{color:#a78bfa;background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.2);}
+  .nb.prov-btn.on{color:#a78bfa;background:rgba(139,92,246,0.12);border-color:rgba(139,92,246,0.35);}
+  .prov-layout{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+  .prov-full{grid-column:1/-1;}
+  .prov-step{display:flex;flex-direction:column;gap:0;}
+  .ps-item{display:flex;gap:14px;align-items:flex-start;}
+  .ps-line{display:flex;flex-direction:column;align-items:center;min-width:36px;}
+  .ps-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;border:2px solid transparent;}
+  .ps-dot.blue{background:rgba(77,159,255,.12);border-color:rgba(77,159,255,.25);}
+  .ps-dot.green{background:rgba(0,229,160,.1);border-color:rgba(0,229,160,.2);}
+  .ps-dot.amber{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.2);}
+  .ps-dot.purple{background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.2);}
+  .ps-conn{width:2px;flex:1;min-height:18px;background:linear-gradient(180deg,rgba(77,159,255,.2),transparent);margin:3px 0;}
+  .ps-body{padding:4px 0 20px;}
+  .ps-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:3px;}
+  .ps-desc{font-size:11px;color:var(--muted);line-height:1.7;}
+  .ps-tag{font-family:"DM Mono",monospace;font-size:9px;padding:2px 8px;border-radius:4px;display:inline-block;margin-top:5px;}
+  .ps-tag.auto{background:rgba(0,229,160,.08);color:var(--master);}
+  .ps-tag.manual{background:rgba(245,158,11,.08);color:var(--amber);}
+
+  /* FORM */
+  .prov-form{display:flex;flex-direction:column;gap:14px;}
+  .fg{display:flex;flex-direction:column;gap:5px;}
+  .fg label{font-size:12px;font-weight:600;color:#94a3b8;display:flex;align-items:center;gap:6px;}
+  .fg label .req{color:var(--red);font-size:10px;}
+  .fg input,.fg select,.fg textarea{
+    background:var(--s2);border:1px solid var(--border);border-radius:8px;
+    padding:10px 13px;font-size:13px;color:var(--text);
+    font-family:"DM Sans",sans-serif;outline:none;transition:border-color .2s;width:100%;
+  }
+  .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:rgba(139,92,246,.4);}
+  .fg input::placeholder,.fg textarea::placeholder{color:var(--muted);}
+  .fg select option{background:var(--s2);}
+  .fg textarea{resize:vertical;min-height:70px;}
+  .fg .hint{font-size:10px;color:var(--muted);margin-top:2px;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .team-check-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:4px;}
+  .team-check{
+    background:var(--s2);border:1px solid var(--border);border-radius:8px;
+    padding:10px 8px;text-align:center;cursor:pointer;transition:all .2s;
+  }
+  .team-check:hover{border-color:rgba(139,92,246,.3);}
+  .team-check.selected{background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.35);color:#a78bfa;}
+  .team-check .tc-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:3px;}
+  .team-check .tc-status{font-family:"DM Mono",monospace;font-size:9px;color:var(--muted);}
+  .team-check.selected .tc-name{color:#a78bfa;}
+  .team-check.selected .tc-status{color:rgba(167,139,250,.6);}
+
+  /* SUBMIT BUTTON */
+  .submit-btn{
+    padding:13px 28px;border-radius:10px;border:none;
+    background:linear-gradient(135deg,#8b5cf6,#6366f1);
+    color:#fff;font-family:"DM Sans",sans-serif;font-size:14px;font-weight:700;
+    cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;
+    justify-content:center;
+  }
+  .submit-btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(139,92,246,.35);}
+  .submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+  .submit-btn .btn-spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
+  .submit-btn.loading .btn-spinner{display:block;}
+  .submit-btn.loading .btn-text{display:none;}
+
+  /* STATUS */
+  .prov-status{display:none;border-radius:11px;padding:16px 20px;margin-top:4px;}
+  .prov-status.success{background:rgba(0,229,160,.07);border:1px solid rgba(0,229,160,.2);}
+  .prov-status.error{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);}
+  .prov-status.pending{background:rgba(139,92,246,.07);border:1px solid rgba(139,92,246,.2);}
+  .ps-head{font-size:13px;font-weight:700;margin-bottom:8px;}
+  .prov-status.success .ps-head{color:var(--master);}
+  .prov-status.error .ps-head{color:#f87171;}
+  .prov-status.pending .ps-head{color:#a78bfa;}
+  .ps-body-txt{font-size:12px;color:#94a3b8;line-height:1.8;}
+  .ps-issue-link{font-family:"DM Mono",monospace;font-size:11px;color:var(--blue);text-decoration:none;}
+  .ps-issue-link:hover{text-decoration:underline;}
+
+  /* PENDING REQUESTS TABLE */
+  .req-table{width:100%;border-collapse:collapse;}
+  .req-table th{font-family:"DM Mono",monospace;font-size:10px;color:var(--muted);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:500;}
+  .req-table td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.03);font-size:12px;vertical-align:middle;}
+  .req-table tr:hover td{background:rgba(255,255,255,.02);}
+  .req-status{font-family:"DM Mono",monospace;font-size:9px;padding:3px 8px;border-radius:4px;}
+  .rs-pending{background:rgba(245,158,11,.1);color:#fbbf24;border:1px solid rgba(245,158,11,.2);}
+  .rs-approved{background:rgba(0,229,160,.1);color:var(--master);border:1px solid rgba(0,229,160,.2);}
+  .rs-provisioned{background:rgba(77,159,255,.1);color:var(--blue);border:1px solid rgba(77,159,255,.2);}
+  .approve-btn{
+    font-family:"DM Mono",monospace;font-size:9px;padding:4px 10px;border-radius:5px;
+    background:rgba(0,229,160,.1);border:1px solid rgba(0,229,160,.2);color:var(--master);
+    cursor:pointer;transition:all .2s;
+  }
+  .approve-btn:hover{background:rgba(0,229,160,.2);}
+  .new-team-btn{
+    display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:9px;
+    background:rgba(77,159,255,.07);border:1px dashed rgba(77,159,255,.25);
+    color:var(--blue);font-size:12px;font-weight:600;cursor:pointer;
+    transition:all .2s;margin-top:10px;
+  }
+  .new-team-btn:hover{background:rgba(77,159,255,.12);}
+
 </style>
 </head>
 <body>
@@ -244,6 +344,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
     <button class="nb" onclick="showPage('master',this)">Master Compare</button>
     <button class="nb" onclick="showPage('changelog',this)">Changelog</button>
     <button class="nb" onclick="showPage('workflows',this)">Workflows</button>
+    <button class="nb prov-btn" onclick="showPage('provisioning',this)">⚡ New Solution</button>
   </div>
   <div class="tb-right">
     <div id="alert-badge" class="alert-badge" style="display:none"></div>
@@ -273,6 +374,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
     <div id="page-master" class="page"></div>
     <div id="page-changelog" class="page"></div>
     <div id="page-workflows" class="page"></div>
+  <div id="page-provisioning" class="page"></div>
   </div>
 </div>
 
@@ -338,7 +440,29 @@ function toggleInfo(e, key) {
   if (!popup) return;
   const isOpen = popup.style.display === 'block';
   document.querySelectorAll('.info-popup').forEach(p => p.style.display = 'none');
-  popup.style.display = isOpen ? 'none' : 'block';
+  if (isOpen) return;
+  
+  // Position popup using fixed coords relative to the button
+  const btn = e.currentTarget;
+  const rect = btn.getBoundingClientRect();
+  const popupW = 280;
+  const margin = 8;
+  
+  // Default: below and right-aligned to button
+  let top = rect.bottom + margin;
+  let left = rect.right - popupW;
+  
+  // If too close to right edge, align left
+  if (left < 8) left = 8;
+  
+  // If too close to bottom, show above
+  if (top + 240 > window.innerHeight) {
+    top = rect.top - 240 - margin;
+  }
+  
+  popup.style.top = top + 'px';
+  popup.style.left = left + 'px';
+  popup.style.display = 'block';
 }
 document.addEventListener('click', () => {
   document.querySelectorAll('.info-popup').forEach(p => p.style.display = 'none');
@@ -699,6 +823,370 @@ function showPage(id, btn) {
   if (btn) btn.classList.add('on');
 }
 
+
+// ─── MOCK PENDING REQUESTS ────────────────────────────────────────────────────
+const PENDING_REQUESTS = [
+  { id: '#PR-001', solution: 'dbops_versol3', desc: 'DB retry handler for on-prem infra', requester: 'team3-lead', teams: ['team1','team2','team3'], status: 'pending', date: '2026-05-10', urgency: 'normal' },
+  { id: '#PR-002', solution: 'dbops_versol4', desc: 'Query optimisation solution for reporting DB', requester: 'team1-lead', teams: ['team1','team4','team5'], status: 'approved', date: '2026-05-08', urgency: 'this-quarter' },
+];
+
+// ─── RENDER PROVISIONING ─────────────────────────────────────────────────────
+function renderProvisioning() {
+  const steps = [
+    { dot:'blue',  icon:'📋', title:'Team Lead fills Request Form', desc:'Submits solution name, description, which teams will use it, urgency. Takes under 2 minutes.', tag:'manual', tagLabel:'Team Lead action' },
+    { dot:'purple',icon:'🎫', title:'GitHub Issue auto-created', desc:'A [REPO-REQUEST] Issue is created in dbops-solutions-governance with all form details. Visible to everyone for transparency.', tag:'auto', tagLabel:'Auto via GitHub API' },
+    { dot:'amber', icon:'👤', title:'Solution Owner reviews and approves', desc:'Solution Owner adds the "approved" label on the GitHub Issue. This is the only manual step required from the owner.', tag:'manual', tagLabel:'Solution Owner only' },
+    { dot:'green', icon:'⚡', title:'Provisioning workflow fires automatically', desc:'GitHub Actions detects the "approved" label, reads the Issue body, and provisions everything without any further human input.', tag:'auto', tagLabel:'Fully automated' },
+    { dot:'blue',  icon:'🏗️', title:'New repo created from template', desc:'Repo created with all 4 workflows, CODEOWNERS, .dbops/ folder, VERSION file, CHANGELOG — all pre-configured.', tag:'auto', tagLabel:'Auto from template' },
+    { dot:'green', icon:'🌿', title:'All 5 team branches created', desc:'project-team1 through project-team5 created. Branches for teams using the solution get a starter config.json. Others stay empty — shown as "Not in Use" on the dashboard.', tag:'auto', tagLabel:'Auto branch setup' },
+    { dot:'purple',icon:'🔒', title:'Branch protection and secrets applied', desc:'Main branch locked to Solution Owner. GOVERNANCE_TOKEN secret added. All rules enforced from day one.', tag:'auto', tagLabel:'Auto security setup' },
+    { dot:'amber', icon:'📊', title:'Registry and dashboard updated', desc:'registry.json updated with new solution. All adopting teams shown in Adoption Matrix. Non-adopting teams show "Not in Use". Dashboard rebuilds on GitHub Pages.', tag:'auto', tagLabel:'Auto — live in 60s' },
+    { dot:'blue',  icon:'✅', title:'Requester notified', desc:'GitHub Actions comments on the original Issue with the new repo URL, branch list, and next steps for the team leads.', tag:'auto', tagLabel:'Auto notification' },
+  ];
+
+  const stepsHtml = steps.map((s, i, arr) => `
+    <div class="ps-item">
+      <div class="ps-line">
+        <div class="ps-dot ${s.dot}">${s.icon}</div>
+        ${i < arr.length-1 ? '<div class="ps-conn"></div>' : ''}
+      </div>
+      <div class="ps-body">
+        <div class="ps-title">${s.title}</div>
+        <div class="ps-desc">${s.desc}</div>
+        <span class="ps-tag ${s.tag}">${s.tagLabel}</span>
+      </div>
+    </div>`).join('');
+
+  const pendingRows = PENDING_REQUESTS.map(r => {
+    const statusMap = { pending:'rs-pending', approved:'rs-approved', provisioned:'rs-provisioned' };
+    const statusLabel = { pending:'Awaiting Approval', approved:'Approved — Provisioning', provisioned:'Live' };
+    return `<tr>
+      <td style="font-family:'DM Mono',monospace;color:var(--blue)">${r.id}</td>
+      <td style="font-weight:700">${r.solution}</td>
+      <td style="color:#7a9bbf">${r.desc}</td>
+      <td style="font-family:'DM Mono',monospace;font-size:10px">${r.requester}</td>
+      <td>${r.teams.map(t => `<span style="font-family:'DM Mono',monospace;font-size:9px;background:rgba(0,229,160,.08);color:var(--master);padding:1px 6px;border-radius:3px;margin-right:3px">${t}</span>`).join('')}</td>
+      <td><span class="req-status ${statusMap[r.status]}">${statusLabel[r.status]}</span></td>
+      <td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted)">${r.date}</td>
+      <td>${r.status === 'pending' ? `<button class="approve-btn" onclick="simulateApprove('${r.id}')">✓ Approve</button>` : '<span style="color:var(--muted);font-size:11px">—</span>'}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('page-provisioning').innerHTML = `
+    <div class="prov-layout">
+
+      <!-- LEFT — Request Form -->
+      <div class="card" style="margin:0;">
+        <div class="card-head">
+          <div class="card-head-left">
+            <div class="card-title">⚡ Request New Solution Repo</div>
+            ${infoBtn('prov_form')}
+          </div>
+          <div class="card-badge">Submits to GitHub Issues</div>
+        </div>
+
+        <div class="prov-form" id="prov-form">
+          <div class="form-grid">
+            <div class="fg">
+              <label>Solution Repo Name <span class="req">*</span></label>
+              <input type="text" id="pf-name" placeholder="e.g. dbops_versol3" />
+              <div class="hint">Lowercase, underscores only. Will become: sachin-dehran/dbops_versol3</div>
+            </div>
+            <div class="fg">
+              <label>Urgency <span class="req">*</span></label>
+              <select id="pf-urgency">
+                <option value="normal">Normal — next sprint</option>
+                <option value="this-quarter">This Quarter</option>
+                <option value="asap">ASAP — blocking work</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="fg">
+            <label>Solution Description <span class="req">*</span></label>
+            <textarea id="pf-desc" placeholder="What does this solution do? What problem does it solve?"></textarea>
+          </div>
+
+          <div class="fg">
+            <label>Requested By (your GitHub username) <span class="req">*</span></label>
+            <input type="text" id="pf-requester" placeholder="e.g. team3-lead" />
+          </div>
+
+          <div class="fg">
+            <label>Which teams will use this solution? ${infoBtn('prov_teams')}</label>
+            <div class="hint" style="margin-bottom:6px">Selected teams get a starter config. Others get an empty branch — shown as "Not in Use" on the dashboard.</div>
+            <div class="team-check-grid" id="team-selector">
+              ${['team1','team2','team3','team4','team5'].map(t => `
+                <div class="team-check" id="tc-${t}" onclick="toggleTeam('${t}')">
+                  <div class="tc-name">${t}</div>
+                  <div class="tc-status">Click to select</div>
+                </div>`).join('')}
+            </div>
+            <div class="new-team-btn" onclick="showAddTeamModal()">
+              <span>+</span> Add a new team (future onboarding)
+            </div>
+          </div>
+
+          <div class="fg">
+            <label>Additional Notes</label>
+            <textarea id="pf-notes" placeholder="Any special requirements, dependencies, or context for the Solution Owner..." style="min-height:50px;"></textarea>
+          </div>
+
+          <div id="prov-status" class="prov-status"></div>
+
+          <button class="submit-btn" id="submit-btn" onclick="submitProvRequest()">
+            <div class="btn-spinner"></div>
+            <span class="btn-text">🚀 Submit Request to Solution Owner</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- RIGHT — Flow + Info -->
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="card" style="margin:0;">
+          <div class="card-head">
+            <div class="card-head-left">
+              <div class="card-title">How Provisioning Works</div>
+              ${infoBtn('prov_flow')}
+            </div>
+          </div>
+          <div class="prov-step">${stepsHtml}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PENDING REQUESTS TABLE -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-left">
+          <div class="card-title">📋 Provisioning Requests</div>
+          ${infoBtn('prov_requests')}
+        </div>
+        <div class="card-badge">${PENDING_REQUESTS.length} requests</div>
+      </div>
+      <table class="req-table">
+        <thead>
+          <tr>
+            <th>ID</th><th>Solution Name</th><th>Description</th>
+            <th>Requested By</th><th>Teams</th><th>Status</th><th>Date</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="req-tbody">${pendingRows}</tbody>
+      </table>
+    </div>
+
+    <!-- ADD TEAM MODAL -->
+    <div id="add-team-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99999;display:none;align-items:center;justify-content:center;">
+      <div style="background:#0d1e38;border:1px solid rgba(139,92,246,.3);border-radius:14px;padding:28px;width:420px;position:relative;">
+        <button onclick="closeAddTeamModal()" style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,.06);border:none;color:#64748b;width:24px;height:24px;border-radius:5px;cursor:pointer;font-size:14px;">✕</button>
+        <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:6px;">➕ Onboard New Team</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:18px;">This adds a new team branch to all governed solution repos. Used when a new customer or project team is onboarded.</div>
+        <div class="fg" style="margin-bottom:12px;">
+          <label>New Team Name <span class="req">*</span></label>
+          <input type="text" id="new-team-name" placeholder="e.g. team6 or customer-acme" />
+          <div class="hint">Will create project-{teamname} branch in all active solution repos</div>
+        </div>
+        <div class="fg" style="margin-bottom:16px;">
+          <label>Team Lead GitHub Username</label>
+          <input type="text" id="new-team-lead" placeholder="e.g. acme-dba-lead" />
+        </div>
+        <div class="fg" style="margin-bottom:16px;">
+          <label>Which solutions does this team need?</label>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px;">
+            ${Object.keys(MOCK_REGISTRY).map(sol => `
+              <label style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:400;color:#94a3b8;cursor:pointer;">
+                <input type="checkbox" id="nt-${sol}" style="width:14px;height:14px;accent-color:#8b5cf6;"> ${sol}
+              </label>`).join('')}
+          </div>
+        </div>
+        <button class="submit-btn" onclick="submitNewTeam()" style="background:linear-gradient(135deg,#3b82f6,#6366f1);">
+          <span class="btn-text">➕ Submit New Team Request</span>
+        </button>
+        <div id="new-team-status" style="margin-top:10px;font-size:11px;color:var(--muted);text-align:center;"></div>
+      </div>
+    </div>
+  `;
+}
+
+// ─── TEAM SELECTOR TOGGLE ─────────────────────────────────────────────────────
+const selectedTeams = new Set();
+function toggleTeam(team) {
+  const el = document.getElementById('tc-' + team);
+  if (selectedTeams.has(team)) {
+    selectedTeams.delete(team);
+    el.classList.remove('selected');
+    el.querySelector('.tc-status').textContent = 'Click to select';
+  } else {
+    selectedTeams.add(team);
+    el.classList.add('selected');
+    el.querySelector('.tc-status').textContent = '✓ Will adopt';
+  }
+}
+
+// ─── SUBMIT PROVISIONING REQUEST ─────────────────────────────────────────────
+async function submitProvRequest() {
+  const name      = document.getElementById('pf-name').value.trim();
+  const desc      = document.getElementById('pf-desc').value.trim();
+  const requester = document.getElementById('pf-requester').value.trim();
+  const urgency   = document.getElementById('pf-urgency').value;
+  const notes     = document.getElementById('pf-notes').value.trim();
+  const teams     = [...selectedTeams];
+  const statusEl  = document.getElementById('prov-status');
+  const btn       = document.getElementById('submit-btn');
+
+  // Validation
+  if (!name || !desc || !requester) {
+    statusEl.style.display = 'block';
+    statusEl.className = 'prov-status error';
+    statusEl.innerHTML = '<div class="ps-head">❌ Missing Required Fields</div><div class="ps-body-txt">Please fill in Solution Name, Description, and your GitHub username.</div>';
+    return;
+  }
+  if (!/^[a-z0-9_-]+$/.test(name)) {
+    statusEl.style.display = 'block';
+    statusEl.className = 'prov-status error';
+    statusEl.innerHTML = '<div class="ps-head">❌ Invalid Repo Name</div><div class="ps-body-txt">Repo name must be lowercase letters, numbers, underscores or hyphens only.<br>Example: <code style="color:var(--master)">dbops_versol3</code></div>';
+    return;
+  }
+
+  // Loading state
+  btn.classList.add('loading');
+  btn.disabled = true;
+  statusEl.style.display = 'block';
+  statusEl.className = 'prov-status pending';
+  statusEl.innerHTML = '<div class="ps-head">⏳ Submitting to GitHub...</div><div class="ps-body-txt">Creating GitHub Issue in dbops-solutions-governance repo...</div>';
+
+  const issueBody = `## 🚀 New Solution Repo Request
+
+| Field | Value |
+|---|---|
+| **Solution Name** | `${name}` |
+| **Description** | ${desc} |
+| **Requested By** | @${requester} |
+| **Urgency** | ${urgency} |
+| **Adopting Teams** | ${teams.length > 0 ? teams.map(t => '`'+t+'`').join(', ') : 'None specified — all branches empty'} |
+| **Non-Adopting Teams** | ${['team1','team2','team3','team4','team5'].filter(t => !teams.includes(t)).map(t => '`'+t+'`').join(', ') || 'None'} |
+
+### Additional Notes
+${notes || '_No additional notes_'}
+
+---
+### What will be auto-provisioned on approval:
+- New repo: `sachin-dehran/${name}`
+- All 5 team branches (adopting teams get starter config, others stay empty)
+- Branch protection rules on main
+- GOVERNANCE_TOKEN secret
+- registry.json entry (adopting teams shown in matrix, others as "Not in Use")
+- Dashboard rebuilt on GitHub Pages
+
+> **Solution Owner:** Add label `approved` to trigger automatic provisioning.
+> **Auto-created by DBOps Governance Dashboard**`;
+
+  try {
+    const token = window.GITHUB_TOKEN || '';
+    if (!token) throw new Error('NO_TOKEN');
+
+    const res = await fetch('https://api.github.com/repos/sachin-dehran/dbops-solutions-governance/issues', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'token ' + token,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.github.v3+json'
+      },
+      body: JSON.stringify({
+        title: '[REPO-REQUEST] ' + name + ' — requested by @' + requester,
+        body: issueBody,
+        labels: ['repo-request', 'urgency:' + urgency]
+      })
+    });
+
+    if (res.ok) {
+      const issue = await res.json();
+      statusEl.className = 'prov-status success';
+      statusEl.innerHTML = `<div class="ps-head">✅ Request Submitted Successfully!</div>
+        <div class="ps-body-txt">
+          Your request has been created as a GitHub Issue.<br>
+          <strong>Issue:</strong> <a class="ps-issue-link" href="\${issue.html_url}" target="_blank">#\${issue.number} — \${issue.title} ↗</a><br><br>
+          <strong>What happens next:</strong><br>
+          1. Solution Owner will review the Issue<br>
+          2. They add the <code style="color:var(--master)">approved</code> label<br>
+          3. Everything provisions automatically — you'll get a comment on the Issue when ready
+        </div>`;
+      document.getElementById('pf-name').value = '';
+      document.getElementById('pf-desc').value = '';
+      document.getElementById('pf-requester').value = '';
+      document.getElementById('pf-notes').value = '';
+      selectedTeams.clear();
+      document.querySelectorAll('.team-check').forEach(el => {
+        el.classList.remove('selected');
+        el.querySelector('.tc-status').textContent = 'Click to select';
+      });
+    } else {
+      throw new Error('API_ERROR_' + res.status);
+    }
+  } catch(err) {
+    if (err.message === 'NO_TOKEN') {
+      // Demo mode — show what would happen
+      statusEl.className = 'prov-status pending';
+      statusEl.innerHTML = `<div class="ps-head">🔑 GitHub Token Required for Live Submission</div>
+        <div class="ps-body-txt">
+          In demo mode — the form is valid and ready.<br><br>
+          <strong>To enable live submission:</strong><br>
+          Add your GitHub token to the dashboard URL:<br>
+          <code style="color:var(--master);font-size:10px">?token=YOUR_GITHUB_PAT</code><br><br>
+          <strong>What WOULD be created on GitHub:</strong><br>
+          📋 Issue: <code style="color:var(--master)">[REPO-REQUEST] ${name}</code><br>
+          🏷️ Labels: <code style="color:var(--master)">repo-request, urgency:${urgency}</code><br>
+          👥 Adopting teams: <code style="color:var(--master)">${teams.join(', ') || 'none'}</code><br>
+          🌿 Non-adopting: <code style="color:var(--blue)">${['team1','team2','team3','team4','team5'].filter(t=>!teams.includes(t)).join(', ') || 'none'}</code>
+        </div>`;
+    } else {
+      statusEl.className = 'prov-status error';
+      statusEl.innerHTML = '<div class="ps-head">❌ Submission Failed</div><div class="ps-body-txt">Error: ' + err.message + '<br>Check your token permissions and try again.</div>';
+    }
+  }
+
+  btn.classList.remove('loading');
+  btn.disabled = false;
+}
+
+// ─── SIMULATE APPROVE ─────────────────────────────────────────────────────────
+function simulateApprove(id) {
+  const req = PENDING_REQUESTS.find(r => r.id === id);
+  if (!req) return;
+  req.status = 'approved';
+  renderProvisioning();
+  setTimeout(() => {
+    const req2 = PENDING_REQUESTS.find(r => r.id === id);
+    if (req2) req2.status = 'provisioned';
+    renderProvisioning();
+  }, 2000);
+}
+
+// ─── ADD TEAM MODAL ───────────────────────────────────────────────────────────
+function showAddTeamModal() {
+  const modal = document.getElementById('add-team-modal');
+  if (modal) modal.style.display = 'flex';
+}
+function closeAddTeamModal() {
+  const modal = document.getElementById('add-team-modal');
+  if (modal) modal.style.display = 'none';
+}
+function submitNewTeam() {
+  const name = document.getElementById('new-team-name').value.trim();
+  const lead = document.getElementById('new-team-lead').value.trim();
+  const statusEl = document.getElementById('new-team-status');
+  if (!name) { statusEl.textContent = '❌ Team name is required'; statusEl.style.color = '#f87171'; return; }
+  statusEl.textContent = '✅ Request submitted! Issue will be created for Solution Owner review.';
+  statusEl.style.color = 'var(--master)';
+  setTimeout(closeAddTeamModal, 2000);
+}
+
+// ─── TOKEN FROM URL ───────────────────────────────────────────────────────────
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('token')) window.GITHUB_TOKEN = params.get('token');
+})();
+
 // ─── FETCH + RENDER ───────────────────────────────────────────────────────────
 async function loadDashboard() {
   try {
@@ -729,6 +1217,7 @@ async function loadDashboard() {
     renderMaster();
     renderChangelog();
     renderWorkflows();
+    renderProvisioning();
 
   } catch(err) {
     document.getElementById('loading').innerHTML =
