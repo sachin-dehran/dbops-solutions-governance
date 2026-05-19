@@ -1096,7 +1096,299 @@ body::after {
     padding: 6px 10px;
   }
 }
+
+/* ── Phase 2: Proposal Status Colors & Form Styles ──────────────────── */
+.status-approved {
+  background: rgba(0,229,160,0.1);
+  color: var(--master);
+  border: 1px solid rgba(0,229,160,0.2);
+  padding: 3px 10px;
+  border-radius: 5px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-pending {
+  background: rgba(245,158,11,0.1);
+  color: var(--amber);
+  border: 1px solid rgba(245,158,11,0.2);
+  padding: 3px 10px;
+  border-radius: 5px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-rejected {
+  background: rgba(239,68,68,0.1);
+  color: var(--red);
+  border: 1px solid rgba(239,68,68,0.2);
+  padding: 3px 10px;
+  border-radius: 5px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.proposal-card {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 20px 22px;
+  margin-bottom: 16px;
+}
+
+.proposal-form {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 20px 22px;
+  margin-bottom: 20px;
+}
+
+.proposal-form .form-group {
+  margin-bottom: 14px;
+}
+
+.btn-approve {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  padding: 4px 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  background: rgba(0,229,160,0.1);
+  color: var(--master);
+  border: 1px solid rgba(0,229,160,0.2);
+}
+
+.btn-reject {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  padding: 4px 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  background: rgba(239,68,68,0.1);
+  color: var(--red);
+  border: 1px solid rgba(239,68,68,0.2);
+}
+
+/* ── Phase 2: JIRA Summary Strip & Table Styles ─────────────────────── */
+.jira-summary-strip {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.jira-metric-card {
+  flex: 1;
+  min-width: 140px;
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  text-align: center;
+}
+
+.jira-metric-card .metric-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 4px;
+}
+
+.jira-metric-card .metric-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.jira-metric-card.overdue {
+  border-color: rgba(239,68,68,0.3);
+  background: rgba(239,68,68,0.06);
+}
+
+.jira-metric-card.overdue .metric-value {
+  color: var(--red);
+}
+
+.jira-row-overdue {
+  background: rgba(239,68,68,0.05);
+}
+
+.jira-row-overdue td {
+  border-bottom-color: rgba(239,68,68,0.15);
+}
+
+.jira-filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.jira-filters select {
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 7px 12px;
+  font-size: 12px;
+  color: var(--fg);
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+  min-width: 140px;
+}
+
+.jira-filters select:focus {
+  border-color: rgba(139,92,246,0.4);
+}
+
+.jira-filters select option {
+  background: var(--s2);
+}
+
+.jira-overdue-alert {
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.25);
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--red);
+  font-weight: 600;
+}
+
+.jira-overdue-alert .alert-icon {
+  font-size: 16px;
+}
+
+/* ── Phase 2: Framework Accordion Styles ────────────────────────────── */
+.framework-section {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 0;
+  margin-bottom: 4px;
+  overflow: hidden;
+}
+
+.framework-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+  padding: 14px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+  transition: background 0.15s;
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.framework-section-title:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+.framework-section-title::before {
+  content: '\25B8';
+  font-size: 11px;
+  color: var(--muted);
+  transition: transform 0.2s;
+}
+
+.framework-section-title.expanded::before {
+  transform: rotate(90deg);
+  color: var(--master);
+}
+
+.framework-section-body {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding: 0 20px;
+  transition: max-height 0.3s ease, opacity 0.2s ease, padding 0.2s ease;
+}
+
+.framework-section-body.expanded {
+  max-height: 800px;
+  opacity: 1;
+  padding: 0 20px 20px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Phase 2: PDF Button Styles ─────────────────────────────────────── */
+.pdf-loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.7;
+  animation: pdf-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pdf-pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 0.4; }
+}
+
+.pdf-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(4,6,13,0.6);
+  backdrop-filter: blur(2px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pdf-overlay .pdf-overlay-message {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 24px 32px;
+  text-align: center;
+  color: var(--fg);
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+}
+
+.pdf-overlay .pdf-overlay-message::after {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 32px;
+  margin: 12px auto 0;
+  border: 3px solid var(--border);
+  border-top-color: var(--blue);
+  border-radius: 50%;
+  animation: pdf-spin 0.8s linear infinite;
+}
+
+@keyframes pdf-spin {
+  to { transform: rotate(360deg); }
+}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
@@ -1120,11 +1412,15 @@ body::after {
   <div class="nav-tabs">
     <button class="tab-btn on" id="tab-repo-inventory" onclick="showPage('repo-inventory', this)">Repo Inventory</button>
     <button class="tab-btn" id="tab-customer-adoption" onclick="showPage('customer-adoption', this)">Customer Adoption</button>
+    <button class="tab-btn" id="tab-proposals" onclick="showPage('proposals', this)">Proposals</button>
+    <button class="tab-btn" id="tab-jira-monitor" onclick="showPage('jira-monitor', this)">JIRA Monitor</button>
+    <button class="tab-btn" id="tab-framework" onclick="showPage('framework', this)">Framework</button>
     <button class="tab-btn" id="tab-settings" onclick="showPage('settings', this)">Settings</button>
   </div>
   <div class="nav-right">
     <span id="nav-datetime" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);"></span>
     <button onclick="location.reload()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:5px 10px;color:var(--fg);font-size:11px;cursor:pointer;font-family:'DM Mono',monospace;" title="Refresh">&#8635;</button>
+    <button id="btn-pdf" onclick="generatePDF()" style="background:linear-gradient(135deg,var(--purple),var(--blue));border:none;border-radius:6px;padding:5px 12px;color:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;" title="Export PDF">&#128196; PDF</button>
     <div class="alert-badge" id="alert-badge">0</div>
     <div class="connection-dot" id="connection-dot" title="API connection status"></div>
     <a class="gh-link" href="https://github.com/sachin-dehran/dbops-solutions-governance" target="_blank">GitHub</a>
@@ -1138,6 +1434,15 @@ body::after {
   </div>
   <div class="page" id="page-customer-adoption">
     <!-- Customer Adoption content rendered by JS -->
+  </div>
+  <div class="page" id="page-proposals">
+    <!-- Proposals content rendered by JS -->
+  </div>
+  <div class="page" id="page-jira-monitor">
+    <!-- JIRA Monitor content rendered by JS -->
+  </div>
+  <div class="page" id="page-framework">
+    <!-- Framework content rendered by JS -->
   </div>
   <div class="page" id="page-settings">
     <!-- Settings content rendered by JS -->
@@ -1166,7 +1471,9 @@ var DEFAULT_SETTINGS = {
   github: { pat: '', org: '' },
   azure: { endpoint: '', apiKey: '', deployment: '' },
   repos: [],
-  prefs: { theme: 'dark', refreshInterval: 300 }
+  prefs: { theme: 'dark', refreshInterval: 300 },
+  jira: { baseUrl: 'https://corpinfollc.atlassian.net', email: '', apiToken: '' },
+  email: { smtp: '', port: 587, sender: '', password: '', enabled: false }
 };
 
 function getSettings() {
@@ -1197,6 +1504,12 @@ function getSettings() {
     settings.prefs = parsed.prefs && typeof parsed.prefs === 'object'
       ? { theme: parsed.prefs.theme || 'dark', refreshInterval: typeof parsed.prefs.refreshInterval === 'number' ? parsed.prefs.refreshInterval : 300 }
       : { theme: 'dark', refreshInterval: 300 };
+    settings.jira = parsed.jira && typeof parsed.jira === 'object'
+      ? { baseUrl: parsed.jira.baseUrl || 'https://corpinfollc.atlassian.net', email: parsed.jira.email || '', apiToken: parsed.jira.apiToken || '' }
+      : { baseUrl: 'https://corpinfollc.atlassian.net', email: '', apiToken: '' };
+    settings.email = parsed.email && typeof parsed.email === 'object'
+      ? { smtp: parsed.email.smtp || '', port: typeof parsed.email.port === 'number' ? parsed.email.port : 587, sender: parsed.email.sender || '', password: parsed.email.password || '', enabled: parsed.email.enabled === true }
+      : { smtp: '', port: 587, sender: '', password: '', enabled: false };
     return settings;
   } catch (e) {
     return JSON.parse(JSON.stringify(DEFAULT_SETTINGS));
@@ -1225,6 +1538,12 @@ function saveSettings(settingsObj) {
     toSave.prefs = settingsObj.prefs && typeof settingsObj.prefs === 'object'
       ? { theme: settingsObj.prefs.theme || 'dark', refreshInterval: typeof settingsObj.prefs.refreshInterval === 'number' ? settingsObj.prefs.refreshInterval : 300 }
       : { theme: 'dark', refreshInterval: 300 };
+    toSave.jira = settingsObj.jira && typeof settingsObj.jira === 'object'
+      ? { baseUrl: settingsObj.jira.baseUrl || 'https://corpinfollc.atlassian.net', email: settingsObj.jira.email || '', apiToken: settingsObj.jira.apiToken || '' }
+      : { baseUrl: 'https://corpinfollc.atlassian.net', email: '', apiToken: '' };
+    toSave.email = settingsObj.email && typeof settingsObj.email === 'object'
+      ? { smtp: settingsObj.email.smtp || '', port: typeof settingsObj.email.port === 'number' ? settingsObj.email.port : 587, sender: settingsObj.email.sender || '', password: settingsObj.email.password || '', enabled: settingsObj.email.enabled === true }
+      : { smtp: '', port: 587, sender: '', password: '', enabled: false };
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(toSave));
     window._appSettings = toSave;
     // Also persist to GitHub repo as backup (non-blocking)
@@ -1487,6 +1806,148 @@ function saveCustomers(customers, sha) {
   });
 }
 
+// ── JIRA API Module ──────────────────────────────────────────────────────────
+var JIRA_TIMEOUT = 10000; // 10 seconds, consistent with GitHub timeout
+
+function buildJiraAuthHeader() {
+  var settings = window._appSettings || getSettings();
+  var email = settings.jira.email;
+  var apiToken = settings.jira.apiToken;
+  if (!email || !apiToken) {
+    return null;
+  }
+  return 'Basic ' + btoa(email + ':' + apiToken);
+}
+
+function safeJiraFetch(url, options) {
+  var authHeader = buildJiraAuthHeader();
+  if (!authHeader) {
+    return Promise.resolve({ ok: false, data: null, error: 'JIRA credentials not configured' });
+  }
+
+  var controller = new AbortController();
+  var timeoutId = setTimeout(function() { controller.abort(); }, JIRA_TIMEOUT);
+
+  var fetchOptions = {
+    method: (options && options.method) ? options.method : 'GET',
+    headers: {
+      'Authorization': authHeader,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    signal: controller.signal
+  };
+
+  if (options && options.body) {
+    fetchOptions.body = typeof options.body === 'string' ? options.body : JSON.stringify(options.body);
+  }
+
+  return fetch(url, fetchOptions).then(function(response) {
+    clearTimeout(timeoutId);
+    if (response.status === 401) {
+      return { ok: false, data: null, error: 'Invalid JIRA credentials. Please check your email and API token in Settings.' };
+    }
+    if (!response.ok) {
+      return response.json().then(function(errBody) {
+        var msg = '';
+        if (errBody.errorMessages && errBody.errorMessages.length > 0) {
+          msg = errBody.errorMessages.join(', ');
+        } else if (errBody.message) {
+          msg = errBody.message;
+        } else {
+          msg = 'HTTP ' + response.status;
+        }
+        return { ok: false, data: null, error: msg };
+      }).catch(function() {
+        return { ok: false, data: null, error: 'HTTP ' + response.status };
+      });
+    }
+    return response.json().then(function(data) {
+      return { ok: true, data: data, error: null };
+    });
+  }).catch(function(err) {
+    clearTimeout(timeoutId);
+    if (err.name === 'AbortError') {
+      return { ok: false, data: null, error: 'Request timed out (10s)' };
+    }
+    return { ok: false, data: null, error: err.message || 'Network error' };
+  });
+}
+
+function fetchJiraTickets() {
+  var settings = window._appSettings || getSettings();
+  var baseUrl = settings.jira.baseUrl || 'https://corpinfollc.atlassian.net';
+  var url = baseUrl + '/rest/api/3/search?jql=project=PCDP&maxResults=100&fields=summary,status,assignee,priority,duedate,created';
+
+  return safeJiraFetch(url).then(function(result) {
+    if (!result.ok) {
+      return { ok: false, tickets: [], total: 0, error: result.error };
+    }
+    var data = result.data;
+    var tickets = [];
+    var issues = data.issues || [];
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    for (var i = 0; i < issues.length; i++) {
+      var issue = issues[i];
+      var fields = issue.fields || {};
+      var dueDate = fields.duedate || null;
+      var statusName = (fields.status && fields.status.name) ? fields.status.name : '';
+      var isOverdue = false;
+      if (dueDate && statusName !== 'Done') {
+        var due = new Date(dueDate);
+        due.setHours(0, 0, 0, 0);
+        isOverdue = due < today;
+      }
+      tickets.push({
+        key: issue.key || '',
+        summary: fields.summary || '',
+        status: statusName,
+        assignee: (fields.assignee && fields.assignee.displayName) ? fields.assignee.displayName : 'Unassigned',
+        priority: (fields.priority && fields.priority.name) ? fields.priority.name : 'None',
+        dueDate: dueDate,
+        created: fields.created || '',
+        isOverdue: isOverdue
+      });
+    }
+
+    return { ok: true, tickets: tickets, total: data.total || tickets.length, error: null };
+  });
+}
+
+function createJiraTicket(summary, description, issueType) {
+  var settings = window._appSettings || getSettings();
+  var baseUrl = settings.jira.baseUrl || 'https://corpinfollc.atlassian.net';
+  var url = baseUrl + '/rest/api/3/issue';
+
+  var body = {
+    fields: {
+      project: { key: 'PCDP' },
+      summary: summary,
+      description: {
+        type: 'doc',
+        version: 1,
+        content: [{
+          type: 'paragraph',
+          content: [{
+            type: 'text',
+            text: description
+          }]
+        }]
+      },
+      issuetype: { name: issueType }
+    }
+  };
+
+  return safeJiraFetch(url, { method: 'POST', body: body }).then(function(result) {
+    if (!result.ok) {
+      return { ok: false, key: null, error: result.error };
+    }
+    return { ok: true, key: result.data.key || null, error: null };
+  });
+}
+
 // ── Navigation ────────────────────────────────────────────────────────────────
 function showPage(pageId, clickedButton) {
   var pages = document.querySelectorAll('.page');
@@ -1504,6 +1965,15 @@ function showPage(pageId, clickedButton) {
   }
   if (clickedButton) {
     clickedButton.classList.add('on');
+  }
+
+  // Phase 2: Tab-specific rendering
+  if (pageId === 'jira-monitor') {
+    renderJiraMonitorPage();
+  } else if (pageId === 'proposals') {
+    renderProposalsPage();
+  } else if (pageId === 'framework') {
+    renderFrameworkPage();
   }
 }
 
@@ -1746,6 +2216,1314 @@ function sendChatMessage(userMessage, history) {
       return { ok: false, message: null, error: 'Request timed out (30s). Please try again.' };
     }
     return { ok: false, message: null, error: err.message || 'Network error' };
+  });
+}
+
+// ── Proposals Module ──────────────────────────────────────────────────────────
+var _proposalsData = [];
+var _proposalsSha = null;
+
+function fetchProposals() {
+  var url = _getRepoBase() + '/contents/proposals.json';
+  return safeGitHubFetch(url).then(function(result) {
+    if (!result.ok) {
+      if (result.error === 'Not found (404)') {
+        return { proposals: [], sha: null };
+      }
+      return { proposals: [], sha: null, error: result.error };
+    }
+    try {
+      var content = atob(result.data.content.replace(/\n/g, ''));
+      var parsed = JSON.parse(content);
+      _proposalsData = parsed;
+      _proposalsSha = result.data.sha;
+      return { proposals: parsed, sha: result.data.sha };
+    } catch (e) {
+      return { proposals: [], sha: null, error: 'Failed to parse proposals.json: ' + e.message };
+    }
+  });
+}
+
+function saveProposals(proposals, sha) {
+  var settings = window._appSettings || getSettings();
+  var pat = settings.github.pat;
+  var org = settings.github.org || 'sachin-dehran';
+  var url = GITHUB_API_BASE + '/repos/' + org + '/dbops-solutions-governance/contents/proposals.json';
+
+  var content = btoa(unescape(encodeURIComponent(JSON.stringify(proposals, null, 2))));
+  var body = {
+    message: 'Update proposals.json via Governance Dashboard',
+    content: content
+  };
+  if (sha) {
+    body.sha = sha;
+  }
+
+  var headers = {
+    'Accept': 'application/vnd.github.v3+json',
+    'Content-Type': 'application/json'
+  };
+  if (pat) {
+    headers['Authorization'] = 'token ' + pat;
+  }
+
+  var controller = new AbortController();
+  var timeoutId = setTimeout(function() { controller.abort(); }, 10000);
+
+  return fetch(url, {
+    method: 'PUT',
+    headers: headers,
+    body: JSON.stringify(body),
+    signal: controller.signal
+  }).then(function(response) {
+    clearTimeout(timeoutId);
+    if (!response.ok) {
+      return response.json().then(function(errBody) {
+        return { ok: false, newSha: null, error: errBody.message || 'HTTP ' + response.status };
+      }).catch(function() {
+        return { ok: false, newSha: null, error: 'HTTP ' + response.status };
+      });
+    }
+    return response.json().then(function(data) {
+      _proposalsSha = data.content.sha;
+      return { ok: true, newSha: data.content.sha, error: null };
+    });
+  }).catch(function(err) {
+    clearTimeout(timeoutId);
+    if (err.name === 'AbortError') {
+      return { ok: false, newSha: null, error: 'Request timed out (10s)' };
+    }
+    return { ok: false, newSha: null, error: err.message || 'Network error' };
+  });
+}
+
+function createProposal(title, description, proposer) {
+  if (!title || !title.trim()) {
+    return Promise.resolve({ ok: false, proposal: null, error: 'Title is required' });
+  }
+  if (!description || !description.trim()) {
+    return Promise.resolve({ ok: false, proposal: null, error: 'Description is required' });
+  }
+  if (!proposer || !proposer.trim()) {
+    return Promise.resolve({ ok: false, proposal: null, error: 'Proposer is required' });
+  }
+
+  var now = new Date().toISOString();
+  var proposal = {
+    id: 'prop_' + Date.now(),
+    title: title.trim(),
+    description: description.trim(),
+    proposer: proposer.trim(),
+    status: 'pending',
+    createdAt: now,
+    updatedAt: now,
+    approvedBy: null
+  };
+
+  _proposalsData.push(proposal);
+  return saveProposals(_proposalsData, _proposalsSha).then(function(result) {
+    if (!result.ok) {
+      _proposalsData.pop();
+      return { ok: false, proposal: null, error: result.error };
+    }
+    return { ok: true, proposal: proposal, error: null };
+  });
+}
+
+function updateProposal(id, updates) {
+  var index = -1;
+  for (var i = 0; i < _proposalsData.length; i++) {
+    if (_proposalsData[i].id === id) {
+      index = i;
+      break;
+    }
+  }
+  if (index === -1) {
+    return Promise.resolve({ ok: false, error: 'Proposal not found' });
+  }
+
+  var original = JSON.parse(JSON.stringify(_proposalsData[index]));
+  var keys = Object.keys(updates);
+  for (var k = 0; k < keys.length; k++) {
+    _proposalsData[index][keys[k]] = updates[keys[k]];
+  }
+  _proposalsData[index].updatedAt = new Date().toISOString();
+
+  return saveProposals(_proposalsData, _proposalsSha).then(function(result) {
+    if (!result.ok) {
+      _proposalsData[index] = original;
+      return { ok: false, error: result.error };
+    }
+    return { ok: true, proposal: _proposalsData[index], error: null };
+  });
+}
+
+function deleteProposal(id) {
+  var index = -1;
+  for (var i = 0; i < _proposalsData.length; i++) {
+    if (_proposalsData[i].id === id) {
+      index = i;
+      break;
+    }
+  }
+  if (index === -1) {
+    return Promise.resolve({ ok: false, error: 'Proposal not found' });
+  }
+
+  var removed = _proposalsData.splice(index, 1)[0];
+  return saveProposals(_proposalsData, _proposalsSha).then(function(result) {
+    if (!result.ok) {
+      _proposalsData.splice(index, 0, removed);
+      return { ok: false, error: result.error };
+    }
+    return { ok: true, error: null };
+  });
+}
+
+// ── Proposals Approval Workflow ───────────────────────────────────────────────
+function approveProposal(id, approverName) {
+  var index = -1;
+  for (var i = 0; i < _proposalsData.length; i++) {
+    if (_proposalsData[i].id === id) {
+      index = i;
+      break;
+    }
+  }
+  if (index === -1) {
+    return Promise.resolve({ ok: false, error: 'Proposal not found' });
+  }
+
+  var proposal = _proposalsData[index];
+  var originalStatus = proposal.status;
+  var originalApprovedBy = proposal.approvedBy;
+  var originalUpdatedAt = proposal.updatedAt;
+
+  proposal.status = 'approved';
+  proposal.approvedBy = approverName;
+  proposal.updatedAt = new Date().toISOString();
+
+  return saveProposals(_proposalsData, _proposalsSha).then(function(result) {
+    if (!result.ok) {
+      proposal.status = originalStatus;
+      proposal.approvedBy = originalApprovedBy;
+      proposal.updatedAt = originalUpdatedAt;
+      return { ok: false, error: result.error };
+    }
+
+    // Create GitHub repo - if fails, revert to pending
+    return createGitHubRepo(proposal.title.replace(/[^a-zA-Z0-9_-]/g, '-').toLowerCase()).then(function(repoResult) {
+      if (!repoResult.ok) {
+        proposal.status = originalStatus;
+        proposal.approvedBy = originalApprovedBy;
+        proposal.updatedAt = originalUpdatedAt;
+        return saveProposals(_proposalsData, _proposalsSha).then(function() {
+          return { ok: false, error: 'Failed to create GitHub repo: ' + repoResult.error };
+        });
+      }
+
+      // Create JIRA ticket - if fails, keep approved but show warning
+      var jiraPromise = createJiraTicket(
+        'New Solution: ' + proposal.title,
+        'Proposal approved by ' + approverName + '. Description: ' + proposal.description,
+        'Task'
+      ).then(function(jiraResult) {
+        if (!jiraResult.ok) {
+          console.warn('JIRA ticket creation failed: ' + jiraResult.error);
+        }
+        return jiraResult;
+      });
+
+      // Send notification - non-blocking
+      sendNotification(proposal.proposer, 'approved', proposal.title);
+
+      return jiraPromise.then(function(jiraResult) {
+        return { ok: true, error: null, jiraWarning: jiraResult.ok ? null : jiraResult.error };
+      });
+    });
+  });
+}
+
+function rejectProposal(id, rejectorName) {
+  var index = -1;
+  for (var i = 0; i < _proposalsData.length; i++) {
+    if (_proposalsData[i].id === id) {
+      index = i;
+      break;
+    }
+  }
+  if (index === -1) {
+    return Promise.resolve({ ok: false, error: 'Proposal not found' });
+  }
+
+  var proposal = _proposalsData[index];
+  proposal.status = 'rejected';
+  proposal.approvedBy = rejectorName;
+  proposal.updatedAt = new Date().toISOString();
+
+  return saveProposals(_proposalsData, _proposalsSha).then(function(result) {
+    if (!result.ok) {
+      return { ok: false, error: result.error };
+    }
+    // Send notification - non-blocking
+    sendNotification(proposal.proposer, 'rejected', proposal.title);
+    return { ok: true, error: null };
+  });
+}
+
+function createGitHubRepo(repoName) {
+  var settings = window._appSettings || getSettings();
+  var pat = settings.github.pat;
+  if (!pat) {
+    return Promise.resolve({ ok: false, error: 'GitHub PAT not configured' });
+  }
+
+  var url = 'https://api.github.com/user/repos';
+  var body = {
+    name: repoName,
+    private: false,
+    auto_init: true
+  };
+
+  var headers = {
+    'Accept': 'application/vnd.github.v3+json',
+    'Content-Type': 'application/json',
+    'Authorization': 'token ' + pat
+  };
+
+  var controller = new AbortController();
+  var timeoutId = setTimeout(function() { controller.abort(); }, 10000);
+
+  return fetch(url, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify(body),
+    signal: controller.signal
+  }).then(function(response) {
+    clearTimeout(timeoutId);
+    if (!response.ok) {
+      return response.json().then(function(errBody) {
+        return { ok: false, error: errBody.message || 'HTTP ' + response.status };
+      }).catch(function() {
+        return { ok: false, error: 'HTTP ' + response.status };
+      });
+    }
+    return response.json().then(function(data) {
+      return { ok: true, repoUrl: data.html_url, error: null };
+    });
+  }).catch(function(err) {
+    clearTimeout(timeoutId);
+    if (err.name === 'AbortError') {
+      return { ok: false, error: 'Request timed out (10s)' };
+    }
+    return { ok: false, error: err.message || 'Network error' };
+  });
+}
+
+// ── Email Notification Module ─────────────────────────────────────────────────
+function sendNotification(recipientEmail, action, proposalTitle) {
+  var settings = window._appSettings || getSettings();
+  if (!settings.email || !settings.email.enabled) {
+    // Email not enabled, use mailto fallback
+    var subject = 'Proposal ' + action + ': ' + proposalTitle;
+    var body = 'The proposal "' + proposalTitle + '" has been ' + action + '.';
+    if (recipientEmail && recipientEmail.indexOf('@') !== -1) {
+      window.open('mailto:' + encodeURIComponent(recipientEmail) + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body));
+    }
+    return Promise.resolve({ ok: true, error: null });
+  }
+
+  // If email is enabled, construct and attempt to send
+  var subject = 'Proposal ' + action + ': ' + proposalTitle;
+  var emailBody = 'Hello,\n\nThe proposal "' + proposalTitle + '" has been ' + action + '.\n\nRegards,\nDBOps Governance Dashboard';
+
+  // Client-side email sending (SMTP.js or similar)
+  if (typeof Email !== 'undefined' && Email.send) {
+    return Email.send({
+      Host: settings.email.smtp,
+      Port: settings.email.port || 587,
+      Username: settings.email.sender,
+      Password: settings.email.password,
+      To: recipientEmail,
+      From: settings.email.sender,
+      Subject: subject,
+      Body: emailBody
+    }).then(function(message) {
+      if (message === 'OK') {
+        return { ok: true, error: null };
+      }
+      console.warn('Email send warning: ' + message);
+      return { ok: false, error: message };
+    }).catch(function(err) {
+      console.warn('Email send failed: ' + err);
+      return { ok: false, error: err.message || 'Email send failed' };
+    });
+  }
+
+  // Fallback to mailto if no email library available
+  window.open('mailto:' + encodeURIComponent(recipientEmail) + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(emailBody));
+  return Promise.resolve({ ok: true, error: null });
+}
+
+// ── Proposals Page UI Rendering ───────────────────────────────────────────────
+var _editingProposalId = null;
+
+function renderProposalsPage() {
+  var container = document.getElementById('page-proposals');
+  if (!container) { return; }
+
+  var html = '';
+
+  // Header with title and submit button
+  html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">';
+  html += '<h2 style="font-size:18px;font-weight:700;color:#fff;margin:0;">Solution Proposals</h2>';
+  html += '<button class="btn-primary" onclick="openProposalModal()">+ Submit New Proposal</button>';
+  html += '</div>';
+
+  // Stats strip
+  var total = _proposalsData.length;
+  var pending = 0;
+  var approved = 0;
+  var rejected = 0;
+  for (var i = 0; i < _proposalsData.length; i++) {
+    if (_proposalsData[i].status === 'pending') { pending++; }
+    else if (_proposalsData[i].status === 'approved') { approved++; }
+    else if (_proposalsData[i].status === 'rejected') { rejected++; }
+  }
+
+  html += '<div class="jira-summary-strip">';
+  html += '<div class="jira-metric-card"><div class="metric-value">' + total + '</div><div class="metric-label">Total</div></div>';
+  html += '<div class="jira-metric-card"><div class="metric-value" style="color:var(--amber);">' + pending + '</div><div class="metric-label">Pending</div></div>';
+  html += '<div class="jira-metric-card"><div class="metric-value" style="color:var(--master);">' + approved + '</div><div class="metric-label">Approved</div></div>';
+  html += '<div class="jira-metric-card"><div class="metric-value" style="color:var(--red);">' + rejected + '</div><div class="metric-label">Rejected</div></div>';
+  html += '</div>';
+
+  // Filter/sort controls
+  html += '<div class="jira-filters" style="margin-bottom:16px;">';
+  html += '<select id="proposal-filter-status" onchange="filterProposals()">';
+  html += '<option value="">All Statuses</option>';
+  html += '<option value="pending">Pending</option>';
+  html += '<option value="approved">Approved</option>';
+  html += '<option value="rejected">Rejected</option>';
+  html += '</select>';
+  html += '<select id="proposal-sort" onchange="filterProposals()">';
+  html += '<option value="newest">Newest First</option>';
+  html += '<option value="oldest">Oldest First</option>';
+  html += '<option value="title">By Title</option>';
+  html += '</select>';
+  html += '</div>';
+
+  // Proposal cards list
+  html += '<div id="proposals-list">';
+  html += renderProposalCards(_proposalsData);
+  html += '</div>';
+
+  // Modal overlay for new/edit proposal
+  html += '<div id="proposal-modal-overlay" class="modal-overlay" style="display:none;" onclick="closeProposalModal(event)">';
+  html += '<div class="modal-content" onclick="event.stopPropagation()">';
+  html += '<div class="modal-header">';
+  html += '<span id="proposal-modal-title" style="font-size:15px;font-weight:700;color:#fff;">Submit New Proposal</span>';
+  html += '<button class="chatbot-close" onclick="closeProposalModal()">&times;</button>';
+  html += '</div>';
+  html += '<div id="proposal-modal-body">';
+  html += renderProposalForm();
+  html += '</div>';
+  html += '</div>';
+  html += '</div>';
+
+  container.innerHTML = html;
+}
+
+function renderProposalCards(proposals) {
+  if (!proposals || proposals.length === 0) {
+    return '<div style="text-align:center;padding:40px;color:var(--muted);font-size:13px;">No proposals found. Click "+ Submit New Proposal" to create one.</div>';
+  }
+
+  var html = '';
+  for (var i = 0; i < proposals.length; i++) {
+    var p = proposals[i];
+    var statusClass = 'status-' + p.status;
+    var descExcerpt = p.description.length > 120 ? p.description.substring(0, 120) + '...' : p.description;
+    var createdDate = p.createdAt ? new Date(p.createdAt).toLocaleDateString() : '';
+
+    html += '<div class="proposal-card">';
+    html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">';
+    html += '<div style="display:flex;align-items:center;gap:10px;">';
+    html += '<span style="font-size:14px;font-weight:700;color:#fff;">' + p.title + '</span>';
+    html += '<span class="' + statusClass + '">' + p.status + '</span>';
+    html += '</div>';
+    html += '<div style="display:flex;gap:6px;">';
+
+    // Edit and Delete buttons always present
+    html += '<button class="btn-edit" onclick="editProposal(\'' + p.id + '\')">Edit</button>';
+    html += '<button class="btn-delete" onclick="handleDeleteProposal(\'' + p.id + '\')">Delete</button>';
+
+    // Approve and Reject only for pending
+    if (p.status === 'pending') {
+      html += '<button class="btn-approve" onclick="handleApproveProposal(\'' + p.id + '\')">Approve</button>';
+      html += '<button class="btn-reject" onclick="handleRejectProposal(\'' + p.id + '\')">Reject</button>';
+    }
+
+    html += '</div>';
+    html += '</div>';
+
+    // Description excerpt
+    html += '<div style="font-size:12px;color:var(--muted);margin-bottom:8px;">' + descExcerpt + '</div>';
+
+    // Meta info row
+    html += '<div style="display:flex;gap:16px;font-size:11px;color:var(--muted);">';
+    html += '<span>Proposer: <span style="color:var(--fg);">' + p.proposer + '</span></span>';
+    html += '<span>Created: <span style="color:var(--fg);">' + createdDate + '</span></span>';
+    if (p.approvedBy) {
+      html += '<span>' + (p.status === 'approved' ? 'Approved' : 'Rejected') + ' by: <span style="color:var(--fg);">' + p.approvedBy + '</span></span>';
+    }
+    html += '</div>';
+
+    html += '</div>';
+  }
+  return html;
+}
+
+function renderProposalForm() {
+  var html = '';
+  html += '<form id="proposal-form" onsubmit="handleProposalSubmit(event)">';
+  html += '<div class="form-group">';
+  html += '<label>Title <span class="required">*</span></label>';
+  html += '<input type="text" id="proposal-title" placeholder="Enter proposal title..." />';
+  html += '<div class="form-error" id="proposal-title-error">Title is required</div>';
+  html += '</div>';
+  html += '<div class="form-group">';
+  html += '<label>Description <span class="required">*</span></label>';
+  html += '<textarea id="proposal-description" placeholder="Describe the proposed solution..." rows="4"></textarea>';
+  html += '<div class="form-error" id="proposal-description-error">Description is required</div>';
+  html += '</div>';
+  html += '<div class="form-group">';
+  html += '<label>Proposer <span class="required">*</span></label>';
+  html += '<input type="text" id="proposal-proposer" placeholder="Your name or email..." />';
+  html += '<div class="form-error" id="proposal-proposer-error">Proposer is required</div>';
+  html += '</div>';
+  html += '<div style="display:flex;gap:10px;margin-top:16px;">';
+  html += '<button type="submit" class="btn-primary" id="proposal-submit-btn">Submit Proposal</button>';
+  html += '<button type="button" class="btn-secondary" onclick="closeProposalModal()">Cancel</button>';
+  html += '</div>';
+  html += '<div id="proposal-form-error" style="margin-top:10px;font-size:12px;color:var(--red);display:none;"></div>';
+  html += '</form>';
+  return html;
+}
+
+function openProposalModal() {
+  _editingProposalId = null;
+  var overlay = document.getElementById('proposal-modal-overlay');
+  var title = document.getElementById('proposal-modal-title');
+  var body = document.getElementById('proposal-modal-body');
+  if (!overlay) { return; }
+  if (title) { title.textContent = 'Submit New Proposal'; }
+  if (body) { body.innerHTML = renderProposalForm(); }
+  overlay.style.display = 'flex';
+}
+
+function closeProposalModal(event) {
+  if (event && event.target && !event.target.classList.contains('modal-overlay')) { return; }
+  var overlay = document.getElementById('proposal-modal-overlay');
+  if (overlay) { overlay.style.display = 'none'; }
+  _editingProposalId = null;
+}
+
+function editProposal(id) {
+  var proposal = null;
+  for (var i = 0; i < _proposalsData.length; i++) {
+    if (_proposalsData[i].id === id) {
+      proposal = _proposalsData[i];
+      break;
+    }
+  }
+  if (!proposal) { return; }
+
+  _editingProposalId = id;
+  var overlay = document.getElementById('proposal-modal-overlay');
+  var title = document.getElementById('proposal-modal-title');
+  var body = document.getElementById('proposal-modal-body');
+  if (!overlay) { return; }
+  if (title) { title.textContent = 'Edit Proposal'; }
+  if (body) { body.innerHTML = renderProposalForm(); }
+  overlay.style.display = 'flex';
+
+  // Populate form fields
+  var titleInput = document.getElementById('proposal-title');
+  var descInput = document.getElementById('proposal-description');
+  var proposerInput = document.getElementById('proposal-proposer');
+  var submitBtn = document.getElementById('proposal-submit-btn');
+  if (titleInput) { titleInput.value = proposal.title; }
+  if (descInput) { descInput.value = proposal.description; }
+  if (proposerInput) { proposerInput.value = proposal.proposer; }
+  if (submitBtn) { submitBtn.textContent = 'Update Proposal'; }
+}
+
+function handleProposalSubmit(event) {
+  event.preventDefault();
+  var titleEl = document.getElementById('proposal-title');
+  var descEl = document.getElementById('proposal-description');
+  var proposerEl = document.getElementById('proposal-proposer');
+  var titleErr = document.getElementById('proposal-title-error');
+  var descErr = document.getElementById('proposal-description-error');
+  var proposerErr = document.getElementById('proposal-proposer-error');
+  var formErr = document.getElementById('proposal-form-error');
+
+  var title = titleEl ? titleEl.value : '';
+  var description = descEl ? descEl.value : '';
+  var proposer = proposerEl ? proposerEl.value : '';
+
+  // Reset errors
+  if (titleErr) { titleErr.style.display = 'none'; }
+  if (descErr) { descErr.style.display = 'none'; }
+  if (proposerErr) { proposerErr.style.display = 'none'; }
+  if (formErr) { formErr.style.display = 'none'; }
+
+  var hasError = false;
+  if (!title || !title.trim()) {
+    if (titleErr) { titleErr.style.display = 'block'; }
+    hasError = true;
+  }
+  if (!description || !description.trim()) {
+    if (descErr) { descErr.style.display = 'block'; }
+    hasError = true;
+  }
+  if (!proposer || !proposer.trim()) {
+    if (proposerErr) { proposerErr.style.display = 'block'; }
+    hasError = true;
+  }
+  if (hasError) { return; }
+
+  var submitBtn = document.getElementById('proposal-submit-btn');
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Saving...'; }
+
+  if (_editingProposalId) {
+    updateProposal(_editingProposalId, { title: title.trim(), description: description.trim(), proposer: proposer.trim() }).then(function(result) {
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Update Proposal'; }
+      if (!result.ok) {
+        if (formErr) { formErr.textContent = result.error; formErr.style.display = 'block'; }
+        return;
+      }
+      closeProposalModal();
+      renderProposalsPage();
+    });
+  } else {
+    createProposal(title, description, proposer).then(function(result) {
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Submit Proposal'; }
+      if (!result.ok) {
+        if (formErr) { formErr.textContent = result.error; formErr.style.display = 'block'; }
+        return;
+      }
+      closeProposalModal();
+      renderProposalsPage();
+    });
+  }
+}
+
+function handleDeleteProposal(id) {
+  if (!confirm('Are you sure you want to delete this proposal?')) { return; }
+  deleteProposal(id).then(function(result) {
+    if (!result.ok) {
+      alert('Failed to delete proposal: ' + result.error);
+      return;
+    }
+    renderProposalsPage();
+  });
+}
+
+function handleApproveProposal(id) {
+  var approverName = prompt('Enter your name to approve this proposal:');
+  if (!approverName || !approverName.trim()) { return; }
+  approveProposal(id, approverName.trim()).then(function(result) {
+    if (!result.ok) {
+      alert('Failed to approve proposal: ' + result.error);
+      return;
+    }
+    if (result.jiraWarning) {
+      alert('Proposal approved, but JIRA ticket creation failed: ' + result.jiraWarning);
+    }
+    renderProposalsPage();
+  });
+}
+
+function handleRejectProposal(id) {
+  var rejectorName = prompt('Enter your name to reject this proposal:');
+  if (!rejectorName || !rejectorName.trim()) { return; }
+  rejectProposal(id, rejectorName.trim()).then(function(result) {
+    if (!result.ok) {
+      alert('Failed to reject proposal: ' + result.error);
+      return;
+    }
+    renderProposalsPage();
+  });
+}
+
+function filterProposals() {
+  var statusFilter = document.getElementById('proposal-filter-status');
+  var sortSelect = document.getElementById('proposal-sort');
+  var status = statusFilter ? statusFilter.value : '';
+  var sort = sortSelect ? sortSelect.value : 'newest';
+
+  var filtered = [];
+  for (var i = 0; i < _proposalsData.length; i++) {
+    if (!status || _proposalsData[i].status === status) {
+      filtered.push(_proposalsData[i]);
+    }
+  }
+
+  // Sort
+  if (sort === 'newest') {
+    filtered.sort(function(a, b) { return new Date(b.createdAt) - new Date(a.createdAt); });
+  } else if (sort === 'oldest') {
+    filtered.sort(function(a, b) { return new Date(a.createdAt) - new Date(b.createdAt); });
+  } else if (sort === 'title') {
+    filtered.sort(function(a, b) { return a.title.localeCompare(b.title); });
+  }
+
+  var listEl = document.getElementById('proposals-list');
+  if (listEl) {
+    listEl.innerHTML = renderProposalCards(filtered);
+  }
+}
+
+// ── JIRA Monitor Page ──────────────────────────────────────────────────────────
+var _jiraTicketsCache = [];
+
+function renderJiraMonitorPage() {
+  var container = document.getElementById('page-jira-monitor');
+  if (!container) { return; }
+
+  var settings = window._appSettings || getSettings();
+  if (!settings.jira.email || !settings.jira.apiToken) {
+    container.innerHTML = '<div style="text-align:center;padding:60px 20px;">' +
+      '<div style="font-size:48px;margin-bottom:16px;">&#128274;</div>' +
+      '<h2 style="font-size:18px;font-weight:700;color:#fff;margin-bottom:10px;">JIRA Not Configured</h2>' +
+      '<p style="color:var(--muted);font-size:13px;max-width:400px;margin:0 auto 20px;">Configure your JIRA credentials in Settings to view project tickets.</p>' +
+      '<button class="btn-primary" onclick="showPage(\'settings\', document.getElementById(\'tab-settings\'))">Go to Settings</button>' +
+      '</div>';
+    return;
+  }
+
+  // Show loading state
+  container.innerHTML = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">' +
+    '<h2 style="font-size:18px;font-weight:700;color:#fff;margin:0;">JIRA Monitor &#8212; PCDP</h2>' +
+    '</div>' +
+    '<div class="jira-summary-strip">' +
+    '<div class="jira-metric-card"><div class="skeleton-line" style="height:22px;width:40px;margin:0 auto 4px;"></div><div class="skeleton-line short" style="height:10px;width:60px;margin:0 auto;"></div></div>' +
+    '<div class="jira-metric-card"><div class="skeleton-line" style="height:22px;width:40px;margin:0 auto 4px;"></div><div class="skeleton-line short" style="height:10px;width:60px;margin:0 auto;"></div></div>' +
+    '<div class="jira-metric-card"><div class="skeleton-line" style="height:22px;width:40px;margin:0 auto 4px;"></div><div class="skeleton-line short" style="height:10px;width:60px;margin:0 auto;"></div></div>' +
+    '<div class="jira-metric-card"><div class="skeleton-line" style="height:22px;width:40px;margin:0 auto 4px;"></div><div class="skeleton-line short" style="height:10px;width:60px;margin:0 auto;"></div></div>' +
+    '<div class="jira-metric-card"><div class="skeleton-line" style="height:22px;width:40px;margin:0 auto 4px;"></div><div class="skeleton-line short" style="height:10px;width:60px;margin:0 auto;"></div></div>' +
+    '</div>' +
+    '<div class="skeleton-line" style="height:200px;margin-top:16px;"></div>';
+
+  fetchJiraTickets().then(function(result) {
+    if (!result.ok) {
+      container.innerHTML = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">' +
+        '<h2 style="font-size:18px;font-weight:700;color:#fff;margin:0;">JIRA Monitor &#8212; PCDP</h2>' +
+        '</div>' +
+        '<div style="text-align:center;padding:40px;color:var(--red);font-size:13px;">' +
+        '<div style="font-size:32px;margin-bottom:10px;">&#9888;</div>' +
+        'Failed to load JIRA tickets: ' + result.error +
+        '</div>';
+      return;
+    }
+    _jiraTicketsCache = result.tickets;
+    var html = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">' +
+      '<h2 style="font-size:18px;font-weight:700;color:#fff;margin:0;">JIRA Monitor &#8212; PCDP</h2>' +
+      '<span style="font-size:11px;color:var(--muted);">' + result.total + ' total tickets</span>' +
+      '</div>';
+    var overdueCount = 0;
+    for (var i = 0; i < result.tickets.length; i++) {
+      if (result.tickets[i].isOverdue) { overdueCount++; }
+    }
+    html += renderOverdueAlert(overdueCount);
+    html += renderJiraSummaryStrip(result.tickets);
+    html += renderJiraFilters(result.tickets);
+    html += '<div id="jira-table-container">' + renderJiraTicketTable(result.tickets, {}) + '</div>';
+    container.innerHTML = html;
+    updateAlertBadgeWithOverdue(overdueCount);
+  });
+}
+
+function renderJiraSummaryStrip(tickets) {
+  var total = tickets.length;
+  var open = 0;
+  var inProgress = 0;
+  var done = 0;
+  var overdue = 0;
+  for (var i = 0; i < tickets.length; i++) {
+    var s = tickets[i].status.toLowerCase();
+    if (s === 'done') { done++; }
+    else if (s === 'in progress') { inProgress++; }
+    else { open++; }
+    if (tickets[i].isOverdue) { overdue++; }
+  }
+  var html = '<div class="jira-summary-strip">';
+  html += '<div class="jira-metric-card"><div class="metric-value">' + total + '</div><div class="metric-label">Total</div></div>';
+  html += '<div class="jira-metric-card"><div class="metric-value" style="color:var(--blue);">' + open + '</div><div class="metric-label">Open</div></div>';
+  html += '<div class="jira-metric-card"><div class="metric-value" style="color:var(--amber);">' + inProgress + '</div><div class="metric-label">In Progress</div></div>';
+  html += '<div class="jira-metric-card"><div class="metric-value" style="color:var(--master);">' + done + '</div><div class="metric-label">Done</div></div>';
+  html += '<div class="jira-metric-card' + (overdue > 0 ? ' overdue' : '') + '"><div class="metric-value">' + overdue + '</div><div class="metric-label">Overdue</div></div>';
+  html += '</div>';
+  return html;
+}
+
+function renderJiraFilters(tickets) {
+  var statuses = {};
+  var assignees = {};
+  var priorities = {};
+  for (var i = 0; i < tickets.length; i++) {
+    if (tickets[i].status) { statuses[tickets[i].status] = true; }
+    if (tickets[i].assignee) { assignees[tickets[i].assignee] = true; }
+    if (tickets[i].priority) { priorities[tickets[i].priority] = true; }
+  }
+  var html = '<div class="jira-filters">';
+  html += '<select id="jira-filter-status" onchange="applyJiraFilters()"><option value="">All Statuses</option>';
+  var statusKeys = Object.keys(statuses);
+  for (var s = 0; s < statusKeys.length; s++) {
+    html += '<option value="' + statusKeys[s] + '">' + statusKeys[s] + '</option>';
+  }
+  html += '</select>';
+  html += '<select id="jira-filter-assignee" onchange="applyJiraFilters()"><option value="">All Assignees</option>';
+  var assigneeKeys = Object.keys(assignees);
+  for (var a = 0; a < assigneeKeys.length; a++) {
+    html += '<option value="' + assigneeKeys[a] + '">' + assigneeKeys[a] + '</option>';
+  }
+  html += '</select>';
+  html += '<select id="jira-filter-priority" onchange="applyJiraFilters()"><option value="">All Priorities</option>';
+  var priorityKeys = Object.keys(priorities);
+  for (var p = 0; p < priorityKeys.length; p++) {
+    html += '<option value="' + priorityKeys[p] + '">' + priorityKeys[p] + '</option>';
+  }
+  html += '</select>';
+  html += '</div>';
+  return html;
+}
+
+function renderJiraTicketTable(tickets, filters) {
+  var filtered = [];
+  for (var i = 0; i < tickets.length; i++) {
+    var t = tickets[i];
+    if (filters.status && t.status !== filters.status) { continue; }
+    if (filters.assignee && t.assignee !== filters.assignee) { continue; }
+    if (filters.priority && t.priority !== filters.priority) { continue; }
+    filtered.push(t);
+  }
+  if (filtered.length === 0) {
+    return '<div style="text-align:center;padding:40px;color:var(--muted);font-size:13px;">No tickets found</div>';
+  }
+  var settings = window._appSettings || getSettings();
+  var baseUrl = settings.jira.baseUrl || 'https://corpinfollc.atlassian.net';
+  var html = '<table class="data-table"><thead><tr>';
+  html += '<th>Key</th><th>Summary</th><th>Status</th><th>Assignee</th><th>Priority</th><th>Due Date</th><th>Created</th>';
+  html += '</tr></thead><tbody>';
+  for (var j = 0; j < filtered.length; j++) {
+    var ticket = filtered[j];
+    var rowClass = ticket.isOverdue ? ' class="jira-row-overdue"' : '';
+    html += '<tr' + rowClass + '>';
+    html += '<td><a href="' + baseUrl + '/browse/' + ticket.key + '" target="_blank" style="color:var(--blue);text-decoration:none;font-family:DM Mono,monospace;font-size:11px;">' + ticket.key + '</a></td>';
+    html += '<td style="font-size:12px;max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + ticket.summary + '</td>';
+    html += '<td style="font-size:11px;">' + ticket.status + '</td>';
+    html += '<td style="font-size:11px;">' + ticket.assignee + '</td>';
+    html += '<td style="font-size:11px;">' + ticket.priority + '</td>';
+    var dueDateStr = ticket.dueDate ? new Date(ticket.dueDate).toLocaleDateString() : '&#8212;';
+    var dueStyle = ticket.isOverdue ? 'color:var(--red);font-weight:600;' : '';
+    html += '<td style="font-size:11px;' + dueStyle + '">' + dueDateStr + '</td>';
+    var createdStr = ticket.created ? new Date(ticket.created).toLocaleDateString() : '&#8212;';
+    html += '<td style="font-size:11px;">' + createdStr + '</td>';
+    html += '</tr>';
+  }
+  html += '</tbody></table>';
+  return html;
+}
+
+function applyJiraFilters() {
+  var statusEl = document.getElementById('jira-filter-status');
+  var assigneeEl = document.getElementById('jira-filter-assignee');
+  var priorityEl = document.getElementById('jira-filter-priority');
+  var filters = {
+    status: statusEl ? statusEl.value : '',
+    assignee: assigneeEl ? assigneeEl.value : '',
+    priority: priorityEl ? priorityEl.value : ''
+  };
+  var tableContainer = document.getElementById('jira-table-container');
+  if (tableContainer) {
+    tableContainer.innerHTML = renderJiraTicketTable(_jiraTicketsCache, filters);
+  }
+}
+
+function renderOverdueAlert(overdueCount) {
+  if (overdueCount <= 0) { return ''; }
+  return '<div class="jira-overdue-alert">' +
+    '<span class="alert-icon">&#9888;</span>' +
+    '<span>' + overdueCount + ' ticket' + (overdueCount > 1 ? 's' : '') + ' overdue &#8212; action required</span>' +
+    '</div>';
+}
+
+function updateAlertBadgeWithOverdue(overdueCount) {
+  var badge = document.getElementById('alert-badge');
+  if (!badge) { return; }
+  var currentCount = parseInt(badge.textContent, 10) || 0;
+  var newCount = currentCount + overdueCount;
+  if (newCount > 0) {
+    badge.textContent = newCount;
+    badge.style.display = 'inline-block';
+  }
+}
+
+// ── Framework Page ────────────────────────────────────────────────────────────
+
+function renderFrameworkPage() {
+  var container = document.getElementById('page-framework');
+  if (!container) { return; }
+
+  var html = '<div style="margin-bottom:20px;">' +
+    '<h2 style="font-size:18px;font-weight:700;color:#fff;margin:0;">DBOps Governance Framework</h2>' +
+    '<p style="font-size:12px;color:var(--muted);margin-top:6px;">Reference guide for the DBOps methodology, lifecycle, and processes.</p>' +
+    '</div>';
+
+  // Section 1: What is DBOps Governance?
+  html += '<div class="framework-section">';
+  html += '<div class="framework-section-title" id="fw-title-1" onclick="toggleFrameworkAccordion(\'1\')">1. What is DBOps Governance?</div>';
+  html += '<div class="framework-section-body" id="fw-body-1">';
+  html += '<p style="font-size:12px;color:var(--fg);line-height:1.8;margin-bottom:10px;">DBOps Governance is a centralized system for managing the lifecycle of database operations solutions across an organization. It provides visibility into solution versions, customer adoption, compliance status, and release tracking.</p>';
+  html += '<p style="font-size:12px;color:var(--fg);line-height:1.8;margin-bottom:10px;">The system ensures that all database solutions follow a standardized process from proposal through development, testing, and release. It tracks which customers are using which versions and highlights drift from the approved master branch.</p>';
+  html += '<p style="font-size:12px;color:var(--fg);line-height:1.8;">Key goals include: reducing unapproved code drift, automating release tracking, providing real-time compliance visibility, and streamlining the proposal-to-production pipeline.</p>';
+  html += '</div></div>';
+
+  // Section 2: Solution Lifecycle
+  html += '<div class="framework-section">';
+  html += '<div class="framework-section-title" id="fw-title-2" onclick="toggleFrameworkAccordion(\'2\')">2. Solution Lifecycle</div>';
+  html += '<div class="framework-section-body" id="fw-body-2">';
+  html += '<p style="font-size:12px;color:var(--fg);line-height:1.8;margin-bottom:10px;">Every solution goes through 8 stages from inception to release:</p>';
+  html += '<ol style="font-size:12px;color:var(--fg);line-height:2;padding-left:20px;">';
+  html += '<li><strong style="color:var(--master);">Proposal</strong> &#8212; A new solution idea is submitted with title, description, and proposer details.</li>';
+  html += '<li><strong style="color:var(--master);">Review</strong> &#8212; The governance team evaluates the proposal for feasibility and alignment.</li>';
+  html += '<li><strong style="color:var(--master);">Approval</strong> &#8212; The proposal is approved or rejected. Approval triggers repo creation and JIRA ticket.</li>';
+  html += '<li><strong style="color:var(--master);">Development</strong> &#8212; The team develops the solution in the created repository following branching standards.</li>';
+  html += '<li><strong style="color:var(--master);">Testing</strong> &#8212; Solution undergoes QA, integration testing, and compliance checks.</li>';
+  html += '<li><strong style="color:var(--master);">Staging</strong> &#8212; Pre-production deployment for final validation with customer data.</li>';
+  html += '<li><strong style="color:var(--master);">Release</strong> &#8212; Version is tagged, CHANGELOG updated, and master branch promoted.</li>';
+  html += '<li><strong style="color:var(--master);">Maintenance</strong> &#8212; Ongoing support, customer branch management, and drift monitoring.</li>';
+  html += '</ol>';
+  html += '</div></div>';
+
+  // Section 3: Roles & Responsibilities
+  html += '<div class="framework-section">';
+  html += '<div class="framework-section-title" id="fw-title-3" onclick="toggleFrameworkAccordion(\'3\')">3. Roles &amp; Responsibilities</div>';
+  html += '<div class="framework-section-body" id="fw-body-3">';
+  html += '<div style="margin-bottom:14px;">';
+  html += '<h4 style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:6px;">Team Member</h4>';
+  html += '<p style="font-size:12px;color:var(--fg);line-height:1.8;">Develops solutions, creates pull requests with proper PR prefixes, maintains customer branches, and ensures code quality. Responsible for keeping branches up to date with master.</p>';
+  html += '</div>';
+  html += '<div style="margin-bottom:14px;">';
+  html += '<h4 style="font-size:12px;font-weight:700;color:var(--purple);margin-bottom:6px;">Solution Owner</h4>';
+  html += '<p style="font-size:12px;color:var(--fg);line-height:1.8;">Owns the solution lifecycle, reviews and approves PRs, manages versioning strategy, coordinates releases, and ensures compliance across all customer branches.</p>';
+  html += '</div>';
+  html += '<div>';
+  html += '<h4 style="font-size:12px;font-weight:700;color:var(--amber);margin-bottom:6px;">Manager</h4>';
+  html += '<p style="font-size:12px;color:var(--fg);line-height:1.8;">Oversees governance processes, approves or rejects proposals, monitors adoption metrics, reviews overdue items, and ensures organizational alignment.</p>';
+  html += '</div>';
+  html += '</div></div>';
+
+  // Section 4: Versioning Strategy
+  html += '<div class="framework-section">';
+  html += '<div class="framework-section-title" id="fw-title-4" onclick="toggleFrameworkAccordion(\'4\')">4. Versioning Strategy</div>';
+  html += '<div class="framework-section-body" id="fw-body-4">';
+  html += '<p style="font-size:12px;color:var(--fg);line-height:1.8;margin-bottom:10px;">Version bumps are determined by PR prefix and label combination:</p>';
+  html += '<table class="data-table" style="margin-bottom:12px;"><thead><tr><th>PR Prefix</th><th>Label</th><th>Version Bump</th></tr></thead><tbody>';
+  html += '<tr><td style="font-family:DM Mono,monospace;font-size:11px;">feat:</td><td>major</td><td style="color:var(--red);font-weight:600;">Major (X.0.0)</td></tr>';
+  html += '<tr><td style="font-family:DM Mono,monospace;font-size:11px;">feat:</td><td>minor</td><td style="color:var(--amber);font-weight:600;">Minor (0.X.0)</td></tr>';
+  html += '<tr><td style="font-family:DM Mono,monospace;font-size:11px;">fix:</td><td>patch</td><td style="color:var(--master);font-weight:600;">Patch (0.0.X)</td></tr>';
+  html += '<tr><td style="font-family:DM Mono,monospace;font-size:11px;">chore:</td><td>none</td><td style="color:var(--muted);">No bump</td></tr>';
+  html += '<tr><td style="font-family:DM Mono,monospace;font-size:11px;">docs:</td><td>none</td><td style="color:var(--muted);">No bump</td></tr>';
+  html += '</tbody></table>';
+  html += '<p style="font-size:12px;color:var(--fg);line-height:1.8;">The CI/CD pipeline automatically detects the PR prefix and label to determine the appropriate version bump. Version format follows: <code style="background:rgba(255,255,255,0.08);padding:1px 4px;border-radius:3px;font-family:DM Mono,monospace;font-size:11px;">vYYYY.MAJOR.MINOR</code></p>';
+  html += '</div></div>';
+
+  // Section 5: Adoption Matrix Colour Guide
+  html += '<div class="framework-section">';
+  html += '<div class="framework-section-title" id="fw-title-5" onclick="toggleFrameworkAccordion(\'5\')">5. Adoption Matrix Colour Guide</div>';
+  html += '<div class="framework-section-body" id="fw-body-5">';
+  html += '<p style="font-size:12px;color:var(--fg);line-height:1.8;margin-bottom:12px;">The adoption matrix uses colour coding to indicate branch compliance status:</p>';
+  html += '<div style="display:flex;flex-direction:column;gap:10px;">';
+  html += '<div style="display:flex;align-items:center;gap:10px;"><span style="width:14px;height:14px;border-radius:3px;background:var(--master);display:inline-block;"></span><span style="font-size:12px;color:var(--fg);"><strong>Green (Master)</strong> &#8212; Branch is based on the current master version. Fully compliant.</span></div>';
+  html += '<div style="display:flex;align-items:center;gap:10px;"><span style="width:14px;height:14px;border-radius:3px;background:var(--blue);display:inline-block;"></span><span style="font-size:12px;color:var(--fg);"><strong>Blue (Approved Deviation)</strong> &#8212; Branch differs from master but the deviation has been reviewed and approved.</span></div>';
+  html += '<div style="display:flex;align-items:center;gap:10px;"><span style="width:14px;height:14px;border-radius:3px;background:var(--red);display:inline-block;"></span><span style="font-size:12px;color:var(--fg);"><strong>Red (Unapproved Drift)</strong> &#8212; Branch has drifted from master without approval. Requires immediate attention.</span></div>';
+  html += '<div style="display:flex;align-items:center;gap:10px;"><span style="width:14px;height:14px;border-radius:3px;background:var(--purple);display:inline-block;"></span><span style="font-size:12px;color:var(--fg);"><strong>Purple (Wants Merge)</strong> &#8212; Branch has a pending PR to merge changes back to master.</span></div>';
+  html += '<div style="display:flex;align-items:center;gap:10px;"><span style="width:14px;height:14px;border-radius:3px;background:var(--muted);display:inline-block;"></span><span style="font-size:12px;color:var(--fg);"><strong>Grey (N/A)</strong> &#8212; Customer does not use this solution or no branch exists.</span></div>';
+  html += '</div>';
+  html += '</div></div>';
+
+  // Section 6: How Automations Work
+  html += '<div class="framework-section">';
+  html += '<div class="framework-section-title" id="fw-title-6" onclick="toggleFrameworkAccordion(\'6\')">6. How Automations Work</div>';
+  html += '<div class="framework-section-body" id="fw-body-6">';
+  html += '<p style="font-size:12px;color:var(--fg);line-height:1.8;margin-bottom:12px;">The dashboard includes 5 automated workflows:</p>';
+  html += '<div style="margin-bottom:10px;"><strong style="font-size:12px;color:var(--blue);">1. Auto Version Detection</strong><p style="font-size:12px;color:var(--fg);line-height:1.8;margin-top:4px;">On dashboard load, the system compares current master versions against previously known versions stored in localStorage. When a new version is detected, it triggers JIRA ticket creation.</p></div>';
+  html += '<div style="margin-bottom:10px;"><strong style="font-size:12px;color:var(--blue);">2. Auto JIRA Ticket Creation</strong><p style="font-size:12px;color:var(--fg);line-height:1.8;margin-top:4px;">When a version change is detected, a JIRA ticket is automatically created in the PCDP project with the repository name, new version, and release date.</p></div>';
+  html += '<div style="margin-bottom:10px;"><strong style="font-size:12px;color:var(--blue);">3. Proposal Approval Workflow</strong><p style="font-size:12px;color:var(--fg);line-height:1.8;margin-top:4px;">When a proposal is approved, the system automatically creates a GitHub repository, creates a JIRA tracking ticket, and sends an email notification to the proposer.</p></div>';
+  html += '<div style="margin-bottom:10px;"><strong style="font-size:12px;color:var(--blue);">4. Email Notifications</strong><p style="font-size:12px;color:var(--fg);line-height:1.8;margin-top:4px;">Automated emails are sent when proposals are approved or rejected, keeping stakeholders informed without manual intervention.</p></div>';
+  html += '<div><strong style="font-size:12px;color:var(--blue);">5. AI Code Diff Analysis</strong><p style="font-size:12px;color:var(--fg);line-height:1.8;margin-top:4px;">The system can compare customer branches against main using the GitHub compare API and send the diff to Azure OpenAI for automated risk assessment and change summary.</p></div>';
+  html += '</div></div>';
+
+  // Section 7: FAQs
+  html += '<div class="framework-section">';
+  html += '<div class="framework-section-title" id="fw-title-7" onclick="toggleFrameworkAccordion(\'7\')">7. FAQs</div>';
+  html += '<div class="framework-section-body" id="fw-body-7">';
+  html += '<div style="margin-bottom:14px;"><strong style="font-size:12px;color:var(--fg);">Q: How do I submit a new solution proposal?</strong><p style="font-size:12px;color:var(--muted);line-height:1.8;margin-top:4px;">Navigate to the Proposals tab and click "+ Submit New Proposal". Fill in the title, description, and your name, then submit.</p></div>';
+  html += '<div style="margin-bottom:14px;"><strong style="font-size:12px;color:var(--fg);">Q: What happens when my proposal is approved?</strong><p style="font-size:12px;color:var(--muted);line-height:1.8;margin-top:4px;">A GitHub repository is automatically created, a JIRA ticket is raised in the PCDP project, and you receive an email notification confirming approval.</p></div>';
+  html += '<div style="margin-bottom:14px;"><strong style="font-size:12px;color:var(--fg);">Q: How is version compliance calculated?</strong><p style="font-size:12px;color:var(--muted);line-height:1.8;margin-top:4px;">Compliance is the percentage of customer branches that are based on the current master version. A branch is compliant if its based_on_master field matches the current master_version.</p></div>';
+  html += '<div style="margin-bottom:14px;"><strong style="font-size:12px;color:var(--fg);">Q: What does an overdue JIRA ticket mean?</strong><p style="font-size:12px;color:var(--muted);line-height:1.8;margin-top:4px;">A ticket is overdue when its due date has passed and its status is not Done. These appear in the alert badge and the JIRA Monitor overdue banner.</p></div>';
+  html += '<div style="margin-bottom:14px;"><strong style="font-size:12px;color:var(--fg);">Q: How do I configure JIRA integration?</strong><p style="font-size:12px;color:var(--muted);line-height:1.8;margin-top:4px;">Go to Settings, find the JIRA Configuration section, enter your JIRA base URL, email, and API token. Use the Test Connection button to verify.</p></div>';
+  html += '<div style="margin-bottom:14px;"><strong style="font-size:12px;color:var(--fg);">Q: Can I export dashboard data?</strong><p style="font-size:12px;color:var(--muted);line-height:1.8;margin-top:4px;">Yes, click the PDF button in the navigation bar to export the currently visible page as a PDF document.</p></div>';
+  html += '<div><strong style="font-size:12px;color:var(--fg);">Q: What is the AI Code Diff feature?</strong><p style="font-size:12px;color:var(--muted);line-height:1.8;margin-top:4px;">AI Code Diff compares a customer branch against main using GitHub API and sends the diff to Azure OpenAI for analysis. It provides a summary of changes, risk assessment, and recommendations.</p></div>';
+  html += '</div></div>';
+
+  container.innerHTML = html;
+}
+
+function toggleFrameworkAccordion(sectionId) {
+  var allBodies = document.querySelectorAll('.framework-section-body');
+  var allTitles = document.querySelectorAll('.framework-section-title');
+  var targetBody = document.getElementById('fw-body-' + sectionId);
+  var targetTitle = document.getElementById('fw-title-' + sectionId);
+
+  if (!targetBody || !targetTitle) { return; }
+
+  var isCurrentlyExpanded = targetBody.classList.contains('expanded');
+
+  // Collapse all
+  for (var i = 0; i < allBodies.length; i++) {
+    allBodies[i].classList.remove('expanded');
+  }
+  for (var j = 0; j < allTitles.length; j++) {
+    allTitles[j].classList.remove('expanded');
+  }
+
+  // If it was not expanded, expand it
+  if (!isCurrentlyExpanded) {
+    targetBody.classList.add('expanded');
+    targetTitle.classList.add('expanded');
+  }
+}
+
+// ── PDF Generator ─────────────────────────────────────────────────────────────
+
+function generatePDF() {
+  var pdfBtn = document.getElementById('btn-pdf');
+  if (pdfBtn) { pdfBtn.classList.add('pdf-loading'); }
+
+  // Determine active page
+  var activePage = document.querySelector('.page.on');
+  if (!activePage) {
+    if (pdfBtn) { pdfBtn.classList.remove('pdf-loading'); }
+    alert('No active page to export.');
+    return;
+  }
+
+  // Determine page name from active tab
+  var activeTab = document.querySelector('.tab-btn.on');
+  var pageName = 'Dashboard';
+  if (activeTab) {
+    pageName = activeTab.textContent.trim();
+  }
+
+  // Show overlay
+  var overlay = document.createElement('div');
+  overlay.className = 'pdf-overlay';
+  overlay.id = 'pdf-generation-overlay';
+  overlay.innerHTML = '<div class="pdf-overlay-message">Generating PDF...</div>';
+  document.body.appendChild(overlay);
+
+  // Use html2canvas to capture the page
+  if (typeof html2canvas === 'undefined') {
+    document.body.removeChild(overlay);
+    if (pdfBtn) { pdfBtn.classList.remove('pdf-loading'); }
+    alert('PDF library not loaded. Please refresh the page.');
+    return;
+  }
+
+  html2canvas(activePage, {
+    backgroundColor: '#04060d',
+    scale: 2,
+    useCORS: true,
+    logging: false
+  }).then(function(canvas) {
+    try {
+      var jsPDFLib = window.jspdf || window.jsPDF;
+      if (!jsPDFLib) {
+        throw new Error('jsPDF library not available');
+      }
+      var jsPDFConstructor = jsPDFLib.jsPDF || jsPDFLib;
+      var pdf = new jsPDFConstructor({
+        orientation: 'landscape',
+        unit: 'mm',
+        format: 'a4'
+      });
+
+      var imgData = canvas.toDataURL('image/png');
+      var pdfWidth = pdf.internal.pageSize.getWidth();
+      var pdfHeight = pdf.internal.pageSize.getHeight();
+      var canvasRatio = canvas.height / canvas.width;
+      var imgWidth = pdfWidth;
+      var imgHeight = pdfWidth * canvasRatio;
+
+      if (imgHeight > pdfHeight) {
+        imgHeight = pdfHeight;
+        imgWidth = pdfHeight / canvasRatio;
+      }
+
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+
+      // Generate filename
+      var now = new Date();
+      var year = now.getFullYear();
+      var month = (now.getMonth() + 1 < 10 ? '0' : '') + (now.getMonth() + 1);
+      var day = (now.getDate() < 10 ? '0' : '') + now.getDate();
+      var dateStr = year + '-' + month + '-' + day;
+      var fileName = pageName.replace(/\s+/g, '_') + '_' + dateStr + '.pdf';
+
+      pdf.save(fileName);
+    } catch (err) {
+      alert('PDF generation failed: ' + (err.message || 'Unknown error'));
+    }
+
+    // Cleanup
+    var overlayEl = document.getElementById('pdf-generation-overlay');
+    if (overlayEl) { document.body.removeChild(overlayEl); }
+    if (pdfBtn) { pdfBtn.classList.remove('pdf-loading'); }
+  }).catch(function(err) {
+    var overlayEl = document.getElementById('pdf-generation-overlay');
+    if (overlayEl) { document.body.removeChild(overlayEl); }
+    if (pdfBtn) { pdfBtn.classList.remove('pdf-loading'); }
+    alert('PDF generation failed: ' + (err.message || 'Unknown error'));
+  });
+}
+
+// ── Auto JIRA Creator ─────────────────────────────────────────────────────────
+var VERSION_TRACKING_KEY = '_dbops_known_versions';
+
+function getKnownVersions() {
+  try {
+    var raw = localStorage.getItem(VERSION_TRACKING_KEY);
+    if (!raw) { return {}; }
+    return JSON.parse(raw);
+  } catch (e) {
+    return {};
+  }
+}
+
+function saveKnownVersions(versionMap) {
+  try {
+    localStorage.setItem(VERSION_TRACKING_KEY, JSON.stringify(versionMap));
+  } catch (e) {
+    // Silently fail
+  }
+}
+
+function checkVersionChanges(registry) {
+  if (!registry || typeof registry !== 'object') { return; }
+
+  var settings = window._appSettings || getSettings();
+  if (!settings.jira.email || !settings.jira.apiToken) {
+    // No JIRA credentials, skip silently
+    return;
+  }
+
+  var knownVersions = getKnownVersions();
+  var repoKeys = Object.keys(registry);
+  var updated = false;
+
+  for (var i = 0; i < repoKeys.length; i++) {
+    var repoName = repoKeys[i];
+    var repoData = registry[repoName];
+    var currentVersion = repoData && repoData.master_version ? repoData.master_version : null;
+
+    if (!currentVersion) { continue; }
+
+    var knownVersion = knownVersions[repoName] || null;
+
+    if (knownVersion && knownVersion !== currentVersion) {
+      // Version changed - create ticket (non-blocking)
+      createReleaseTicket(repoName, currentVersion);
+    }
+
+    if (knownVersion !== currentVersion) {
+      knownVersions[repoName] = currentVersion;
+      updated = true;
+    }
+  }
+
+  if (updated) {
+    saveKnownVersions(knownVersions);
+  }
+}
+
+function createReleaseTicket(repoName, newVersion) {
+  var now = new Date();
+  var dateStr = now.toISOString().split('T')[0];
+  var summary = 'New Release: ' + repoName + ' ' + newVersion;
+  var description = 'A new version has been released.\n\nRepository: ' + repoName + '\nVersion: ' + newVersion + '\nDate: ' + dateStr;
+
+  createJiraTicket(summary, description, 'Task').then(function(result) {
+    if (!result.ok) {
+      console.warn('Auto JIRA ticket creation failed for ' + repoName + ': ' + result.error);
+    }
+  }).catch(function(err) {
+    console.warn('Auto JIRA ticket creation error for ' + repoName + ': ' + (err.message || 'Unknown'));
+  });
+}
+
+// ── Code Diff Module ──────────────────────────────────────────────────────────
+
+function fetchBranchDiff(repoName, branchName) {
+  var settings = window._appSettings || getSettings();
+  var org = settings.github.org || 'sachin-dehran';
+  var url = GITHUB_API_BASE + '/repos/' + org + '/' + repoName + '/compare/main...' + branchName;
+
+  return safeGitHubFetch(url).then(function(result) {
+    if (!result.ok) {
+      return { ok: false, diff: null, files: [], error: result.error };
+    }
+    var data = result.data;
+    var files = [];
+    if (data.files && Array.isArray(data.files)) {
+      for (var i = 0; i < data.files.length; i++) {
+        files.push({
+          filename: data.files[i].filename || '',
+          status: data.files[i].status || '',
+          additions: data.files[i].additions || 0,
+          deletions: data.files[i].deletions || 0,
+          patch: data.files[i].patch || ''
+        });
+      }
+    }
+    var diffSummary = 'Ahead by ' + (data.ahead_by || 0) + ' commits, behind by ' + (data.behind_by || 0) + ' commits. ' + files.length + ' files changed.';
+    return { ok: true, diff: diffSummary, files: files, error: null };
+  });
+}
+
+function analyzeCodeDiff(repoName, branchName, diffContent) {
+  var settings = window._appSettings || getSettings();
+  var endpoint = settings.azure.endpoint;
+  var apiKey = settings.azure.apiKey;
+  var deployment = settings.azure.deployment;
+
+  if (!endpoint || !apiKey || !deployment) {
+    return Promise.resolve({ ok: false, analysis: null, error: 'Azure OpenAI not configured. Please add credentials in Settings.' });
+  }
+
+  var url = endpoint + '/openai/deployments/' + deployment + '/chat/completions?api-version=2024-02-15-preview';
+
+  var prompt = 'Analyze this code diff between main and ' + branchName + ' in ' + repoName + '. Provide: 1) Summary of changes, 2) Risk assessment, 3) Recommendations.\n\nDiff:\n' + diffContent;
+
+  var body = {
+    messages: [
+      { role: 'system', content: 'You are a code review assistant. Analyze diffs and provide concise, actionable feedback.' },
+      { role: 'user', content: prompt }
+    ],
+    max_tokens: 1000,
+    temperature: 0.3
+  };
+
+  var controller = new AbortController();
+  var timeoutId = setTimeout(function() { controller.abort(); }, 30000);
+
+  return fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'api-key': apiKey
+    },
+    body: JSON.stringify(body),
+    signal: controller.signal
+  }).then(function(response) {
+    clearTimeout(timeoutId);
+    if (!response.ok) {
+      return { ok: false, analysis: null, error: 'Azure OpenAI returned HTTP ' + response.status };
+    }
+    return response.json().then(function(data) {
+      var analysis = '';
+      if (data.choices && data.choices.length > 0 && data.choices[0].message) {
+        analysis = data.choices[0].message.content;
+      }
+      return { ok: true, analysis: analysis, error: null };
+    });
+  }).catch(function(err) {
+    clearTimeout(timeoutId);
+    if (err.name === 'AbortError') {
+      return { ok: false, analysis: null, error: 'AI analysis timed out (30s)' };
+    }
+    return { ok: false, analysis: null, error: err.message || 'Network error' };
+  });
+}
+
+function renderCodeDiffPanel(repoName, branches) {
+  var html = '<div style="margin-top:16px;padding:16px;background:var(--s2);border:1px solid var(--border);border-radius:10px;">';
+  html += '<h4 style="font-size:12px;font-weight:700;color:#fff;margin-bottom:10px;">&#129302; AI Code Diff Analysis</h4>';
+  html += '<div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;">';
+  html += '<select id="diff-branch-select-' + repoName + '" style="background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--fg);font-family:DM Sans,sans-serif;min-width:160px;">';
+  for (var i = 0; i < branches.length; i++) {
+    var brName = typeof branches[i] === 'string' ? branches[i] : (branches[i].name || '');
+    if (brName === 'main' || brName === 'master') { continue; }
+    html += '<option value="' + brName + '">' + brName + '</option>';
+  }
+  html += '</select>';
+  html += '<button class="btn-primary" style="padding:6px 14px;font-size:11px;" onclick="runCodeDiff(\'' + repoName + '\')">Compare</button>';
+  html += '</div>';
+  html += '<div id="diff-result-' + repoName + '" style="font-size:12px;color:var(--muted);">Select a branch and click Compare to analyze differences.</div>';
+  html += '</div>';
+  return html;
+}
+
+function runCodeDiff(repoName) {
+  var selectEl = document.getElementById('diff-branch-select-' + repoName);
+  var resultEl = document.getElementById('diff-result-' + repoName);
+  if (!selectEl || !resultEl) { return; }
+
+  var branchName = selectEl.value;
+  if (!branchName) {
+    resultEl.innerHTML = '<span style="color:var(--red);">Please select a branch.</span>';
+    return;
+  }
+
+  resultEl.innerHTML = '<div class="skeleton-line" style="height:60px;"></div><p style="margin-top:8px;font-size:11px;color:var(--muted);">Fetching diff and running AI analysis...</p>';
+
+  fetchBranchDiff(repoName, branchName).then(function(diffResult) {
+    if (!diffResult.ok) {
+      resultEl.innerHTML = '<span style="color:var(--red);">Failed to fetch diff: ' + diffResult.error + '</span>';
+      return;
+    }
+
+    // Build diff content for AI
+    var diffContent = diffResult.diff + '\n\nFiles changed:\n';
+    for (var i = 0; i < Math.min(diffResult.files.length, 10); i++) {
+      var f = diffResult.files[i];
+      diffContent += '- ' + f.filename + ' (' + f.status + ', +' + f.additions + '/-' + f.deletions + ')\n';
+      if (f.patch) {
+        diffContent += f.patch.substring(0, 500) + '\n';
+      }
+    }
+
+    resultEl.innerHTML = '<div class="skeleton-line" style="height:60px;"></div><p style="margin-top:8px;font-size:11px;color:var(--muted);">AI is analyzing the diff...</p>';
+
+    analyzeCodeDiff(repoName, branchName, diffContent).then(function(aiResult) {
+      if (!aiResult.ok) {
+        resultEl.innerHTML = '<div style="margin-bottom:8px;font-size:12px;color:var(--fg);">' + diffResult.diff + '</div>' +
+          '<span style="color:var(--amber);font-size:11px;">AI analysis unavailable: ' + aiResult.error + '</span>';
+        return;
+      }
+
+      var formatted = aiResult.analysis || '';
+      formatted = formatted.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      formatted = formatted.replace(/\*(.+?)\*/g, '<em>$1</em>');
+      formatted = formatted.replace(/`(.+?)`/g, '<code style="background:rgba(255,255,255,0.08);padding:1px 4px;border-radius:3px;font-family:DM Mono,monospace;font-size:11px;">$1</code>');
+      formatted = formatted.replace(/\n/g, '<br/>');
+
+      resultEl.innerHTML = '<div style="margin-bottom:8px;font-size:11px;color:var(--muted);">' + diffResult.diff + '</div>' +
+        '<div style="font-size:12px;color:var(--fg);line-height:1.7;padding:12px;background:var(--s1);border-radius:8px;border:1px solid var(--border);">' + formatted + '</div>';
+    });
   });
 }
 
@@ -2185,6 +3963,19 @@ function showBranchPopup(repoKey) {
   }
 
   html += '</tbody></table>';
+
+  // Add AI Diff button for branches behind master
+  var nonMainBranches = [];
+  for (var d = 0; d < branches.length; d++) {
+    var dName = typeof branches[d] === 'string' ? branches[d] : (branches[d].name || '');
+    if (dName !== 'main' && dName !== 'master') {
+      nonMainBranches.push(branches[d]);
+    }
+  }
+  if (nonMainBranches.length > 0) {
+    html += renderCodeDiffPanel(repoKey, branches);
+  }
+
   html += '</div></div>';
 
   // Append to body
@@ -2935,6 +4726,64 @@ function renderSettingsPage() {
   html += '</div>';
   html += '</div>';
 
+  // JIRA Configuration section
+  html += '<div class="settings-section">';
+  html += '<div class="settings-section-title" onclick="toggleSettingsSection(this)">JIRA Configuration</div>';
+  html += '<div class="settings-section-body">';
+  html += '<div class="form-group">';
+  html += '<label>JIRA Base URL</label>';
+  html += '<input type="text" id="settings-jira-base-url" placeholder="https://corpinfollc.atlassian.net" value="' + _escAttr(settings.jira.baseUrl) + '" onchange="autoSaveSettings()"/>';
+  html += '</div>';
+  html += '<div class="form-group">';
+  html += '<label>Email</label>';
+  html += '<input type="text" id="settings-jira-email" placeholder="your-email@example.com" value="' + _escAttr(settings.jira.email) + '" onchange="autoSaveSettings()"/>';
+  html += '</div>';
+  html += '<div class="form-group">';
+  html += '<label>API Token</label>';
+  html += '<div style="position:relative;">';
+  html += '<input type="password" id="settings-jira-api-token" placeholder="Enter JIRA API token" value="' + _escAttr(settings.jira.apiToken) + '" onchange="autoSaveSettings()" style="padding-right:60px;"/>';
+  html += '<button type="button" onclick="toggleJiraTokenVisibility()" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);font-size:11px;cursor:pointer;font-family:DM Mono,monospace;" id="jira-token-toggle-btn">Show</button>';
+  html += '</div>';
+  html += '</div>';
+  html += '<div style="display:flex;align-items:center;gap:12px;margin-top:8px;">';
+  html += '<button class="btn-primary" type="button" onclick="testJiraConnection()">Test JIRA Connection</button>';
+  html += '<span id="settings-jira-msg" style="font-size:12px;color:var(--muted);"></span>';
+  html += '</div>';
+  html += '</div>';
+  html += '</div>';
+
+  // Email Notification section
+  html += '<div class="settings-section">';
+  html += '<div class="settings-section-title" onclick="toggleSettingsSection(this)">Email Notifications</div>';
+  html += '<div class="settings-section-body">';
+  html += '<div class="form-group">';
+  html += '<label>Enable Email Notifications</label>';
+  html += '<div class="toggle-switch' + (settings.email.enabled ? ' active' : '') + '" id="settings-email-enabled-toggle" onclick="toggleEmailEnabled(this)"></div>';
+  html += '</div>';
+  html += '<div class="form-grid">';
+  html += '<div class="form-group">';
+  html += '<label>SMTP Server</label>';
+  html += '<input type="text" id="settings-email-smtp" placeholder="smtp.example.com" value="' + _escAttr(settings.email.smtp) + '" onchange="autoSaveSettings()"/>';
+  html += '</div>';
+  html += '<div class="form-group">';
+  html += '<label>Port</label>';
+  html += '<input type="number" id="settings-email-port" placeholder="587" value="' + settings.email.port + '" onchange="autoSaveSettings()"/>';
+  html += '</div>';
+  html += '</div>';
+  html += '<div class="form-group">';
+  html += '<label>Sender Email</label>';
+  html += '<input type="text" id="settings-email-sender" placeholder="notifications@example.com" value="' + _escAttr(settings.email.sender) + '" onchange="autoSaveSettings()"/>';
+  html += '</div>';
+  html += '<div class="form-group">';
+  html += '<label>Sender Password</label>';
+  html += '<div style="position:relative;">';
+  html += '<input type="password" id="settings-email-password" placeholder="Enter sender password" value="' + _escAttr(settings.email.password) + '" onchange="autoSaveSettings()" style="padding-right:60px;"/>';
+  html += '<button type="button" onclick="toggleEmailPasswordVisibility()" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);font-size:11px;cursor:pointer;font-family:DM Mono,monospace;" id="email-password-toggle-btn">Show</button>';
+  html += '</div>';
+  html += '</div>';
+  html += '</div>';
+  html += '</div>';
+
   // Preferences section
   html += '<div class="settings-section">';
   html += '<div class="settings-section-title" onclick="toggleSettingsSection(this)">Preferences</div>';
@@ -3081,6 +4930,71 @@ function toggleAzureKeyVisibility() {
     input.type = 'password';
     btn.textContent = 'Show';
   }
+}
+
+function toggleJiraTokenVisibility() {
+  var input = document.getElementById('settings-jira-api-token');
+  var btn = document.getElementById('jira-token-toggle-btn');
+  if (!input || !btn) { return; }
+  if (input.type === 'password') {
+    input.type = 'text';
+    btn.textContent = 'Hide';
+  } else {
+    input.type = 'password';
+    btn.textContent = 'Show';
+  }
+}
+
+function toggleEmailPasswordVisibility() {
+  var input = document.getElementById('settings-email-password');
+  var btn = document.getElementById('email-password-toggle-btn');
+  if (!input || !btn) { return; }
+  if (input.type === 'password') {
+    input.type = 'text';
+    btn.textContent = 'Hide';
+  } else {
+    input.type = 'password';
+    btn.textContent = 'Show';
+  }
+}
+
+function toggleEmailEnabled(el) {
+  el.classList.toggle('active');
+  autoSaveSettings();
+}
+
+function testJiraConnection() {
+  var msgEl = document.getElementById('settings-jira-msg');
+  if (msgEl) {
+    msgEl.textContent = 'Testing connection...';
+    msgEl.style.color = 'var(--muted)';
+  }
+  var settings = getSettings();
+  if (!settings.jira.email || !settings.jira.apiToken) {
+    if (msgEl) {
+      msgEl.textContent = 'Please enter email and API token first.';
+      msgEl.style.color = 'var(--red)';
+    }
+    return;
+  }
+  var baseUrl = settings.jira.baseUrl || 'https://corpinfollc.atlassian.net';
+  var url = baseUrl + '/rest/api/3/myself';
+
+  safeJiraFetch(url).then(function(result) {
+    if (!result.ok) {
+      if (msgEl) {
+        msgEl.textContent = 'Connection failed: ' + result.error;
+        msgEl.style.color = 'var(--red)';
+      }
+      return { ok: false, displayName: null, error: result.error };
+    }
+    var displayName = (result.data && result.data.displayName) ? result.data.displayName : 'Unknown';
+    if (msgEl) {
+      msgEl.textContent = 'Connected as ' + displayName;
+      msgEl.style.color = 'var(--master)';
+    }
+    return { ok: true, displayName: displayName, error: null };
+  });
 }
 
 function toggleRepoEnabled(el, index) {
@@ -3357,6 +5271,16 @@ function autoSaveSettings() {
   var azureDeployment = document.getElementById('settings-azure-deployment');
   var refreshInterval = document.getElementById('settings-refresh-interval');
 
+  var jiraBaseUrl = document.getElementById('settings-jira-base-url');
+  var jiraEmail = document.getElementById('settings-jira-email');
+  var jiraApiToken = document.getElementById('settings-jira-api-token');
+
+  var emailSmtp = document.getElementById('settings-email-smtp');
+  var emailPort = document.getElementById('settings-email-port');
+  var emailSender = document.getElementById('settings-email-sender');
+  var emailPassword = document.getElementById('settings-email-password');
+  var emailEnabledToggle = document.getElementById('settings-email-enabled-toggle');
+
   var settings = getSettings();
 
   if (pat) { settings.github.pat = pat.value.trim(); }
@@ -3370,6 +5294,21 @@ function autoSaveSettings() {
       settings.prefs.refreshInterval = val;
     }
   }
+
+  if (jiraBaseUrl) { settings.jira.baseUrl = jiraBaseUrl.value.trim() || 'https://corpinfollc.atlassian.net'; }
+  if (jiraEmail) { settings.jira.email = jiraEmail.value.trim(); }
+  if (jiraApiToken) { settings.jira.apiToken = jiraApiToken.value.trim(); }
+
+  if (emailSmtp) { settings.email.smtp = emailSmtp.value.trim(); }
+  if (emailPort) {
+    var portVal = parseInt(emailPort.value, 10);
+    if (!isNaN(portVal) && portVal > 0 && portVal <= 65535) {
+      settings.email.port = portVal;
+    }
+  }
+  if (emailSender) { settings.email.sender = emailSender.value.trim(); }
+  if (emailPassword) { settings.email.password = emailPassword.value.trim(); }
+  if (emailEnabledToggle) { settings.email.enabled = emailEnabledToggle.classList.contains('active'); }
 
   var result = saveSettings(settings);
   if (!result.ok) {
@@ -3508,6 +5447,13 @@ function initDashboard() {
       // Render customer adoption page
       renderCustomerRegistryPage();
 
+      // Load proposals and render proposals page
+      fetchProposals().then(function(proposalsResult) {
+        _proposalsData = proposalsResult.proposals || [];
+        _proposalsSha = proposalsResult.sha || null;
+        renderProposalsPage();
+      });
+
       // Re-render settings page with repo list
       renderSettingsPage();
       populateSettingsFromStorage();
@@ -3522,6 +5468,12 @@ function initDashboard() {
         }
       }
       updateAlertBadge(alertCount);
+
+      // Phase 2: Check version changes and auto-create JIRA tickets (non-blocking)
+      checkVersionChanges(registry);
+
+      // Phase 2: Render Framework page (static content)
+      renderFrameworkPage();
 
       // Detect AI purpose for each repo (non-blocking)
       for (var p = 0; p < enabledRepos.length; p++) {
