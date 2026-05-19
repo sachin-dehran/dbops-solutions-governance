@@ -10,5 +10,15 @@
     "approvedBy": "Sachin Dehran",
     "stage": "Review",
     "jiraTicket": "CDIOH-92"
+  },
+  {
+    "id": "prop_1779205273320",
+    "title": "Test2",
+    "description": "Test2",
+    "proposer": "sachin.dehran@rackspace.com",
+    "status": "pending",
+    "createdAt": "2026-05-19T15:41:13.320Z",
+    "updatedAt": "2026-05-19T15:41:13.320Z",
+    "approvedBy": null
   }
 ]
