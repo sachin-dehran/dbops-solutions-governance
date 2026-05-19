@@ -8,5 +8,15 @@
     "notes": "",
     "createdAt": "2026-05-19T14:54:46.397Z",
     "updatedAt": "2026-05-19T14:54:46.397Z"
+  },
+  {
+    "id": "cust_1779202495272",
+    "name": "Team10",
+    "email": "",
+    "solutions": [],
+    "status": "active",
+    "notes": "",
+    "createdAt": "2026-05-19T14:54:55.272Z",
+    "updatedAt": "2026-05-19T14:54:55.272Z"
   }
 ]
