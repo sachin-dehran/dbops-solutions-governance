@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "id": "prop_1779203405723",
+    "title": "Test",
+    "description": "Test",
+    "proposer": "sachin.dehran@rackspace.com",
+    "status": "pending",
+    "createdAt": "2026-05-19T15:10:05.723Z",
+    "updatedAt": "2026-05-19T15:10:05.723Z",
+    "approvedBy": null
+  }
+]
