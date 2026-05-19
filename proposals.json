@@ -11,7 +11,8 @@
     "stage": "Staging",
     "jiraTicket": "CDIOH-92",
     "stageDates": {
-      "Staging": "19/05/2026"
+      "Staging": "19/05/2026",
+      "Proposal": "19/05/2026"
     }
   },
   {
@@ -29,5 +30,20 @@
       "Review": "19/05/2026",
       "Proposal": "19/05/2026"
     }
+  },
+  {
+    "id": "prop_1779207450898",
+    "title": "Test3",
+    "description": "Test3",
+    "proposer": "Test@test",
+    "status": "pending",
+    "stage": "Proposal",
+    "stageDates": {
+      "Proposal": "19/05/2026"
+    },
+    "jiraTicket": "",
+    "createdAt": "2026-05-19T16:17:30.898Z",
+    "updatedAt": "2026-05-19T16:17:30.898Z",
+    "approvedBy": null
   }
 ]
