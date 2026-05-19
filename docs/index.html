@@ -6,608 +6,3630 @@
 <title>DBOps Solutions Governance</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
-:root{--bg:#05080f;--s1:#0c1525;--s2:#101d30;--s3:#162038;--master:#00e5a0;--blue:#4d9fff;--purple:#8b5cf6;--amber:#f59e0b;--red:#ef4444;--text:#ddeeff;--muted:#3d5a7a;--border:rgba(77,159,255,0.1);}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
-.tb{position:sticky;top:0;z-index:200;background:rgba(5,8,15,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:60px;}
-.tb-brand{display:flex;align-items:center;gap:12px;}
-.tb-logo{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,#00e5a0,#0055ff);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;color:#000;}
-.tb-name{font-size:15px;font-weight:700;color:#fff;}
-.tb-sub{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:1px;}
-.tb-nav{display:flex;gap:2px;}
-.nb{padding:7px 16px;border-radius:7px;border:none;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;}
-.nb:hover{color:var(--text);background:rgba(255,255,255,0.05);}
-.nb.on{color:var(--master);background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);}
-.nb.prov{color:#a78bfa;}
-.nb.prov.on{color:#a78bfa;background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.3);}
-.tb-right{display:flex;gap:8px;align-items:center;}
-.live-badge{display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;color:var(--master);background:rgba(0,229,160,0.07);border:1px solid rgba(0,229,160,0.18);padding:4px 12px;border-radius:20px;}
-.live-dot{width:6px;height:6px;background:var(--master);border-radius:50%;animation:blink 1.5s infinite;}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.2;}}
-.gh-btn{font-size:12px;font-weight:600;color:#fff;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);padding:6px 14px;border-radius:7px;text-decoration:none;}
-.alert-badge{font-family:'DM Mono',monospace;font-size:10px;color:var(--red);background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);padding:4px 10px;border-radius:5px;}
-.pg{padding:28px 32px;max-width:1440px;margin:0 auto;}
-.page{display:none;}
-.page.on{display:block;}
-.kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:22px;}
-.kpi{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:16px 18px;position:relative;overflow:visible;}
-.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:12px 12px 0 0;}
-.k1::before{background:linear-gradient(90deg,var(--master),transparent);}
-.k2::before{background:linear-gradient(90deg,var(--blue),transparent);}
-.k3::before{background:linear-gradient(90deg,var(--purple),transparent);}
-.k4::before{background:linear-gradient(90deg,var(--amber),transparent);}
-.k5::before{background:linear-gradient(90deg,#64748b,transparent);}
-.k6::before{background:linear-gradient(90deg,var(--red),transparent);}
-.kpi-top{display:flex;justify-content:space-between;align-items:flex-start;}
-.kv{font-size:30px;font-weight:800;line-height:1;color:#fff;}
-.kl{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);margin-top:6px;text-transform:uppercase;}
-.ks{font-size:10px;color:var(--muted);margin-top:2px;}
-.card{background:var(--s1);border:1px solid var(--border);border-radius:13px;padding:20px 22px;margin-bottom:14px;overflow:visible;}
-.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
-.card-head-left{display:flex;align-items:center;gap:8px;}
-.card-title{font-size:14px;font-weight:700;color:#fff;}
-.card-badge{font-family:'DM Mono',monospace;font-size:9px;padding:3px 8px;border-radius:4px;background:rgba(255,255,255,0.05);color:var(--muted);}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;}
-.info-btn{width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:#64748b;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-family:'DM Mono',monospace;flex-shrink:0;}
-.info-btn:hover{background:rgba(0,229,160,0.12);border-color:rgba(0,229,160,0.3);color:var(--master);}
-.info-popup{position:fixed;width:290px;background:#0f1e35;border:1px solid rgba(0,229,160,0.25);border-radius:12px;padding:16px;z-index:99999;box-shadow:0 16px 48px rgba(0,0,0,0.8);}
-.ip-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.07);}
-.ip-row{margin-bottom:8px;}
-.ip-lbl{font-family:'DM Mono',monospace;font-size:9px;color:var(--master);text-transform:uppercase;margin-bottom:3px;}
-.ip-txt{font-size:11px;color:#7a9bbf;line-height:1.6;}
-.ip-close{float:right;background:none;border:none;color:#64748b;cursor:pointer;font-size:14px;margin:-4px -4px 0 0;}
-.matrix-wrap{overflow-x:auto;}
-.mtbl{width:100%;border-collapse:collapse;}
-.mtbl th{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);padding:8px 10px;text-align:center;border-bottom:1px solid var(--border);}
-.mtbl th:first-child{text-align:left;}
-.mtbl td{padding:5px 10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.03);}
-.mtbl td:first-child{text-align:left;font-weight:700;font-size:13px;}
-.cell{display:inline-flex;flex-direction:column;align-items:center;min-width:120px;padding:5px 8px;border-radius:7px;font-family:'DM Mono',monospace;font-size:9px;border:1px solid transparent;cursor:pointer;line-height:1.4;}
-.cell.master{background:rgba(0,229,160,.1);color:var(--master);border-color:rgba(0,229,160,.2);}
-.cell.deviated{background:rgba(245,158,11,.1);color:var(--amber);border-color:rgba(245,158,11,.2);}
-.cell.behind{background:rgba(77,159,255,.1);color:var(--blue);border-color:rgba(77,159,255,.2);}
-.cell.wants-merge{background:rgba(139,92,246,.1);color:#a78bfa;border-color:rgba(139,92,246,.25);}
-.cell.na{background:rgba(255,255,255,.03);color:#1e3a5f;border-color:rgba(255,255,255,.04);}
-.cell-ver{font-size:10px;font-weight:700;}
-.cell-status{font-size:8px;opacity:0.8;margin-top:1px;}
-.leg-row{display:flex;gap:14px;margin-top:12px;flex-wrap:wrap;}
-.leg{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);}
-.ld{width:10px;height:10px;border-radius:3px;}
-.drift-item{background:var(--s2);border-radius:9px;padding:12px 14px;border-left:3px solid var(--red);display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;}
-.drift-item.warn{border-color:var(--amber);}
-.drift-item.merge{border-color:var(--purple);}
-.di-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px;}
-.dtag{font-family:'DM Mono',monospace;font-size:9px;padding:2px 7px;border-radius:4px;}
-.dtag.sol{background:rgba(139,92,246,.1);color:#a78bfa;}
-.dtag.team{background:rgba(0,229,160,.1);color:var(--master);}
-.dtag.ver{background:rgba(255,255,255,.06);color:var(--muted);}
-.di-msg{font-size:12px;color:var(--text);}
-.stag{font-family:'DM Mono',monospace;font-size:9px;padding:3px 9px;border-radius:5px;white-space:nowrap;}
-.stag.warn{background:rgba(245,158,11,.12);color:#fbbf24;border:1px solid rgba(245,158,11,.2);}
-.stag.merge{background:rgba(139,92,246,.12);color:#a78bfa;border:1px solid rgba(139,92,246,.2);}
-.mc-tbl{width:100%;border-collapse:collapse;}
-.mc-tbl th{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);}
-.mc-tbl td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.03);font-size:12px;}
-.mc-tbl tr:hover td{background:rgba(255,255,255,.02);}
-.mv{font-family:'DM Mono',monospace;font-size:11px;}
-.mv.ok{color:var(--master);}
-.mv.old{color:var(--amber);}
-.gh-link{font-family:'DM Mono',monospace;font-size:10px;color:var(--blue);text-decoration:none;}
-.hring{display:flex;align-items:center;gap:22px;}
-.ring-wrap{position:relative;width:120px;height:120px;flex-shrink:0;}
-.ring-val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:#fff;}
-.ring-val span{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;}
-.hbars{flex:1;display:flex;flex-direction:column;gap:8px;}
-.hbar-row{display:flex;align-items:center;gap:8px;}
-.hbar-label{font-size:11px;color:#94a3b8;min-width:110px;}
-.hbar-track{flex:1;height:7px;background:rgba(255,255,255,.05);border-radius:3px;overflow:hidden;}
-.hbar-fill{height:100%;border-radius:3px;}
-.hbar-val{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);min-width:30px;text-align:right;}
-.trend-bars{display:flex;align-items:flex-end;gap:28px;height:120px;padding-bottom:4px;}
-.tg{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;}
-.tbw{display:flex;gap:4px;align-items:flex-end;height:88px;}
-.tbar{width:24px;border-radius:4px 4px 0 0;position:relative;}
-.tbar:hover .ttip{display:block;}
-.ttip{position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:#1e293b;border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:4px 8px;font-size:10px;font-family:'DM Mono',monospace;white-space:nowrap;display:none;z-index:10;}
-.tq{font-family:'DM Mono',monospace;font-size:10px;color:#334155;}
-.th-val{font-size:13px;font-weight:700;color:#fff;}
-.qgrid{display:grid;gap:10px;}
-.qstep{background:var(--s2);border-radius:9px;padding:14px;border-top:2px solid transparent;}
-.qstep.w1{border-color:var(--master);}
-.qstep.w2{border-color:var(--blue);}
-.qstep.w3{border-color:var(--amber);}
-.qstep.w4{border-color:var(--purple);}
-.qw{font-family:'DM Mono',monospace;font-size:9px;color:var(--master);margin-bottom:5px;}
-.qt{font-size:12px;font-weight:700;color:#fff;margin-bottom:5px;}
-.qd{font-size:11px;color:var(--muted);line-height:1.6;}
-.rules-banner{background:var(--s2);border:1px solid rgba(239,68,68,.15);border-radius:11px;padding:16px 20px;margin-bottom:16px;}
-.rb-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-.rb-title{font-size:13px;font-weight:700;color:#f87171;}
-.rules-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
-.rule{display:flex;align-items:center;gap:8px;font-size:12px;padding:3px 0;}
-.rule.ok{color:#94a3b8;}
-.rule.no{color:#f87171;}
-.sol-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;}
-.stab{font-family:'DM Mono',monospace;font-size:10px;padding:4px 11px;border-radius:5px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;}
-.stab.on{color:var(--master);background:rgba(0,229,160,.07);border-color:rgba(0,229,160,.2);}
-.cl-row{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);}
-.cl-row:last-child{border:none;}
-.clt{font-family:'DM Mono',monospace;font-size:9px;padding:3px 7px;border-radius:4px;min-width:52px;text-align:center;font-weight:600;}
-.clt.minor{background:rgba(0,229,160,.1);color:var(--master);}
-.clt.patch{background:rgba(77,159,255,.1);color:var(--blue);}
-.clt.major{background:rgba(239,68,68,.12);color:#f87171;}
-.clv{font-family:'DM Mono',monospace;font-size:11px;color:#94a3b8;min-width:80px;}
-.cur-tag{background:rgba(0,229,160,.1);color:var(--master);font-size:9px;padding:1px 5px;border-radius:3px;margin-left:5px;}
-.cln{font-size:12px;color:var(--text);flex:1;}
-.cld{font-family:'DM Mono',monospace;font-size:10px;color:#334155;white-space:nowrap;}
-.wf-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.wf-card{background:var(--s2);border:1px solid var(--border);border-radius:11px;padding:16px;border-left:3px solid var(--blue);}
-.wf-card.green{border-left-color:var(--master);}
-.wf-card.amber{border-left-color:var(--amber);}
-.wf-card.purple{border-left-color:var(--purple);}
-.wf-num{font-family:'DM Mono',monospace;font-size:9px;color:var(--blue);margin-bottom:5px;}
-.wf-card.green .wf-num{color:var(--master);}
-.wf-card.amber .wf-num{color:var(--amber);}
-.wf-card.purple .wf-num{color:var(--purple);}
-.wf-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:6px;}
-.wf-trigger{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);background:rgba(255,255,255,.04);padding:3px 8px;border-radius:4px;margin-bottom:8px;display:inline-block;}
-.wf-step{font-size:11px;color:#7a9bbf;display:flex;gap:6px;margin-bottom:4px;}
-.wf-step::before{content:'>';color:var(--master);}
-.last-upd{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-align:right;margin-bottom:16px;}
-.prov-layout{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
-.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
-.fg label{font-size:12px;font-weight:600;color:#94a3b8;}
-.req{color:var(--red);font-size:10px;}
-.fg input,.fg select,.fg textarea{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:10px 13px;font-size:13px;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;width:100%;}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:rgba(139,92,246,.4);}
-.fg input::placeholder,.fg textarea::placeholder{color:var(--muted);}
-.fg select option{background:var(--s2);}
-.fg textarea{resize:vertical;min-height:70px;}
-.hint{font-size:10px;color:var(--muted);margin-top:2px;}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.team-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:4px;}
-.tc{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:10px 8px;text-align:center;cursor:pointer;transition:all .2s;}
-.tc:hover{border-color:rgba(139,92,246,.3);}
-.tc.sel{background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.35);}
-.tc-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:3px;}
-.tc-status{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);}
-.tc.sel .tc-name{color:#a78bfa;}
-.submit-btn{padding:13px 28px;border-radius:10px;border:none;background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;width:100%;margin-top:4px;}
-.prov-msg{border-radius:11px;padding:14px 18px;margin-bottom:12px;font-size:12px;line-height:1.7;display:none;}
-.prov-msg.pending{background:rgba(139,92,246,.07);border:1px solid rgba(139,92,246,.2);color:#a78bfa;}
-.prov-msg.error{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);color:#f87171;}
-.req-table{width:100%;border-collapse:collapse;}
-.req-table th{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);}
-.req-table td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.03);font-size:12px;}
-.req-table tr:hover td{background:rgba(255,255,255,.02);}
-.rs{font-family:'DM Mono',monospace;font-size:9px;padding:3px 8px;border-radius:4px;}
-.rs-pending{background:rgba(245,158,11,.1);color:#fbbf24;border:1px solid rgba(245,158,11,.2);}
-.rs-approved{background:rgba(0,229,160,.1);color:var(--master);border:1px solid rgba(0,229,160,.2);}
-.appr-btn{font-family:'DM Mono',monospace;font-size:9px;padding:4px 10px;border-radius:5px;background:rgba(0,229,160,.1);border:1px solid rgba(0,229,160,.2);color:var(--master);cursor:pointer;}
+:root {
+  --bg: #04060d;
+  --s1: #080f1c;
+  --s2: #0c1525;
+  --s3: #162038;
+  --fg: #ddeeff;
+  --muted: #3d5a7a;
+  --border: rgba(77,159,255,0.1);
+  --master: #00e5a0;
+  --blue: #4d9fff;
+  --amber: #f59e0b;
+  --red: #ef4444;
+  --purple: #8b5cf6;
+  --text: #ddeeff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 80%, rgba(0,229,160,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(77,159,255,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 50% 50%, rgba(139,92,246,0.04) 0%, transparent 60%);
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 1;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 600' preserveAspectRatio='none'%3E%3Cpath d='M0,300 C240,350 480,200 720,280 C960,360 1200,220 1440,300 L1440,600 L0,600 Z' fill='rgba(0,229,160,0.04)'/%3E%3Cpath d='M0,350 C300,400 600,280 900,350 C1100,400 1300,300 1440,360 L1440,600 L0,600 Z' fill='rgba(77,159,255,0.035)'/%3E%3Cpath d='M0,400 C200,450 500,350 750,420 C1000,480 1250,380 1440,430 L1440,600 L0,600 Z' fill='rgba(139,92,246,0.03)'/%3E%3C/svg%3E");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  animation: wave-drift 20s ease-in-out infinite alternate;
+}
+
+@keyframes wave-drift {
+  0% { transform: translateX(0) scaleY(1); }
+  50% { transform: translateX(-20px) scaleY(1.05); }
+  100% { transform: translateX(20px) scaleY(0.95); }
+}
+
+.navbar, .page-container, .chatbot-toggle, .chatbot-panel {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Navbar ─────────────────────────────────────────────────────────── */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  height: 60px;
+  background: rgba(4,6,13,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 11px;
+  background: linear-gradient(145deg, #1a3a6b, #0d2240);
+  border: 2px solid #c9a84c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 16px;
+  color: #000;
+  box-shadow: 0 4px 12px rgba(201,168,76,0.3), inset 0 1px 2px rgba(255,255,255,0.1);
+  animation: logo-pulse 3s ease-in-out infinite;
+  transform-style: preserve-3d;
+  perspective: 200px;
+}
+
+@keyframes logo-pulse {
+  0%, 100% { transform: rotateY(0deg) scale(1); box-shadow: 0 4px 12px rgba(201,168,76,0.3); }
+  25% { transform: rotateY(5deg) scale(1.02); box-shadow: 0 6px 18px rgba(201,168,76,0.4); }
+  50% { transform: rotateY(0deg) scale(1.04); box-shadow: 0 8px 24px rgba(77,159,255,0.3); }
+  75% { transform: rotateY(-5deg) scale(1.02); box-shadow: 0 6px 18px rgba(201,168,76,0.4); }
+}
+
+.nav-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.nav-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 2px;
+}
+
+.tab-btn {
+  padding: 7px 16px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-btn:hover {
+  color: var(--fg);
+  background: rgba(255,255,255,0.05);
+}
+
+.tab-btn.on {
+  color: var(--master);
+  background: rgba(0,229,160,0.08);
+  border: 1px solid rgba(0,229,160,0.2);
+}
+
+.nav-right {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.alert-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--red);
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.2);
+  padding: 4px 10px;
+  border-radius: 5px;
+  display: none;
+}
+
+.connection-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+}
+
+.connection-dot.connected {
+  background: var(--master);
+  animation: pulse-dot 1.5s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.gh-link {
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 6px 14px;
+  border-radius: 7px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.gh-link:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+/* ── Page containers ────────────────────────────────────────────────── */
+.page-container {
+  padding: 28px 32px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.page {
+  display: none;
+}
+
+.page.on {
+  display: block;
+}
+
+/* ── Card grid ──────────────────────────────────────────────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 20px 22px;
+  position: relative;
+  overflow: visible;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 13px 13px 0 0;
+  background: linear-gradient(90deg, var(--master), var(--blue), transparent);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.card-metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.card-metric-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.card-metric-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--fg);
+  font-weight: 600;
+}
+
+/* ── Skeleton shimmer ───────────────────────────────────────────────── */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--s1) 25%, var(--s2) 50%, var(--s1) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+.skeleton-card {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 20px 22px;
+}
+
+.skeleton-line {
+  height: 12px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--s2) 25%, var(--s3) 50%, var(--s2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-line.short {
+  width: 60%;
+}
+
+.skeleton-line.medium {
+  width: 80%;
+}
+
+/* ── Table styles ───────────────────────────────────────────────────── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table td {
+  padding: 10px 12px;
+  font-size: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.data-table tr:hover td {
+  background: rgba(255,255,255,0.02);
+}
+
+.data-table .actions-cell {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-edit, .btn-delete {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  padding: 4px 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-edit {
+  background: rgba(77,159,255,0.1);
+  color: var(--blue);
+  border: 1px solid rgba(77,159,255,0.2);
+}
+
+.btn-delete {
+  background: rgba(239,68,68,0.1);
+  color: var(--red);
+  border: 1px solid rgba(239,68,68,0.2);
+}
+
+/* ── Adoption matrix ────────────────────────────────────────────────── */
+.matrix-grid {
+  overflow-x: auto;
+}
+
+.matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.matrix-table th {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.matrix-table th:first-child {
+  text-align: left;
+}
+
+.matrix-table td {
+  padding: 6px 10px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.matrix-table td:first-child {
+  text-align: left;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.matrix-cell {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 110px;
+  padding: 6px 10px;
+  border-radius: 7px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  line-height: 1.4;
+  position: relative;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.matrix-cell:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  z-index: 10;
+}
+
+.matrix-cell.status-master {
+  background: rgba(0,229,160,0.1);
+  color: var(--master);
+  border-color: rgba(0,229,160,0.2);
+}
+
+.matrix-cell.status-approved-deviation {
+  background: rgba(77,159,255,0.1);
+  color: var(--blue);
+  border-color: rgba(77,159,255,0.2);
+}
+
+.matrix-cell.status-behind {
+  background: rgba(245,158,11,0.1);
+  color: var(--amber);
+  border-color: rgba(245,158,11,0.2);
+}
+
+.matrix-cell.status-unapproved-drift {
+  background: rgba(239,68,68,0.1);
+  color: var(--red);
+  border-color: rgba(239,68,68,0.2);
+}
+
+.matrix-cell.status-wants-merge {
+  background: rgba(139,92,246,0.1);
+  color: var(--purple);
+  border-color: rgba(139,92,246,0.2);
+}
+
+.matrix-cell.status-na {
+  background: rgba(255,255,255,0.03);
+  color: var(--muted);
+  border-color: rgba(255,255,255,0.04);
+}
+
+.matrix-cell.status-in-use {
+  background: rgba(0,229,160,0.1);
+  color: var(--master);
+  border-color: rgba(0,229,160,0.2);
+  font-weight: 600;
+}
+
+.matrix-cell.status-not-in-use {
+  background: rgba(255,255,255,0.03);
+  color: var(--muted);
+  border-color: rgba(255,255,255,0.06);
+}
+
+.matrix-legend {
+  display: flex;
+  gap: 14px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+/* ── Chatbot panel ──────────────────────────────────────────────────── */
+.chatbot-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #f5a623, #f7c948);
+  border: none;
+  color: #000;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 6px 20px rgba(245,166,35,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: visible;
+}
+
+.chatbot-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 28px rgba(245,166,35,0.5);
+}
+
+.chatbot-toggle::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 8px;
+  background: #333;
+  border-radius: 2px;
+}
+
+.chatbot-toggle::after {
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  background: #f7c948;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(247,201,72,0.6);
+  opacity: 1;
+}
+
+.chatbot-panel {
+  position: fixed;
+  bottom: 84px;
+  right: 24px;
+  width: 360px;
+  height: 480px;
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  z-index: 999;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+}
+
+.chatbot-panel.open {
+  display: flex;
+}
+
+.chatbot-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chatbot-close {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.chatbot-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 18px;
+}
+
+.chat-bubble {
+  margin-bottom: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 1.6;
+  max-width: 85%;
+}
+
+.chat-bubble.user {
+  background: rgba(77,159,255,0.12);
+  color: var(--fg);
+  margin-left: auto;
+  border-bottom-right-radius: 3px;
+}
+
+.chat-bubble.assistant {
+  background: var(--s2);
+  color: var(--fg);
+  border-bottom-left-radius: 3px;
+}
+
+.chat-bubble.error {
+  background: rgba(239,68,68,0.1);
+  color: var(--red);
+  border: 1px solid rgba(239,68,68,0.2);
+}
+
+.typing-indicator {
+  display: flex;
+  gap: 4px;
+  padding: 10px 14px;
+}
+
+.typing-indicator span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--muted);
+  animation: typing-bounce 1.2s infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing-bounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-4px); }
+}
+
+.chatbot-input-area {
+  padding: 12px 18px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+}
+
+.chatbot-input {
+  flex: 1;
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--fg);
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+}
+
+.chatbot-input:focus {
+  border-color: rgba(139,92,246,0.4);
+}
+
+.chatbot-input::placeholder {
+  color: var(--muted);
+}
+
+.chatbot-send {
+  background: linear-gradient(135deg, var(--purple), var(--blue));
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ── Info popup ─────────────────────────────────────────────────────── */
+
+/* ── Modal overlay ──────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 700px;
+  max-height: 80vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 24px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Info popup (continued) ─────────────────────────────────────────── */
+.info-btn {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #64748b;
+  font-size: 10px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: 'DM Mono', monospace;
+  flex-shrink: 0;
+}
+
+.info-btn:hover {
+  background: rgba(0,229,160,0.12);
+  border-color: rgba(0,229,160,0.3);
+  color: var(--master);
+}
+
+.info-popup {
+  position: fixed;
+  width: 290px;
+  background: var(--s2);
+  border: 1px solid rgba(0,229,160,0.25);
+  border-radius: 12px;
+  padding: 16px;
+  z-index: 99999;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.8);
+}
+
+.info-popup-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.info-popup-text {
+  font-size: 11px;
+  color: #7a9bbf;
+  line-height: 1.6;
+}
+
+.info-popup-close {
+  float: right;
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 14px;
+  margin: -4px -4px 0 0;
+}
+
+/* ── Form styles ────────────────────────────────────────────────────── */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.form-group .required {
+  color: var(--red);
+  font-size: 10px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 13px;
+  font-size: 13px;
+  color: var(--fg);
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+  width: 100%;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: rgba(139,92,246,0.4);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--muted);
+}
+
+.form-group select option {
+  background: var(--s2);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.form-error {
+  font-size: 11px;
+  color: var(--red);
+  margin-top: 4px;
+  display: none;
+}
+
+.btn-primary {
+  padding: 10px 22px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, var(--master), var(--blue));
+  color: #000;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-secondary {
+  padding: 10px 22px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--fg);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ── Settings specific ──────────────────────────────────────────────── */
+.settings-section {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 0;
+  margin-bottom: 4px;
+  overflow: hidden;
+}
+
+.settings-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+  padding: 14px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+  transition: background 0.15s;
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.settings-section-title:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+.settings-section-title::before {
+  content: '\25B8';
+  font-size: 11px;
+  color: var(--muted);
+  transition: transform 0.2s;
+}
+
+.settings-section-title.expanded::before {
+  transform: rotate(90deg);
+  color: var(--master);
+}
+
+.settings-section-title::after {
+  content: '';
+}
+
+.settings-section-body {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding: 0 20px;
+  transition: max-height 0.3s ease, opacity 0.2s ease, padding 0.2s ease;
+}
+
+.settings-section-body.expanded {
+  max-height: 800px;
+  opacity: 1;
+  padding: 0 20px 20px;
+  border-top: 1px solid var(--border);
+}
+
+.settings-section-body.collapsed {
+  max-height: 0 !important;
+  opacity: 0;
+  margin: 0;
+  padding: 0 20px;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  background: var(--s3);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.toggle-switch.active {
+  background: var(--master);
+}
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.2s;
+}
+
+.toggle-switch.active::after {
+  transform: translateX(16px);
+}
+
+.repo-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.repo-list-item:last-child {
+  border-bottom: none;
+}
+
+/* ── Tab active states (sub-tabs) ───────────────────────────────────── */
+.sub-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 18px;
+}
+
+.sub-tab {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sub-tab:hover {
+  color: var(--fg);
+  background: rgba(255,255,255,0.04);
+}
+
+.sub-tab.on {
+  color: var(--master);
+  background: rgba(0,229,160,0.08);
+  border-color: rgba(0,229,160,0.2);
+}
+
+/* ── Responsive breakpoints ─────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 16px;
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 60px;
+    gap: 8px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .nav-tabs {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .page-container {
+    padding: 16px;
+  }
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+  .chatbot-panel {
+    width: calc(100vw - 32px);
+    right: 16px;
+    bottom: 76px;
+    height: 60vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-brand {
+    gap: 8px;
+  }
+  .nav-name {
+    font-size: 13px;
+  }
+  .tab-btn {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+}
 </style>
 </head>
 <body>
-<div class="tb">
-  <div class="tb-brand">
-    <div class="tb-logo">D</div>
+
+<!-- ── Navbar ──────────────────────────────────────────────────────────── -->
+<nav class="navbar">
+  <div class="nav-brand">
+    <div class="nav-logo" style="position:relative;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="position:absolute;">
+        <path d="M12 2L3 7v10l9 5 9-5V7l-9-5z" fill="#1a3a6b" stroke="#c9a84c" stroke-width="1.5"/>
+        <rect x="8" y="9" width="2" height="6" fill="#c9a84c"/>
+        <rect x="11" y="9" width="2" height="6" fill="#c9a84c"/>
+        <rect x="14" y="9" width="2" height="6" fill="#c9a84c"/>
+        <path d="M8 8h8v1H8z" fill="#c9a84c"/>
+        <path d="M9 15h6v1H9z" fill="#c9a84c"/>
+      </svg>
+    </div>
     <div>
-      <div class="tb-name">DBOps Solutions Governance</div>
-      <div class="tb-sub">sachin-dehran &middot; GitHub-Native &middot; Auto-Versioned</div>
+      <div class="nav-name"><span style="color:#c9a84c;">DB</span><span style="color:#4d9fff;">Ops</span> <span style="color:#94a3b8;font-weight:400;font-size:12px;">Solutions Governance</span></div>
     </div>
   </div>
-  <div class="tb-nav">
-    <button class="nb on" onclick="showPage('overview',this)">Overview</button>
-    <button class="nb" onclick="showPage('matrix',this)">Adoption Matrix</button>
-    <button class="nb" onclick="showPage('master',this)">Master Compare</button>
-    <button class="nb" onclick="showPage('changelog',this)">Changelog</button>
-    <button class="nb" onclick="showPage('workflows',this)">Workflows</button>
-    <button class="nb prov" onclick="showPage('provisioning',this)">&#9889; New Solution</button>
+  <div class="nav-tabs">
+    <button class="tab-btn on" id="tab-repo-inventory" onclick="showPage('repo-inventory', this)">Repo Inventory</button>
+    <button class="tab-btn" id="tab-customer-adoption" onclick="showPage('customer-adoption', this)">Customer Adoption</button>
+    <button class="tab-btn" id="tab-settings" onclick="showPage('settings', this)">Settings</button>
   </div>
-  <div class="tb-right">
-    <div id="alert-badge" class="alert-badge" style="display:none"></div>
-    <div class="live-badge"><div class="live-dot"></div>Live</div>
-    <a class="gh-btn" href="https://github.com/sachin-dehran/dbops-solutions-governance" target="_blank">GitHub</a>
+  <div class="nav-right">
+    <span id="nav-datetime" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);"></span>
+    <button onclick="location.reload()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:5px 10px;color:var(--fg);font-size:11px;cursor:pointer;font-family:'DM Mono',monospace;" title="Refresh">&#8635;</button>
+    <div class="alert-badge" id="alert-badge">0</div>
+    <div class="connection-dot" id="connection-dot" title="API connection status"></div>
+    <a class="gh-link" href="https://github.com/sachin-dehran/dbops-solutions-governance" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<!-- ── Page containers ─────────────────────────────────────────────────── -->
+<div class="page-container">
+  <div class="page on" id="page-repo-inventory">
+    <!-- Repo Inventory content rendered by JS -->
+  </div>
+  <div class="page" id="page-customer-adoption">
+    <!-- Customer Adoption content rendered by JS -->
+  </div>
+  <div class="page" id="page-settings">
+    <!-- Settings content rendered by JS -->
   </div>
 </div>
-<div class="pg">
-  <div class="last-upd" id="last-upd">Loading...</div>
-  <div class="kpi-row" id="kpi-row"></div>
-  <div id="page-overview"  class="page on"></div>
-  <div id="page-matrix"    class="page"></div>
-  <div id="page-master"    class="page"></div>
-  <div id="page-changelog" class="page"></div>
-  <div id="page-workflows" class="page"></div>
-  <div id="page-provisioning" class="page"></div>
+
+<!-- ── Chatbot ─────────────────────────────────────────────────────────── -->
+<button class="chatbot-toggle" id="chatbot-toggle" onclick="toggleChatbot()" title="AI Assistant"><span style="display:flex;gap:6px;align-items:center;"><span style="width:10px;height:10px;background:#fff;border-radius:50%;box-shadow:0 0 6px rgba(255,255,255,0.8);"></span><span style="width:10px;height:10px;background:#fff;border-radius:50%;box-shadow:0 0 6px rgba(255,255,255,0.8);"></span></span></button>
+<div class="chatbot-panel" id="chatbot-panel">
+  <div class="chatbot-header">
+    <span>AI Assistant</span>
+    <button class="chatbot-close" onclick="toggleChatbot()">&#10005;</button>
+  </div>
+  <div class="chatbot-messages" id="chatbot-messages"></div>
+  <div class="chatbot-input-area">
+    <input class="chatbot-input" id="chatbot-input" type="text" placeholder="Ask about repos or customers..." onkeydown="if(event.key==='Enter')submitChatMessage()"/>
+    <button class="chatbot-send" onclick="submitChatMessage()">Send</button>
+  </div>
 </div>
 
 <script>
-// ── ALL LOGIC (no template literals, no fetch, pure ES5-safe) ─────────────────
+// ── Settings Module ───────────────────────────────────────────────────────────
+var SETTINGS_KEY = 'dbops_governance_settings';
 
-var GITHUB_USER = 'sachin-dehran';
-var GOVERNANCE_REPO = 'dbops-solutions-governance';
-var registry = {};
-var selTeams = [];
-
-var CHANGELOGS = {
-  dbops_versol1: [
-    { v:'v2026.1.3', d:'2026-04-10', t:'patch', n:'fix: connection timeout increased', pr:'#11', by:'sachin-dehran' },
-    { v:'v2026.1.2', d:'2026-03-22', t:'patch', n:'fix: null pointer in retry handler', pr:'#9',  by:'sachin-dehran' },
-    { v:'v2026.1.1', d:'2026-02-15', t:'minor', n:'feat: parallel execution support',  pr:'#7',  by:'sachin-dehran' },
-    { v:'v2026.1.0', d:'2026-01-20', t:'minor', n:'feat: enhanced logging hooks',       pr:'#5',  by:'sachin-dehran' },
-    { v:'v2026.0.0', d:'2026-01-01', t:'major', n:'breaking: initial 2026 architecture',pr:'#1',  by:'sachin-dehran' }
-  ],
-  dbops_versol2: [
-    { v:'v2026.2.0', d:'2026-04-20', t:'minor', n:'feat: rollback capability',          pr:'#8',  by:'sachin-dehran' },
-    { v:'v2026.1.9', d:'2026-03-10', t:'patch', n:'fix: schema migration timeout',      pr:'#6',  by:'sachin-dehran' },
-    { v:'v2026.1.0', d:'2026-01-15', t:'minor', n:'feat: initial feature set',          pr:'#2',  by:'sachin-dehran' }
-  ]
+var DEFAULT_SETTINGS = {
+  github: { pat: '', org: '' },
+  azure: { endpoint: '', apiKey: '', deployment: '' },
+  repos: [],
+  prefs: { theme: 'dark', refreshInterval: 300 }
 };
 
-var QUARTERS = [
-  { n:'Q4 2025', h:62, m:10, d:3, b:3 },
-  { n:'Q1 2026', h:74, m:13, d:3, b:1 },
-  { n:'Q2 2026', h:81, m:15, d:4, b:2 }
-];
-
-var REQS = [
-  { id:'#PR-001', sol:'dbops_versol3', desc:'DB retry handler for on-prem infra', by:'team3-lead', teams:['team1','team2','team3'], status:'pending',  date:'2026-05-10' },
-  { id:'#PR-002', sol:'dbops_versol4', desc:'Query optimisation solution',          by:'team1-lead', teams:['team1','team4','team5'], status:'approved', date:'2026-05-08' }
-];
-
-var INFO = {
-  kpi_m:  'ON MASTER — Teams running the exact official Master version. Higher is better.',
-  kpi_d:  'DEVIATED LOCAL — Teams with custom changes on their branch. No approval needed. Fine as long as tracked.',
-  kpi_w:  'WANTS MERGE — Teams who want their local change promoted to Master. Each needs a PR reviewed by Solution Owner.',
-  kpi_b:  'BEHIND MASTER — Teams on an older Master version. Missing bug fixes or new features. Should sync.',
-  kpi_h:  'HEALTH SCORE — Percentage of adoptions on current Master. 75%+ = Good. Below 75% = action needed.',
-  kpi_s:  'SOLUTIONS TRACKED — Total solutions governed by this dashboard.',
-  matrix: 'ADOPTION MATRIX — Grid showing every team and solution status. Hover cells for details. Green=Master, Amber=Deviated, Blue=Behind, Purple=Wants Merge.',
-  health: 'COMPLIANCE HEALTH — Ring chart showing overall health % with bar breakdown by status.',
-  trend:  'QUARTERLY TREND — Bar chart comparing health scores across 3 quarters. Should improve each quarter.',
-  cycle:  'QUARTERLY CYCLE — 4-week automated process at quarter end. Team leads fill one GitHub Issue form.',
-  drift:  'ACTION REQUIRED — Items needing immediate attention. Should ideally be empty.',
-  mcomp:  'MASTER COMPARE — Row-by-row comparison of every team branch vs Master version.',
-  chlog:  'CHANGELOG — Auto-generated history of every official Master release per solution.',
-  wflows: 'WORKFLOWS — The 5 GitHub Actions workflows powering this system. Zero external tools.',
-  pform:  'NEW SOLUTION REQUEST — Form to request a new governed solution repo.',
-  pflw:   'PROVISIONING FLOW — 9-step process from form to fully configured repo. Only 1 manual step.',
-  preqs:  'PROVISIONING REQUESTS — All requests and their current status.'
-};
-
-function getStatus(masterVer, t) {
-  if (!t) return 'na';
-  if (t.wants_merge) return 'wants-merge';
-  if (t.based_on_master !== masterVer) return 'behind';
-  if (t.deviation) return 'deviated';
-  return 'master';
-}
-
-function stLabel(st) {
-  return { master:'On Master', deviated:'Deviated', behind:'Behind', 'wants-merge':'Wants Merge', na:'Not Adopted' }[st] || st;
-}
-
-function computeStats() {
-  var om=0,dv=0,wm=0,bh=0,tot=0,sols=0;
-  Object.keys(registry).forEach(function(sol) {
-    sols++;
-    var sd = registry[sol];
-    Object.keys(sd.teams||{}).forEach(function(team) {
-      var td = sd.teams[team];
-      if (!td) return;
-      tot++;
-      var st = getStatus(sd.master_version, td);
-      if (st==='master') om++;
-      else if (st==='deviated') dv++;
-      else if (st==='wants-merge') wm++;
-      else if (st==='behind') bh++;
-    });
-  });
-  return { om:om, dv:dv, wm:wm, bh:bh, tot:tot, sols:sols, h: tot ? Math.round((om/tot)*100) : 0 };
-}
-
-function ib(key) {
-  return '<span class="info-btn" onclick="showInfo(event,\''+key+'\')">?</span>';
-}
-
-function showInfo(e, key) {
-  e.stopPropagation();
-  var old = document.getElementById('ipop');
-  if (old) { old.remove(); return; }
-  var msg = INFO[key] || '';
-  var btn = e.currentTarget;
-  var r = btn.getBoundingClientRect();
-  var d = document.createElement('div');
-  d.id = 'ipop';
-  d.className = 'info-popup';
-  d.style.top = (r.bottom + 8) + 'px';
-  d.style.left = Math.max(8, r.right - 290) + 'px';
-  d.innerHTML = '<button class="ip-close" onclick="document.getElementById(\'ipop\').remove()">x</button>' +
-    '<div class="ip-title">Info</div>' +
-    '<div class="ip-txt">' + msg + '</div>';
-  document.body.appendChild(d);
-}
-document.addEventListener('click', function() {
-  var p = document.getElementById('ipop');
-  if (p) p.remove();
-});
-
-function showPage(id, btn) {
-  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('on'); });
-  document.querySelectorAll('.nb').forEach(function(b) { b.classList.remove('on'); });
-  document.getElementById('page-'+id).classList.add('on');
-  if (btn) btn.classList.add('on');
-}
-
-function renderKpi(s) {
-  var kpis = [
-    { cls:'k1', v:s.om, c:'#00e5a0', l:'ON MASTER',     sub:'of '+s.tot+' adoptions', i:'kpi_m' },
-    { cls:'k2', v:s.dv, c:'#4d9fff', l:'DEVIATED LOCAL', sub:'No approval needed',    i:'kpi_d' },
-    { cls:'k3', v:s.wm, c:'#a78bfa', l:'WANTS MERGE',   sub:'PR needed',              i:'kpi_w' },
-    { cls:'k4', v:s.bh, c:'#f59e0b', l:'BEHIND MASTER', sub:'Sync recommended',       i:'kpi_b' },
-    { cls:'k5', v:s.h+'%', c: s.h>=75 ? '#00e5a0':'#f59e0b', l:'HEALTH SCORE', sub:'Q2 2026', i:'kpi_h' },
-    { cls:'k6', v:s.sols, c:'#64748b', l:'SOLUTIONS',   sub:'Governed repos',         i:'kpi_s' }
-  ];
-  document.getElementById('kpi-row').innerHTML = kpis.map(function(k) {
-    return '<div class="kpi '+k.cls+'"><div class="kpi-top"><div class="kv" style="color:'+k.c+'">'+k.v+'</div>'+ib(k.i)+'</div><div class="kl">'+k.l+'</div><div class="ks">'+k.sub+'</div></div>';
-  }).join('');
-  if (s.wm > 0) { var ab=document.getElementById('alert-badge'); ab.textContent='! '+s.wm+' Pending Merge'+(s.wm>1?'s':''); ab.style.display='block'; }
-}
-
-function renderOverview(s) {
-  var circum = 2*3.14159*46;
-  var offset = circum - (s.h/100)*circum;
-  var rc = s.h>=75 ? '#00e5a0':'#f59e0b';
-
-  var driftHtml = '';
-  Object.keys(registry).forEach(function(sol) {
-    var sd = registry[sol];
-    Object.keys(sd.teams||{}).forEach(function(team) {
-      var td = sd.teams[team];
-      if (!td) return;
-      var st = getStatus(sd.master_version, td);
-      if (st==='wants-merge') {
-        driftHtml += '<div class="drift-item merge"><div><div class="di-tags"><span class="dtag sol">'+sol+'</span><span class="dtag team">'+team+'</span><span class="dtag ver">'+td.local_version+'</span></div><div class="di-msg">Team wants local change merged to Master &mdash; PR required</div></div><span class="stag merge">OPEN PR</span></div>';
-      } else if (st==='behind') {
-        driftHtml += '<div class="drift-item warn"><div><div class="di-tags"><span class="dtag sol">'+sol+'</span><span class="dtag team">'+team+'</span><span class="dtag ver">on '+td.based_on_master+'</span></div><div class="di-msg">Branch behind Master &mdash; sync to '+sd.master_version+'</div></div><span class="stag warn">SYNC NEEDED</span></div>';
+function getSettings() {
+  try {
+    var raw = localStorage.getItem(SETTINGS_KEY);
+    if (!raw) {
+      // Try loading from embedded config file as fallback
+      var embedded = document.getElementById('embedded-settings');
+      if (embedded && embedded.textContent.trim()) {
+        try {
+          var embeddedParsed = JSON.parse(embedded.textContent.trim());
+          localStorage.setItem(SETTINGS_KEY, JSON.stringify(embeddedParsed));
+          return embeddedParsed;
+        } catch(e2) {}
       }
+      return JSON.parse(JSON.stringify(DEFAULT_SETTINGS));
+    }
+    var parsed = JSON.parse(raw);
+    // Ensure all top-level keys exist with defaults as fallback
+    var settings = {};
+    settings.github = parsed.github && typeof parsed.github === 'object'
+      ? { pat: parsed.github.pat || '', org: parsed.github.org || '' }
+      : { pat: '', org: '' };
+    settings.azure = parsed.azure && typeof parsed.azure === 'object'
+      ? { endpoint: parsed.azure.endpoint || '', apiKey: parsed.azure.apiKey || '', deployment: parsed.azure.deployment || '' }
+      : { endpoint: '', apiKey: '', deployment: '' };
+    settings.repos = Array.isArray(parsed.repos) ? parsed.repos : [];
+    settings.prefs = parsed.prefs && typeof parsed.prefs === 'object'
+      ? { theme: parsed.prefs.theme || 'dark', refreshInterval: typeof parsed.prefs.refreshInterval === 'number' ? parsed.prefs.refreshInterval : 300 }
+      : { theme: 'dark', refreshInterval: 300 };
+    return settings;
+  } catch (e) {
+    return JSON.parse(JSON.stringify(DEFAULT_SETTINGS));
+  }
+}
+
+function loadSettings() {
+  var settings = getSettings();
+  window._appSettings = settings;
+  return settings;
+}
+
+function saveSettings(settingsObj) {
+  try {
+    if (!settingsObj || typeof settingsObj !== 'object') {
+      return { ok: false, error: 'Invalid settings object' };
+    }
+    var toSave = {};
+    toSave.github = settingsObj.github && typeof settingsObj.github === 'object'
+      ? { pat: settingsObj.github.pat || '', org: settingsObj.github.org || '' }
+      : { pat: '', org: '' };
+    toSave.azure = settingsObj.azure && typeof settingsObj.azure === 'object'
+      ? { endpoint: settingsObj.azure.endpoint || '', apiKey: settingsObj.azure.apiKey || '', deployment: settingsObj.azure.deployment || '' }
+      : { endpoint: '', apiKey: '', deployment: '' };
+    toSave.repos = Array.isArray(settingsObj.repos) ? settingsObj.repos : [];
+    toSave.prefs = settingsObj.prefs && typeof settingsObj.prefs === 'object'
+      ? { theme: settingsObj.prefs.theme || 'dark', refreshInterval: typeof settingsObj.prefs.refreshInterval === 'number' ? settingsObj.prefs.refreshInterval : 300 }
+      : { theme: 'dark', refreshInterval: 300 };
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(toSave));
+    window._appSettings = toSave;
+    // Also persist to GitHub repo as backup (non-blocking)
+    _saveSettingsToRepo(toSave);
+    return { ok: true, error: null };
+  } catch (e) {
+    if (e.name === 'QuotaExceededError' || e.code === 22) {
+      return { ok: false, error: 'Storage quota exceeded. Please clear some browser data.' };
+    }
+    return { ok: false, error: e.message || 'Failed to save settings' };
+  }
+}
+
+// Persist settings to GitHub repo as .dashboard-settings.json (survives cache clears)
+var _settingsFileSha = null;
+
+function _saveSettingsToRepo(settingsObj) {
+  var pat = settingsObj.github.pat;
+  var org = settingsObj.github.org || 'sachin-dehran';
+  if (!pat) { return; }
+
+  var url = GITHUB_API_BASE + '/repos/' + org + '/dbops-solutions-governance/contents/.dashboard-settings.json';
+  var content = btoa(unescape(encodeURIComponent(JSON.stringify(settingsObj, null, 2))));
+  var body = {
+    message: 'Update dashboard settings',
+    content: content
+  };
+  if (_settingsFileSha) {
+    body.sha = _settingsFileSha;
+  }
+
+  fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json',
+      'Authorization': 'token ' + pat
+    },
+    body: JSON.stringify(body)
+  }).then(function(response) {
+    if (response.ok) {
+      return response.json().then(function(data) {
+        _settingsFileSha = data.content.sha;
+      });
+    }
+  }).catch(function() {});
+}
+
+function _loadSettingsFromRepo() {
+  var settings = getSettings();
+  var pat = settings.github.pat;
+  var org = settings.github.org || 'sachin-dehran';
+  if (!pat) { return Promise.resolve(null); }
+
+  var url = GITHUB_API_BASE + '/repos/' + org + '/dbops-solutions-governance/contents/.dashboard-settings.json';
+  return fetch(url, {
+    headers: {
+      'Accept': 'application/vnd.github.v3+json',
+      'Authorization': 'token ' + pat
+    }
+  }).then(function(response) {
+    if (!response.ok) { return null; }
+    return response.json().then(function(data) {
+      _settingsFileSha = data.sha;
+      var content = atob(data.content.replace(/\n/g, ''));
+      var parsed = JSON.parse(content);
+      // Save to localStorage so it's available immediately next time
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(parsed));
+      window._appSettings = parsed;
+      return parsed;
     });
-  });
-  if (!driftHtml) driftHtml = '<div style="text-align:center;padding:20px;color:#3d5a7a;font-size:12px;">No action items &mdash; all teams in good standing</div>';
-
-  var trendHtml = '';
-  QUARTERS.forEach(function(q) {
-    var mh=Math.round((q.m/15)*82), dh=Math.round((q.d/15)*57), bh=Math.round((q.b/15)*49);
-    trendHtml += '<div class="tg"><div class="tbw">'+
-      '<div class="tbar" style="height:'+mh+'px;background:#00e5a0"><div class="ttip">Master: '+q.m+'</div></div>'+
-      '<div class="tbar" style="height:'+dh+'px;background:#f59e0b"><div class="ttip">Deviated: '+q.d+'</div></div>'+
-      '<div class="tbar" style="height:'+bh+'px;background:#ef4444"><div class="ttip">Behind: '+q.b+'</div></div>'+
-      '</div><div class="th-val">'+q.h+'%</div><div class="tq">'+q.n+'</div></div>';
-  });
-
-  var bars = [['On Master',s.om,'#00e5a0'],['Deviated',s.dv,'#f59e0b'],['Wants Merge',s.wm,'#8b5cf6'],['Behind',s.bh,'#ef4444']].map(function(r) {
-    var pct = s.tot ? Math.round((r[1]/s.tot)*100) : 0;
-    return '<div class="hbar-row"><div class="hbar-label">'+r[0]+'</div><div class="hbar-track"><div class="hbar-fill" style="width:'+pct+'%;background:'+r[2]+'"></div></div><div class="hbar-val">'+r[1]+'/'+s.tot+'</div></div>';
-  }).join('');
-
-  document.getElementById('page-overview').innerHTML =
-    '<div class="rules-banner"><div class="rb-head"><div class="rb-title">&#9889; DBOps Governance Rules</div>'+ib('drift')+'</div>'+
-    '<div class="rules-grid">'+
-    '<div class="rule ok">&#10003; Project Lead can customise branch freely</div><div class="rule no">&#10007; Never push directly to main</div>'+
-    '<div class="rule ok">&#10003; Use fix:/feat:/breaking: prefix in PR titles</div><div class="rule no">&#10007; Never merge without Solution Owner approval</div>'+
-    '<div class="rule ok">&#10003; Add patch/minor/major label to every PR</div><div class="rule no">&#10007; Never skip quarterly feedback Issue</div>'+
-    '</div></div>'+
-    '<div class="g3">'+
-      '<div class="card" style="margin:0"><div class="card-head"><div class="card-head-left"><div class="card-title">Master Compliance Health</div>'+ib('health')+'</div><div class="card-badge">Q2 2026</div></div>'+
-      '<div class="hring"><div class="ring-wrap">'+
-      '<svg width="120" height="120" style="transform:rotate(-90deg)"><circle cx="60" cy="60" r="46" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="10"/><circle cx="60" cy="60" r="46" fill="none" stroke="'+rc+'" stroke-width="10" stroke-linecap="round" stroke-dasharray="'+circum+'" stroke-dashoffset="'+offset+'"/></svg>'+
-      '<div class="ring-val">'+s.h+'%<span>health</span></div></div><div class="hbars">'+bars+'</div></div></div>'+
-
-      '<div class="card" style="margin:0"><div class="card-head"><div class="card-head-left"><div class="card-title">Quarterly Trend</div>'+ib('trend')+'</div><div class="card-badge">3 Quarters</div></div>'+
-      '<div class="trend-bars">'+trendHtml+'</div>'+
-      '<div class="leg-row" style="margin-top:8px"><div class="leg"><div class="ld" style="background:#00e5a0"></div>Master</div><div class="leg"><div class="ld" style="background:#f59e0b"></div>Deviated</div><div class="leg"><div class="ld" style="background:#ef4444"></div>Behind</div></div></div>'+
-
-      '<div class="card" style="margin:0"><div class="card-head"><div class="card-head-left"><div class="card-title">Quarterly Cycle</div>'+ib('cycle')+'</div><div class="card-badge">Auto via Actions</div></div>'+
-      '<div class="qgrid" style="grid-template-columns:1fr 1fr">'+
-      '<div class="qstep w1"><div class="qw">WEEK 1</div><div class="qt">Auto Audit</div><div class="qd">Actions creates feedback Issues for all team leads</div></div>'+
-      '<div class="qstep w2"><div class="qw">WEEK 2</div><div class="qt">Feedback In</div><div class="qd">Team leads fill 5-question GitHub Issue form</div></div>'+
-      '<div class="qstep w3"><div class="qw">WEEK 3</div><div class="qt">Review</div><div class="qd">Solution Owner reviews GitHub Project board</div></div>'+
-      '<div class="qstep w4"><div class="qw">WEEK 4</div><div class="qt">Release</div><div class="qd">New Master tagged, registry updated, dashboard rebuilt</div></div>'+
-      '</div></div>'+
-    '</div>'+
-    '<div class="card"><div class="card-head"><div class="card-head-left"><div class="card-title">Action Required</div>'+ib('drift')+'</div><div class="card-badge">Needs attention</div></div>'+driftHtml+'</div>';
+  }).catch(function() { return null; });
 }
 
-function renderMatrix() {
-  var sols = Object.keys(registry);
-  var teams = ['team1','team2','team3','team4','team5'];
-  var heads = sols.map(function(s) { return '<th><div>'+s+'</div><div style="color:#00e5a0;font-size:9px">'+registry[s].master_version+'</div></th>'; }).join('');
-  var rows = teams.map(function(team) {
-    var cells = sols.map(function(sol) {
-      var sd = registry[sol], td = sd.teams && sd.teams[team];
-      if (!td) return '<td><div class="cell na"><div class="cell-ver">&#8212;</div><div class="cell-status">Not adopted</div></div></td>';
-      var st = getStatus(sd.master_version, td);
-      var sv = (td.local_version||'').split('-').slice(-1)[0] || td.local_version;
-      return '<td><div class="cell '+st+'" title="'+team+' > '+sol+' | '+stLabel(st)+'"><div class="cell-ver">'+sv+'</div><div class="cell-status">'+stLabel(st)+'</div></div></td>';
-    }).join('');
-    return '<tr><td style="font-weight:700;font-family:\'DM Mono\',monospace">'+team+'</td>'+cells+'</tr>';
-  }).join('');
-  document.getElementById('page-matrix').innerHTML =
-    '<div class="card"><div class="card-head"><div class="card-head-left"><div class="card-title">Adoption Matrix</div>'+ib('matrix')+'</div><div class="card-badge">Live from registry</div></div>'+
-    '<div class="matrix-wrap"><table class="mtbl"><thead><tr><th>Team</th>'+heads+'</tr></thead><tbody>'+rows+'</tbody></table></div>'+
-    '<div class="leg-row"><div class="leg"><div class="ld" style="background:#00e5a0"></div>On Master</div><div class="leg"><div class="ld" style="background:#f59e0b"></div>Deviated</div><div class="leg"><div class="ld" style="background:#4d9fff"></div>Behind</div><div class="leg"><div class="ld" style="background:#8b5cf6"></div>Wants Merge</div><div class="leg"><div class="ld" style="background:#1e293b"></div>Not Adopted</div></div></div>';
-}
+// ── GitHub API Module ──────────────────────────────────────────────────────────
+var GITHUB_API_BASE = 'https://api.github.com';
 
-function renderMaster() {
-  var rows = '';
-  Object.keys(registry).forEach(function(sol) {
-    var sd = registry[sol];
-    Object.keys(sd.teams||{}).forEach(function(team) {
-      var td = sd.teams[team];
-      if (!td) return;
-      var st = getStatus(sd.master_version, td);
-      var ok = td.based_on_master===sd.master_version && !td.deviation;
-      rows += '<tr>'+
-        '<td style="font-weight:700;font-family:\'DM Mono\',monospace">'+team+'</td>'+
-        '<td style="color:#7a9bbf">'+sol+'</td>'+
-        '<td><span class="mv '+(ok?'ok':'old')+'">'+td.local_version+'</span></td>'+
-        '<td><span class="mv ok">'+sd.master_version+'</span></td>'+
-        '<td style="font-family:\'DM Mono\',monospace;font-size:11px;color:'+(ok?'#00e5a0':'#f87171')+'">'+(ok?'MATCH':'DRIFT')+'</td>'+
-        '<td style="font-size:11px;color:'+(td.deviation?'#f59e0b':'#3d5a7a')+'">'+(td.deviation ? (td.deviation_reason||'Yes') : 'No')+'</td>'+
-        '<td><a class="gh-link" href="https://github.com/sachin-dehran/'+sol+'/tree/project-'+team+'" target="_blank">project-'+team+' &#8599;</a></td>'+
-        '</tr>';
+function safeGitHubFetch(url) {
+  var settings = window._appSettings || getSettings();
+  var pat = settings.github.pat;
+  var controller = new AbortController();
+  var timeoutId = setTimeout(function() { controller.abort(); }, 10000);
+
+  var headers = {
+    'Accept': 'application/vnd.github.v3+json'
+  };
+  if (pat) {
+    headers['Authorization'] = 'token ' + pat;
+  }
+
+  return fetch(url, {
+    method: 'GET',
+    headers: headers,
+    signal: controller.signal
+  }).then(function(response) {
+    clearTimeout(timeoutId);
+    if (response.status === 401) {
+      updateConnectionStatus(false);
+      return { ok: false, data: null, error: 'Unauthorized — check your GitHub PAT' };
+    }
+    if (response.status === 403) {
+      return response.json().then(function(body) {
+        var msg = body.message || 'Forbidden';
+        if (msg.toLowerCase().indexOf('rate limit') !== -1) {
+          return { ok: false, data: null, error: 'GitHub API rate limit exceeded. Try again later.' };
+        }
+        return { ok: false, data: null, error: msg };
+      }).catch(function() {
+        return { ok: false, data: null, error: 'Forbidden (403)' };
+      });
+    }
+    if (response.status === 404) {
+      return { ok: false, data: null, error: 'Not found (404)' };
+    }
+    if (!response.ok) {
+      return { ok: false, data: null, error: 'HTTP ' + response.status };
+    }
+    return response.json().then(function(data) {
+      return { ok: true, data: data, error: null };
     });
+  }).catch(function(err) {
+    clearTimeout(timeoutId);
+    if (err.name === 'AbortError') {
+      return { ok: false, data: null, error: 'Request timed out (10s)' };
+    }
+    return { ok: false, data: null, error: err.message || 'Network error' };
   });
-  document.getElementById('page-master').innerHTML =
-    '<div class="card"><div class="card-head"><div class="card-head-left"><div class="card-title">Master Copy Comparison</div>'+ib('mcomp')+'</div><div class="card-badge">Live from registry</div></div>'+
-    '<table class="mc-tbl"><thead><tr><th>Team</th><th>Solution</th><th>Local Version</th><th>Master Version</th><th>Status</th><th>Deviation</th><th>Branch</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
 }
 
-function renderChangelog(sol) {
-  var sols = Object.keys(registry);
-  sol = sol || sols[0];
-  var sd = registry[sol]||{};
-  var tabs = sols.map(function(s) {
-    return '<button class="stab'+(s===sol?' on':'')+'" onclick="renderChangelog(\''+s+'\')">'+s+' <span style="color:#00e5a0">'+registry[s].master_version+'</span></button>';
-  }).join('');
-  var log = CHANGELOGS[sol]||[];
-  var entries = log.map(function(e, i) {
-    return '<div class="cl-row">'+
-      '<span class="clt '+e.t+'">'+e.t.toUpperCase()+'</span>'+
-      '<span class="clv">'+e.v+(i===0?'<span class="cur-tag">MASTER</span>':'')+'</span>'+
-      '<span class="cln">'+e.n+'</span>'+
-      '<div style="text-align:right"><div class="cld">'+e.d+'</div><a class="gh-link" href="https://github.com/sachin-dehran/'+sol+'" target="_blank">'+e.pr+' @'+e.by+'</a></div>'+
-      '</div>';
-  }).join('');
-  document.getElementById('page-changelog').innerHTML =
-    '<div class="card"><div class="card-head"><div class="card-head-left"><div class="card-title">Master Version Changelog</div>'+ib('chlog')+'</div><div class="card-badge">Auto-generated on merge</div></div>'+
-    '<div class="sol-tabs">'+tabs+'</div>'+
-    '<div style="margin-bottom:12px;padding:8px 12px;background:rgba(0,229,160,.05);border-radius:8px;border:1px solid rgba(0,229,160,.1);font-family:\'DM Mono\',monospace;font-size:10px;display:flex;justify-content:space-between">'+
-      '<span><span style="color:#00e5a0">MASTER:</span> <span style="color:#94a3b8">'+(sd.master_version||'')+'</span> &nbsp;&middot;&nbsp; <span style="color:#00e5a0">RELEASED:</span> <span style="color:#94a3b8">'+(sd.released_date||'')+'</span></span>'+
-      '<a class="gh-link" href="https://github.com/sachin-dehran/'+sol+'/releases" target="_blank">Releases &#8599;</a>'+
-    '</div>'+entries+'</div>';
+function _getRepoBase() {
+  var settings = window._appSettings || getSettings();
+  var org = settings.github.org || 'sachin-dehran';
+  return GITHUB_API_BASE + '/repos/' + org + '/dbops-solutions-governance';
 }
 
-function renderWorkflows() {
-  var wfs = [
-    { cls:'',       n:'WORKFLOW 1', name:'1-branch-auto-tag.yml',    trig:'Push to project-* branches',     steps:['Reads master VERSION','Increments local patch counter','Updates .dbops/config.json','Creates git tag automatically','Triggers registry sync'] },
-    { cls:'amber',  n:'WORKFLOW 2', name:'2-pr-version-check.yml',   trig:'PR opened to main',              steps:['Checks patch/minor/major label','Validates commit prefix matches label','Blocks merge if mismatch','Posts comment explaining issue'] },
-    { cls:'green',  n:'WORKFLOW 3', name:'3-master-release.yml',     trig:'PR merged to main',              steps:['Reads label for bump type','Calculates new version v2026.MINOR.PATCH','Updates VERSION + CHANGELOG.md','Creates git tag + GitHub Release'] },
-    { cls:'purple', n:'WORKFLOW 4', name:'4-sync-registry.yml',      trig:'After release or branch push',   steps:['Updates registry.json','Injects data into index.html','Deploys to GitHub Pages','Live within 60 seconds'] },
-    { cls:'amber',  n:'WORKFLOW 5', name:'5-quarterly-audit.yml',    trig:'Scheduled: 1st Mar/Jun/Sep/Dec', steps:['Reads registry for all teams','Creates GitHub Issues per team','Generates audit report markdown','Updates GitHub Project board'] }
+function fetchRegistry() {
+  var url = _getRepoBase() + '/contents/registry.json';
+  return safeGitHubFetch(url).then(function(result) {
+    if (!result.ok) {
+      return { ok: false, data: null, error: result.error };
+    }
+    try {
+      var content = atob(result.data.content.replace(/\n/g, ''));
+      var parsed = JSON.parse(content);
+      return { ok: true, data: parsed, error: null };
+    } catch (e) {
+      return { ok: false, data: null, error: 'Failed to parse registry.json: ' + e.message };
+    }
+  });
+}
+
+function fetchCustomers() {
+  var url = _getRepoBase() + '/contents/customers.json';
+  return safeGitHubFetch(url).then(function(result) {
+    if (!result.ok) {
+      if (result.error === 'Not found (404)') {
+        return { customers: [], sha: null };
+      }
+      return { customers: [], sha: null, error: result.error };
+    }
+    try {
+      var content = atob(result.data.content.replace(/\n/g, ''));
+      var parsed = JSON.parse(content);
+      return { customers: parsed, sha: result.data.sha };
+    } catch (e) {
+      return { customers: [], sha: null, error: 'Failed to parse customers.json: ' + e.message };
+    }
+  });
+}
+
+function fetchRepoMetadata(repoName) {
+  var settings = window._appSettings || getSettings();
+  var org = settings.github.org || 'sachin-dehran';
+  var base = GITHUB_API_BASE + '/repos/' + org + '/' + repoName;
+
+  var endpoints = [
+    base + '/branches',
+    base + '/pulls?state=open',
+    base + '/issues?state=open',
+    base + '/releases/latest',
+    base + '/actions/runs?per_page=1',
+    base + '/readme',
+    base
   ];
-  document.getElementById('page-workflows').innerHTML =
-    '<div class="card"><div class="card-head"><div class="card-head-left"><div class="card-title">GitHub Actions Workflows</div>'+ib('wflows')+'</div><div class="card-badge">Drop into .github/workflows/</div></div>'+
-    '<div class="wf-grid">'+wfs.map(function(w) {
-      return '<div class="wf-card '+w.cls+'"><div class="wf-num">'+w.n+'</div><div class="wf-title">'+w.name+'</div><div class="wf-trigger">'+w.trig+'</div>'+
-        w.steps.map(function(s) { return '<div class="wf-step">'+s+'</div>'; }).join('')+'</div>';
-    }).join('')+'</div></div>';
+
+  var promises = endpoints.map(function(url) {
+    return safeGitHubFetch(url);
+  });
+
+  return Promise.allSettled(promises).then(function(results) {
+    var meta = {
+      branches: null,
+      prs: null,
+      issues: null,
+      release: null,
+      actionsRun: null,
+      readme: null,
+      meta: null
+    };
+
+    var keys = ['branches', 'prs', 'issues', 'release', 'actionsRun', 'readme', 'meta'];
+    for (var i = 0; i < results.length; i++) {
+      if (results[i].status === 'fulfilled' && results[i].value.ok) {
+        meta[keys[i]] = results[i].value.data;
+      }
+    }
+    return meta;
+  });
 }
 
-function toggleTeam(t) {
-  var el = document.getElementById('tc-'+t);
-  var idx = selTeams.indexOf(t);
-  if (idx>-1) { selTeams.splice(idx,1); el.classList.remove('sel'); el.querySelector('.tc-status').textContent='Click to select'; }
-  else { selTeams.push(t); el.classList.add('sel'); el.querySelector('.tc-status').textContent='Will adopt'; }
+function saveCustomers(customers, sha) {
+  var settings = window._appSettings || getSettings();
+  var pat = settings.github.pat;
+  var org = settings.github.org || 'sachin-dehran';
+  var url = GITHUB_API_BASE + '/repos/' + org + '/dbops-solutions-governance/contents/customers.json';
+
+  var content = btoa(unescape(encodeURIComponent(JSON.stringify(customers, null, 2))));
+  var body = {
+    message: 'Update customers.json via Governance Dashboard',
+    content: content
+  };
+  if (sha) {
+    body.sha = sha;
+  }
+
+  var headers = {
+    'Accept': 'application/vnd.github.v3+json',
+    'Content-Type': 'application/json'
+  };
+  if (pat) {
+    headers['Authorization'] = 'token ' + pat;
+  }
+
+  var controller = new AbortController();
+  var timeoutId = setTimeout(function() { controller.abort(); }, 10000);
+
+  return fetch(url, {
+    method: 'PUT',
+    headers: headers,
+    body: JSON.stringify(body),
+    signal: controller.signal
+  }).then(function(response) {
+    clearTimeout(timeoutId);
+    if (!response.ok) {
+      return response.json().then(function(errBody) {
+        return { ok: false, newSha: null, error: errBody.message || 'HTTP ' + response.status };
+      }).catch(function() {
+        return { ok: false, newSha: null, error: 'HTTP ' + response.status };
+      });
+    }
+    return response.json().then(function(data) {
+      return { ok: true, newSha: data.content.sha, error: null };
+    });
+  }).catch(function(err) {
+    clearTimeout(timeoutId);
+    if (err.name === 'AbortError') {
+      return { ok: false, newSha: null, error: 'Request timed out (10s)' };
+    }
+    return { ok: false, newSha: null, error: err.message || 'Network error' };
+  });
 }
 
-function simApprove(id) {
-  var r = REQS.filter(function(x){return x.id===id;})[0];
-  if (r) { r.status='approved'; renderProvisioning(); }
+// ── Navigation ────────────────────────────────────────────────────────────────
+function showPage(pageId, clickedButton) {
+  var pages = document.querySelectorAll('.page');
+  var tabs = document.querySelectorAll('.tab-btn');
+  var i;
+  for (i = 0; i < pages.length; i++) {
+    pages[i].classList.remove('on');
+  }
+  for (i = 0; i < tabs.length; i++) {
+    tabs[i].classList.remove('on');
+  }
+  var target = document.getElementById('page-' + pageId);
+  if (target) {
+    target.classList.add('on');
+  }
+  if (clickedButton) {
+    clickedButton.classList.add('on');
+  }
 }
 
-function submitProv() {
-  var name = document.getElementById('pf-name').value.trim();
-  var desc = document.getElementById('pf-desc').value.trim();
-  var who  = document.getElementById('pf-requester').value.trim();
-  var msg  = document.getElementById('prov-msg');
-  if (!name||!desc||!who) {
-    msg.style.display='block'; msg.className='prov-msg error';
-    msg.innerHTML='<strong>Missing required fields.</strong> Please fill Solution Name, Description and GitHub Username.';
+// ── AI Chatbot Module ──────────────────────────────────────────────────────────
+var _purposeCache = {};
+var chatHistory = [];
+
+function detectRepoPurpose(repoName, readmeContent) {
+  // Return cached result if available
+  if (_purposeCache[repoName]) {
+    return Promise.resolve(_purposeCache[repoName]);
+  }
+
+  var settings = window._appSettings || getSettings();
+  var endpoint = settings.azure.endpoint;
+  var apiKey = settings.azure.apiKey;
+  var deployment = settings.azure.deployment;
+
+  if (!endpoint || !apiKey || !deployment) {
+    return Promise.resolve('Unable to detect');
+  }
+
+  var url = endpoint + '/openai/deployments/' + deployment + '/chat/completions?api-version=2024-02-15-preview';
+
+  var body = {
+    messages: [
+      { role: 'system', content: 'Analyze this repo and provide a one-line purpose. Be concise (under 15 words).' },
+      { role: 'user', content: 'Repository: ' + repoName + '\n\nREADME:\n' + (readmeContent || 'No README available.') }
+    ],
+    max_tokens: 60,
+    temperature: 0.3
+  };
+
+  var controller = new AbortController();
+  var timeoutId = setTimeout(function() { controller.abort(); }, 30000);
+
+  return fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'api-key': apiKey
+    },
+    body: JSON.stringify(body),
+    signal: controller.signal
+  }).then(function(response) {
+    clearTimeout(timeoutId);
+    if (!response.ok) {
+      return 'Unable to detect';
+    }
+    return response.json().then(function(data) {
+      var purpose = 'Unable to detect';
+      if (data.choices && data.choices.length > 0 && data.choices[0].message) {
+        purpose = data.choices[0].message.content.trim();
+      }
+      _purposeCache[repoName] = purpose;
+      return purpose;
+    });
+  }).catch(function() {
+    clearTimeout(timeoutId);
+    return 'Unable to detect';
+  });
+}
+
+function buildChatbotContext(registry, customers, repoMeta) {
+  var context = 'You are an AI assistant for the DBOps Solutions Governance Dashboard. ';
+  context += 'You help users understand repository status, customer adoption, and compliance.\n';
+  context += 'You have access to live GitHub repository data. Answer with specific details when available.\n\n';
+
+  // Add repo list
+  context += '## Monitored Repositories\n';
+  if (registry && typeof registry === 'object') {
+    var repoKeys = Object.keys(registry);
+    for (var i = 0; i < repoKeys.length; i++) {
+      var key = repoKeys[i];
+      var repo = registry[key];
+      context += '- ' + key;
+      if (repo && repo.master_version) {
+        context += ' (master: ' + repo.master_version + ')';
+      }
+      context += '\n';
+      // Include team/branch details from registry
+      if (repo && repo.teams) {
+        var teamKeys = Object.keys(repo.teams);
+        for (var t = 0; t < teamKeys.length; t++) {
+          var team = repo.teams[teamKeys[t]];
+          context += '  - Team: ' + teamKeys[t];
+          if (team.branch) { context += ', Branch: ' + team.branch; }
+          if (team.local_version) { context += ', Version: ' + team.local_version; }
+          if (team.based_on_master) { context += ', Based on: ' + team.based_on_master; }
+          context += '\n';
+        }
+      }
+    }
+  }
+
+  // Add detailed metadata including branch names
+  context += '\n## Repository Details (Live Data)\n';
+  if (repoMeta && typeof repoMeta === 'object') {
+    var metaKeys = Object.keys(repoMeta);
+    for (var j = 0; j < metaKeys.length; j++) {
+      var mKey = metaKeys[j];
+      var meta = repoMeta[mKey];
+      if (meta) {
+        context += '\n### ' + mKey + '\n';
+
+        // Branch names — full list
+        if (meta.branches && Array.isArray(meta.branches)) {
+          context += 'Branches (' + meta.branches.length + '):\n';
+          for (var b = 0; b < meta.branches.length; b++) {
+            var brName = typeof meta.branches[b] === 'string' ? meta.branches[b] : (meta.branches[b].name || '');
+            context += '  - ' + brName + '\n';
+          }
+        }
+
+        // Open PRs
+        if (meta.prs && Array.isArray(meta.prs)) {
+          context += 'Open PRs (' + meta.prs.length + '):\n';
+          for (var p = 0; p < meta.prs.length; p++) {
+            var pr = meta.prs[p];
+            context += '  - #' + (pr.number || '') + ' ' + (pr.title || '') + ' (by ' + (pr.user && pr.user.login ? pr.user.login : 'unknown') + ')\n';
+          }
+        }
+
+        // Open Issues
+        if (meta.issues && Array.isArray(meta.issues)) {
+          context += 'Open Issues (' + meta.issues.length + '):\n';
+          for (var is = 0; is < Math.min(meta.issues.length, 10); is++) {
+            var issue = meta.issues[is];
+            context += '  - #' + (issue.number || '') + ' ' + (issue.title || '') + '\n';
+          }
+          if (meta.issues.length > 10) {
+            context += '  - ... and ' + (meta.issues.length - 10) + ' more\n';
+          }
+        }
+
+        // Latest release
+        if (meta.release && meta.release.tag_name) {
+          context += 'Latest Release: ' + meta.release.tag_name;
+          if (meta.release.published_at) { context += ' (published: ' + meta.release.published_at + ')'; }
+          context += '\n';
+        }
+
+        // Actions status
+        if (meta.actionsRun && meta.actionsRun.workflow_runs && meta.actionsRun.workflow_runs.length > 0) {
+          var run = meta.actionsRun.workflow_runs[0];
+          context += 'Last Action: ' + (run.name || '') + ' - ' + (run.conclusion || run.status || '') + '\n';
+        }
+      }
+    }
+  }
+
+  // Add customer adoption summary
+  context += '\n## Customer Adoption Summary\n';
+  if (customers && Array.isArray(customers)) {
+    context += 'Total customers: ' + customers.length + '\n';
+    for (var k = 0; k < customers.length; k++) {
+      var cust = customers[k];
+      context += '- ' + (cust.name || 'Unknown') + ': ';
+      if (cust.solutions && cust.solutions.length > 0) {
+        context += cust.solutions.join(', ');
+      } else {
+        context += 'no solutions assigned';
+      }
+      context += ' (status: ' + (cust.status || 'unknown') + ')\n';
+    }
+  } else {
+    context += 'No customers registered.\n';
+  }
+
+  context += '\nAnswer questions concisely and accurately using the data above. ';
+  context += 'If the user asks for branch names, PR details, issues, or other repo data, provide the specific information from the data above. ';
+  context += 'If you do not have enough information to answer, say so clearly.';
+  return context;
+}
+
+function sendChatMessage(userMessage, history) {
+  var settings = window._appSettings || getSettings();
+  var endpoint = settings.azure.endpoint;
+  var apiKey = settings.azure.apiKey;
+  var deployment = settings.azure.deployment;
+
+  if (!endpoint || !apiKey || !deployment) {
+    return Promise.resolve({ ok: false, message: null, error: 'Azure OpenAI is not configured. Please add your credentials in Settings.' });
+  }
+
+  var url = endpoint + '/openai/deployments/' + deployment + '/chat/completions?api-version=2024-02-15-preview';
+
+  // Build messages array with system context + history + user message
+  var systemContext = buildChatbotContext(
+    window._registryData || null,
+    window._customersData || null,
+    window._repoMetaData || null
+  );
+
+  var messages = [{ role: 'system', content: systemContext }];
+
+  if (history && history.length > 0) {
+    for (var i = 0; i < history.length; i++) {
+      messages.push({ role: history[i].role, content: history[i].content });
+    }
+  }
+
+  messages.push({ role: 'user', content: userMessage });
+
+  var body = {
+    messages: messages,
+    max_tokens: 800,
+    temperature: 0.7
+  };
+
+  var controller = new AbortController();
+  var timeoutId = setTimeout(function() { controller.abort(); }, 30000);
+
+  return fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'api-key': apiKey
+    },
+    body: JSON.stringify(body),
+    signal: controller.signal
+  }).then(function(response) {
+    clearTimeout(timeoutId);
+    if (!response.ok) {
+      return response.json().then(function(errBody) {
+        return { ok: false, message: null, error: errBody.error ? errBody.error.message : 'HTTP ' + response.status };
+      }).catch(function() {
+        return { ok: false, message: null, error: 'HTTP ' + response.status };
+      });
+    }
+    return response.json().then(function(data) {
+      if (data.choices && data.choices.length > 0 && data.choices[0].message) {
+        return { ok: true, message: data.choices[0].message.content, error: null };
+      }
+      return { ok: false, message: null, error: 'No response from AI' };
+    });
+  }).catch(function(err) {
+    clearTimeout(timeoutId);
+    if (err.name === 'AbortError') {
+      return { ok: false, message: null, error: 'Request timed out (30s). Please try again.' };
+    }
+    return { ok: false, message: null, error: err.message || 'Network error' };
+  });
+}
+
+// ── Chatbot UI Interactions ───────────────────────────────────────────────────
+function toggleChatbot() {
+  var panel = document.getElementById('chatbot-panel');
+  panel.classList.toggle('open');
+}
+
+function renderChatBubble(role, content) {
+  var cssClass = 'chat-bubble';
+  if (role === 'user') {
+    cssClass += ' user';
+  } else if (role === 'error') {
+    cssClass += ' error';
+  } else {
+    cssClass += ' assistant';
+  }
+
+  // Basic markdown support: bold, italic, code, line breaks
+  var formatted = content;
+  formatted = formatted.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  formatted = formatted.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  formatted = formatted.replace(/`(.+?)`/g, '<code style="background:rgba(255,255,255,0.08);padding:1px 4px;border-radius:3px;font-family:DM Mono,monospace;font-size:11px;">$1</code>');
+  formatted = formatted.replace(/\n/g, '<br/>');
+
+  var html = '<div class="' + cssClass + '">' + formatted + '</div>';
+  return html;
+}
+
+function _showTypingIndicator() {
+  var messagesEl = document.getElementById('chatbot-messages');
+  var indicator = '<div class="typing-indicator" id="typing-indicator">';
+  indicator += '<span></span><span></span><span></span>';
+  indicator += '</div>';
+  messagesEl.insertAdjacentHTML('beforeend', indicator);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function _removeTypingIndicator() {
+  var indicator = document.getElementById('typing-indicator');
+  if (indicator) {
+    indicator.parentNode.removeChild(indicator);
+  }
+}
+
+function submitChatMessage() {
+  var inputEl = document.getElementById('chatbot-input');
+  var userMessage = inputEl.value.trim();
+  if (!userMessage) {
     return;
   }
-  msg.style.display='block'; msg.className='prov-msg pending';
-  msg.innerHTML='<strong>Demo Mode</strong><br>Would create GitHub Issue: [REPO-REQUEST] '+name+'<br>'+
-    'Adopting teams: '+(selTeams.length?selTeams.join(', '):'none selected')+'<br>'+
-    'Add ?token=YOUR_PAT to the URL to enable live GitHub Issue creation.';
+
+  // Clear input
+  inputEl.value = '';
+
+  // Render user bubble
+  var messagesEl = document.getElementById('chatbot-messages');
+  messagesEl.insertAdjacentHTML('beforeend', renderChatBubble('user', userMessage));
+
+  // Add to history
+  chatHistory.push({ role: 'user', content: userMessage });
+
+  // Show typing indicator
+  _showTypingIndicator();
+
+  // Check if user is asking about specific repo data that might need a live fetch
+  var liveDataPromise = _fetchLiveDataForQuery(userMessage);
+
+  liveDataPromise.then(function(extraContext) {
+    // Send message with any extra live context
+    var augmentedMessage = userMessage;
+    if (extraContext) {
+      augmentedMessage = userMessage + '\n\n[LIVE DATA FROM GITHUB]\n' + extraContext;
+    }
+
+    return sendChatMessage(augmentedMessage, chatHistory.slice(0, -1));
+  }).then(function(result) {
+    _removeTypingIndicator();
+
+    if (result.ok) {
+      messagesEl.insertAdjacentHTML('beforeend', renderChatBubble('assistant', result.message));
+      chatHistory.push({ role: 'assistant', content: result.message });
+    } else {
+      messagesEl.insertAdjacentHTML('beforeend', renderChatBubble('error', result.error));
+    }
+
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }).catch(function(err) {
+    _removeTypingIndicator();
+    messagesEl.insertAdjacentHTML('beforeend', renderChatBubble('error', 'Something went wrong. Please try again.'));
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  });
 }
 
-function renderProvisioning() {
-  var tcHtml = ['team1','team2','team3','team4','team5'].map(function(t) {
-    var isSel = selTeams.indexOf(t)>-1;
-    return '<div class="tc'+(isSel?' sel':'')+'" id="tc-'+t+'" onclick="toggleTeam(\''+t+'\')"><div class="tc-name">'+t+'</div><div class="tc-status">'+(isSel?'Will adopt':'Click to select')+'</div></div>';
-  }).join('');
+function _fetchLiveDataForQuery(query) {
+  // Detect if the user is asking about specific repo data and fetch it live from GitHub
+  var queryLower = query.toLowerCase();
+  var settings = window._appSettings || getSettings();
+  var org = settings.github.org || 'sachin-dehran';
+  var registry = window._registryData || {};
+  var repoKeys = Object.keys(registry);
 
-  var reqRows = REQS.map(function(r) {
-    var sc = { pending:'rs-pending', approved:'rs-approved' }[r.status]||'';
-    var sl = { pending:'Awaiting Approval', approved:'Approved' }[r.status]||r.status;
-    return '<tr>'+
-      '<td style="font-family:\'DM Mono\',monospace;color:var(--blue)">'+r.id+'</td>'+
-      '<td style="font-weight:700">'+r.sol+'</td>'+
-      '<td style="color:#7a9bbf">'+r.desc+'</td>'+
-      '<td style="font-family:\'DM Mono\',monospace;font-size:10px">'+r.by+'</td>'+
-      '<td>'+r.teams.map(function(t){return '<span style="font-family:\'DM Mono\',monospace;font-size:9px;background:rgba(0,229,160,.08);color:var(--master);padding:1px 6px;border-radius:3px;margin-right:3px">'+t+'</span>';}).join('')+'</td>'+
-      '<td><span class="rs '+sc+'">'+sl+'</span></td>'+
-      '<td style="font-family:\'DM Mono\',monospace;font-size:10px;color:var(--muted)">'+r.date+'</td>'+
-      '<td>'+(r.status==='pending'?'<button class="appr-btn" onclick="simApprove(\''+r.id+'\')">Approve</button>':'<span style="color:var(--muted)">&#8212;</span>')+'</td>'+
-      '</tr>';
-  }).join('');
+  // Detect which repo the user is asking about
+  var targetRepo = null;
+  for (var i = 0; i < repoKeys.length; i++) {
+    if (queryLower.indexOf(repoKeys[i].toLowerCase()) !== -1) {
+      targetRepo = repoKeys[i];
+      break;
+    }
+  }
 
-  document.getElementById('page-provisioning').innerHTML =
-    '<div class="prov-layout">'+
-      '<div class="card" style="margin:0"><div class="card-head"><div class="card-head-left"><div class="card-title">Request New Solution Repo</div>'+ib('pform')+'</div><div class="card-badge">Submits to GitHub Issues</div></div>'+
-        '<div id="prov-msg" class="prov-msg"></div>'+
-        '<div class="form-grid">'+
-          '<div class="fg"><label>Solution Name <span class="req">*</span></label><input type="text" id="pf-name" placeholder="e.g. dbops_versol3"/><div class="hint">Lowercase, underscores only</div></div>'+
-          '<div class="fg"><label>Urgency</label><select id="pf-urgency"><option value="normal">Normal</option><option value="quarter">This Quarter</option><option value="asap">ASAP</option></select></div>'+
-        '</div>'+
-        '<div class="fg"><label>Description <span class="req">*</span></label><textarea id="pf-desc" placeholder="What does this solution do?"></textarea></div>'+
-        '<div class="fg"><label>Your GitHub Username <span class="req">*</span></label><input type="text" id="pf-requester" placeholder="e.g. team3-lead"/></div>'+
-        '<div class="fg"><label>Which teams will use this solution?</label><div class="hint" style="margin-bottom:6px">Selected = starter config. Others = empty branch shown as Not in Use.</div>'+
-          '<div class="team-grid">'+tcHtml+'</div>'+
-        '</div>'+
-        '<button class="submit-btn" onclick="submitProv()">&#128640; Submit Request to Solution Owner</button>'+
-      '</div>'+
-      '<div class="card" style="margin:0"><div class="card-head"><div class="card-head-left"><div class="card-title">How Provisioning Works</div>'+ib('pflw')+'</div></div>'+
-        '<div style="font-size:12px;color:#7a9bbf;line-height:2.2">'+
-          '1. &#x1F4CB; Team Lead fills this form<br>'+
-          '2. &#x1F3AB; GitHub Issue auto-created <span style="color:#00e5a0;font-size:10px">[auto]</span><br>'+
-          '3. &#x1F464; Solution Owner adds "approved" label<br>'+
-          '4. &#x26A1; Workflow 6 fires automatically <span style="color:#00e5a0;font-size:10px">[auto]</span><br>'+
-          '5. &#x1F3D7; New repo created from template <span style="color:#00e5a0;font-size:10px">[auto]</span><br>'+
-          '6. &#x1F33F; All 5 team branches created <span style="color:#00e5a0;font-size:10px">[auto]</span><br>'+
-          '7. &#x1F512; Branch protection + secrets applied <span style="color:#00e5a0;font-size:10px">[auto]</span><br>'+
-          '8. &#x1F4CA; Registry + dashboard updated <span style="color:#00e5a0;font-size:10px">[auto]</span><br>'+
-          '9. &#x2705; Requester notified via Issue comment <span style="color:#00e5a0;font-size:10px">[auto]</span>'+
-        '</div>'+
-      '</div>'+
-    '</div>'+
-    '<div class="card"><div class="card-head"><div class="card-head-left"><div class="card-title">Provisioning Requests</div>'+ib('preqs')+'</div><div class="card-badge">'+REQS.length+' requests</div></div>'+
-    '<table class="req-table"><thead><tr><th>ID</th><th>Solution</th><th>Description</th><th>Requested By</th><th>Teams</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>'+
-    '<tbody>'+reqRows+'</tbody></table></div>';
+  // Determine what data to fetch based on keywords
+  var fetchBranches = queryLower.indexOf('branch') !== -1;
+  var fetchPRs = queryLower.indexOf('pr') !== -1 || queryLower.indexOf('pull') !== -1;
+  var fetchIssues = queryLower.indexOf('issue') !== -1;
+  var fetchWorkflows = queryLower.indexOf('workflow') !== -1 || queryLower.indexOf('action') !== -1;
+  var fetchFiles = queryLower.indexOf('file') !== -1 || queryLower.indexOf('content') !== -1 || queryLower.indexOf('readme') !== -1;
+  var fetchReleases = queryLower.indexOf('release') !== -1 || queryLower.indexOf('version') !== -1 || queryLower.indexOf('tag') !== -1;
+
+  // If no specific data type detected but a repo is mentioned, fetch branches by default
+  if (targetRepo && !fetchBranches && !fetchPRs && !fetchIssues && !fetchWorkflows && !fetchFiles && !fetchReleases) {
+    fetchBranches = true;
+  }
+
+  if (!targetRepo && !fetchBranches && !fetchPRs) {
+    // No specific repo data request detected — use existing context
+    return Promise.resolve(null);
+  }
+
+  // If asking about all repos
+  var repos = targetRepo ? [targetRepo] : repoKeys;
+  var promises = [];
+
+  for (var r = 0; r < repos.length; r++) {
+    (function(repoName) {
+      var base = GITHUB_API_BASE + '/repos/' + org + '/' + repoName;
+
+      if (fetchBranches) {
+        promises.push(
+          safeGitHubFetch(base + '/branches').then(function(result) {
+            return { type: 'branches', repo: repoName, data: result };
+          })
+        );
+      }
+      if (fetchPRs) {
+        promises.push(
+          safeGitHubFetch(base + '/pulls?state=open').then(function(result) {
+            return { type: 'prs', repo: repoName, data: result };
+          })
+        );
+      }
+      if (fetchIssues) {
+        promises.push(
+          safeGitHubFetch(base + '/issues?state=open').then(function(result) {
+            return { type: 'issues', repo: repoName, data: result };
+          })
+        );
+      }
+      if (fetchReleases) {
+        promises.push(
+          safeGitHubFetch(base + '/releases').then(function(result) {
+            return { type: 'releases', repo: repoName, data: result };
+          })
+        );
+      }
+      if (fetchWorkflows) {
+        promises.push(
+          safeGitHubFetch(base + '/actions/runs?per_page=5').then(function(result) {
+            return { type: 'workflows', repo: repoName, data: result };
+          })
+        );
+      }
+    })(repos[r]);
+  }
+
+  if (promises.length === 0) {
+    return Promise.resolve(null);
+  }
+
+  return Promise.allSettled(promises).then(function(results) {
+    var context = '';
+    for (var i = 0; i < results.length; i++) {
+      if (results[i].status !== 'fulfilled') { continue; }
+      var item = results[i].value;
+      if (!item.data.ok) { continue; }
+
+      if (item.type === 'branches') {
+        context += '\nBranches in ' + item.repo + ':\n';
+        var branches = item.data.data;
+        if (Array.isArray(branches)) {
+          for (var b = 0; b < branches.length; b++) {
+            context += '  - ' + (branches[b].name || branches[b]) + '\n';
+          }
+        }
+      } else if (item.type === 'prs') {
+        context += '\nOpen PRs in ' + item.repo + ':\n';
+        var prs = item.data.data;
+        if (Array.isArray(prs)) {
+          for (var p = 0; p < prs.length; p++) {
+            context += '  - #' + prs[p].number + ' ' + prs[p].title + ' (by ' + (prs[p].user ? prs[p].user.login : 'unknown') + ')\n';
+          }
+          if (prs.length === 0) { context += '  (none)\n'; }
+        }
+      } else if (item.type === 'issues') {
+        context += '\nOpen Issues in ' + item.repo + ':\n';
+        var issues = item.data.data;
+        if (Array.isArray(issues)) {
+          for (var is = 0; is < issues.length; is++) {
+            context += '  - #' + issues[is].number + ' ' + issues[is].title + '\n';
+          }
+          if (issues.length === 0) { context += '  (none)\n'; }
+        }
+      } else if (item.type === 'releases') {
+        context += '\nReleases in ' + item.repo + ':\n';
+        var releases = item.data.data;
+        if (Array.isArray(releases)) {
+          for (var rl = 0; rl < Math.min(releases.length, 5); rl++) {
+            context += '  - ' + releases[rl].tag_name + ' (' + (releases[rl].published_at || '') + ')\n';
+          }
+          if (releases.length === 0) { context += '  (none)\n'; }
+        }
+      } else if (item.type === 'workflows') {
+        context += '\nRecent Workflow Runs in ' + item.repo + ':\n';
+        var runs = item.data.data && item.data.data.workflow_runs ? item.data.data.workflow_runs : [];
+        for (var w = 0; w < runs.length; w++) {
+          context += '  - ' + (runs[w].name || '') + ': ' + (runs[w].conclusion || runs[w].status || '') + ' (' + (runs[w].created_at || '') + ')\n';
+        }
+        if (runs.length === 0) { context += '  (none)\n'; }
+      }
+    }
+    return context || null;
+  });
 }
 
-// ── MAIN INIT — called after registry data is defined below ───────────────────
-function init() {
-  registry = window.LIVE_REGISTRY;
-  var s = computeStats();
-  document.getElementById('last-upd').textContent =
-    'Live (embedded) - sachin-dehran/dbops-solutions-governance - ' + new Date().toLocaleTimeString();
-  renderKpi(s);
-  renderOverview(s);
-  renderMatrix();
-  renderMaster();
-  renderChangelog();
-  renderWorkflows();
-  renderProvisioning();
+// ── Repo Inventory Rendering ──────────────────────────────────────────────────
+
+function renderSkeletonCards(count) {
+  var html = '<div class="card-grid">';
+  for (var i = 0; i < count; i++) {
+    html += '<div class="skeleton-card">';
+    html += '<div class="skeleton-line short"></div>';
+    html += '<div class="skeleton-line medium"></div>';
+    html += '<div class="skeleton-line"></div>';
+    html += '<div class="skeleton-line medium"></div>';
+    html += '<div class="skeleton-line short"></div>';
+    html += '<div class="skeleton-line"></div>';
+    html += '<div class="skeleton-line medium"></div>';
+    html += '<div class="skeleton-line short"></div>';
+    html += '</div>';
+  }
+  html += '</div>';
+  return html;
 }
-</script>
 
-<script>
-// ── REGISTRY DATA — AUTO-UPDATED BY GITHUB ACTIONS WORKFLOW 4 ────────────────
-window.LIVE_REGISTRY = {"dbops_versol1":{"repo":"sachin-dehran/dbops_versol1","master_version":"v2026.1.3","master_branch":"main","released_date":"2026-04-10","released_by":"sachin-dehran","teams":{"team1":{"branch":"project-team1","local_version":"team1-v2026.1.3-local.2","based_on_master":"v2026.1.3","deviation":false,"wants_merge":false,"last_updated":"2026-05-01T10:22:00"},"team2":{"branch":"project-team2","local_version":"team2-v2026.1.3-local.5","based_on_master":"v2026.1.3","deviation":true,"deviation_reason":"Increased connection timeout for on-prem DB","wants_merge":true,"last_updated":"2026-05-03T14:10:00"},"team3":{"branch":"project-team3","local_version":"team3-v2026.1.2-local.1","based_on_master":"v2026.1.2","deviation":false,"wants_merge":false,"last_updated":"2026-04-20T09:15:00"},"team4":{"branch":"project-team4","local_version":"team4-v2026.1.3-local.0","based_on_master":"v2026.1.3","deviation":false,"wants_merge":false,"last_updated":"2026-05-05T11:00:00"},"team5":{"branch":"project-team5","local_version":"team5-v2026.1.1-local.3","based_on_master":"v2026.1.1","deviation":true,"deviation_reason":"Legacy infra","wants_merge":false,"last_updated":"2026-04-28T16:45:00"}}},"dbops_versol2":{"repo":"sachin-dehran/dbops_versol2","master_version":"v2026.2.0","master_branch":"main","released_date":"2026-04-20","released_by":"sachin-dehran","teams":{"team1":{"branch":"project-team1","local_version":"team1-v2026.2.0-local.1","based_on_master":"v2026.2.0","deviation":false,"wants_merge":false,"last_updated":"2026-05-02T08:30:00"},"team2":{"branch":"project-team2","local_version":"team2-v2026.2.0-local.0","based_on_master":"v2026.2.0","deviation":false,"wants_merge":false,"last_updated":"2026-05-04T12:00:00"},"team3":{"branch":"project-team3","local_version":"team3-v2026.1.9-local.2","based_on_master":"v2026.1.9","deviation":true,"deviation_reason":"Pre-migration hold on v2 schema change","wants_merge":false,"last_updated":"2026-04-25T10:00:00"},"team4":{"branch":"project-team4","local_version":"team4-v2026.2.0-local.3","based_on_master":"v2026.2.0","deviation":false,"wants_merge":false,"last_updated":"2026-05-06T09:45:00"},"team5":{"branch":"project-team5","local_version":"team5-v2026.2.0-local.1","based_on_master":"v2026.2.0","deviation":false,"wants_merge":false,"last_updated":"2026-05-01T14:20:00"}}}};
+function calculateCompliance(registry, repoKey) {
+  var repoData = registry[repoKey];
+  if (!repoData || !repoData.teams) {
+    return 0;
+  }
+  var masterVersion = repoData.master_version;
+  var teams = repoData.teams;
+  var teamKeys = Object.keys(teams);
+  // Only count customer-* branches for compliance
+  var customerBranches = [];
+  for (var i = 0; i < teamKeys.length; i++) {
+    var team = teams[teamKeys[i]];
+    if (team.branch && team.branch.indexOf('customer-') === 0) {
+      customerBranches.push(team);
+    }
+  }
+  // If no customer branches, fall back to all team branches
+  if (customerBranches.length === 0) {
+    customerBranches = teamKeys.map(function(k) { return teams[k]; });
+  }
+  if (customerBranches.length === 0) {
+    return 0;
+  }
+  var onMaster = 0;
+  for (var j = 0; j < customerBranches.length; j++) {
+    if (customerBranches[j].based_on_master === masterVersion) {
+      onMaster++;
+    }
+  }
+  return Math.round((onMaster / customerBranches.length) * 100);
+}
 
-// ── RUN NOW — data is defined above, functions are defined above ──────────────
-init();
+function renderRepoCards(registry, repoMeta) {
+  var repoKeys = Object.keys(registry);
+  if (repoKeys.length === 0) {
+    return '<p style="color:var(--muted);font-size:13px;">No repositories found in registry.</p>';
+  }
+  var settings = window._appSettings || getSettings();
+
+  // Search/filter input
+  var html = '<div style="margin-bottom:14px;display:flex;gap:10px;align-items:center;">';
+  html += '<input type="text" id="repo-search" placeholder="Search repositories..." oninput="filterRepoTable()" style="background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:12px;color:var(--fg);font-family:DM Sans,sans-serif;width:260px;outline:none;"/>';
+  html += '<span style="font-size:11px;color:var(--muted);">' + repoKeys.length + ' repositories</span>';
+  html += '</div>';
+
+  html += '<table class="data-table" id="repo-inventory-table"><thead><tr>';
+  html += '<th>S.No</th>';
+  html += '<th>Repository</th>';
+  html += '<th>Branches</th>';
+  html += '<th>Latest Release</th>';
+  html += '<th>Actions</th>';
+  html += '<th>AI Purpose</th>';
+  html += '</tr></thead><tbody>';
+  for (var i = 0; i < repoKeys.length; i++) {
+    var key = repoKeys[i];
+    var meta = repoMeta[key] || {};
+
+    var branchCount = meta.branches ? meta.branches.length : null;
+    var latestRelease = meta.release && meta.release.tag_name ? meta.release.tag_name : null;
+    // Fallback to registry master_version if no GitHub release found
+    if (!latestRelease && registry[key] && registry[key].master_version) {
+      latestRelease = registry[key].master_version;
+    }
+    var releaseName = meta.release && meta.release.name ? meta.release.name : null;
+    // Also use released_date from registry if available
+    var releaseDisplay = latestRelease;
+    if (releaseName && releaseName !== latestRelease) {
+      releaseDisplay = latestRelease + ' (' + releaseName + ')';
+    } else if (latestRelease && registry[key] && registry[key].released_date) {
+      releaseDisplay = latestRelease + ' (' + registry[key].released_date + ')';
+    }
+    var actionsStatus = null;
+    if (meta.actionsRun && meta.actionsRun.workflow_runs && meta.actionsRun.workflow_runs.length > 0) {
+      actionsStatus = meta.actionsRun.workflow_runs[0].conclusion || meta.actionsRun.workflow_runs[0].status;
+    }
+    var aiPurpose = window._repoPurposes && window._repoPurposes[key] ? window._repoPurposes[key] : null;
+
+    // Trigger async AI purpose detection — will update the cell when done
+    if (!aiPurpose) {
+      _triggerPurposeDetection(key, meta);
+    }
+
+    var actionsColor = actionsStatus === 'success' ? 'var(--master)' : actionsStatus === 'failure' ? 'var(--red)' : 'var(--fg)';
+    var repoUrl = 'https://github.com/' + (settings.github.org || 'sachin-dehran') + '/' + key;
+
+    html += '<tr>';
+    html += '<td style="font-family:DM Mono,monospace;color:var(--muted);font-size:11px;">' + (i + 1) + '</td>';
+    html += '<td style="font-weight:700;"><a href="' + repoUrl + '" target="_blank" style="color:#fff;text-decoration:none;border-bottom:1px dashed var(--muted);">' + key + '</a></td>';
+    html += '<td style="font-family:DM Mono,monospace;">' + (branchCount !== null ? '<a href="#" onclick="showBranchPopup(\'' + key + '\');return false;" style="color:var(--blue);text-decoration:none;border-bottom:1px dashed var(--blue);cursor:pointer;">' + branchCount + '</a>' : '\u2014') + '</td>';
+    html += '<td style="font-family:DM Mono,monospace;">' + (releaseDisplay !== null ? releaseDisplay : '\u2014') + '</td>';
+    html += '<td style="font-family:DM Mono,monospace;color:' + actionsColor + ';">' + (actionsStatus !== null ? actionsStatus : '\u2014') + '</td>';
+    html += '<td style="font-size:11px;max-width:250px;" id="ai-purpose-' + key + '">' + (aiPurpose !== null ? aiPurpose : '<span style="color:var(--muted);">Detecting...</span>') + '</td>';
+    html += '</tr>';
+  }
+  html += '</tbody></table>';
+  return html;
+}
+
+function _triggerPurposeDetection(repoKey, meta) {
+  var readmeContent = '';
+  if (meta && meta.readme) {
+    try { readmeContent = atob((meta.readme.content || '').replace(/\n/g, '')); } catch(e) { readmeContent = ''; }
+  }
+  detectRepoPurpose(repoKey, readmeContent).then(function(purpose) {
+    if (!window._repoPurposes) { window._repoPurposes = {}; }
+    window._repoPurposes[repoKey] = purpose;
+    // Update the cell directly in the DOM
+    var cell = document.getElementById('ai-purpose-' + repoKey);
+    if (cell) {
+      cell.textContent = purpose;
+      cell.style.color = 'var(--fg)';
+    }
+  });
+}
+
+function showBranchPopup(repoKey) {
+  var registry = window._registryData || {};
+  var repoMeta = window._repoMetaData || {};
+  var meta = repoMeta[repoKey] || {};
+  var repoData = registry[repoKey] || {};
+  var masterVersion = repoData.master_version || '\u2014';
+  var teams = repoData.teams || {};
+
+  var branches = meta.branches || [];
+
+  // Build popup content
+  var html = '<div class="modal-overlay" id="branch-popup-overlay" onclick="closeBranchPopup(event)" style="display:flex;">';
+  html += '<div class="modal-content" onclick="event.stopPropagation()" style="max-width:600px;">';
+  html += '<div class="modal-header">';
+  html += '<span style="font-size:15px;font-weight:700;color:#fff;">Branches \u2014 ' + repoKey + '</span>';
+  html += '<button class="chatbot-close" onclick="closeBranchPopup()">&times;</button>';
+  html += '</div>';
+  html += '<p style="font-size:11px;color:var(--muted);margin-bottom:12px;">Master version: <span style="color:var(--master);font-weight:600;">' + masterVersion + '</span></p>';
+  html += '<table class="data-table"><thead><tr>';
+  html += '<th>Branch Name</th>';
+  html += '<th>Version</th>';
+  html += '<th>Status</th>';
+  html += '</tr></thead><tbody>';
+
+  for (var i = 0; i < branches.length; i++) {
+    var branchName = typeof branches[i] === 'string' ? branches[i] : (branches[i].name || '');
+
+    // Look up version from registry teams
+    var version = '\u2014';
+    var statusText = '';
+    var statusColor = 'var(--muted)';
+
+    if (branchName === 'main' || branchName === 'master') {
+      version = masterVersion;
+      statusText = '\u2713 Main Branch';
+      statusColor = 'var(--master)';
+    } else {
+      // Find in teams
+      var teamKeys = Object.keys(teams);
+      var found = false;
+      for (var t = 0; t < teamKeys.length; t++) {
+        var team = teams[teamKeys[t]];
+        if (team.branch === branchName) {
+          version = team.local_version || '\u2014';
+          if (team.based_on_master === masterVersion) {
+            statusText = '\u2713 Same as Main';
+            statusColor = 'var(--master)';
+          } else {
+            statusText = '\u2717 Different (' + (team.based_on_master || '?') + ')';
+            statusColor = 'var(--amber)';
+          }
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        statusText = '\u2014 Unknown';
+        statusColor = 'var(--muted)';
+      }
+    }
+
+    html += '<tr>';
+    html += '<td style="font-family:DM Mono,monospace;font-size:11px;">' + branchName + '</td>';
+    html += '<td style="font-family:DM Mono,monospace;font-size:11px;">' + version + '</td>';
+    html += '<td style="font-size:11px;color:' + statusColor + ';font-weight:600;">' + statusText + '</td>';
+    html += '</tr>';
+  }
+
+  html += '</tbody></table>';
+  html += '</div></div>';
+
+  // Append to body
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function closeBranchPopup(event) {
+  if (event && event.target && !event.target.id) { return; }
+  var overlay = document.getElementById('branch-popup-overlay');
+  if (overlay) { overlay.remove(); }
+}
+
+function filterRepoTable() {
+  var input = document.getElementById('repo-search');
+  if (!input) { return; }
+  var filter = input.value.toLowerCase().trim();
+  var table = document.getElementById('repo-inventory-table');
+  if (!table) { return; }
+  var rows = table.querySelectorAll('tbody tr');
+  for (var i = 0; i < rows.length; i++) {
+    var repoName = rows[i].cells[1] ? rows[i].cells[1].textContent.toLowerCase() : '';
+    if (!filter || repoName.indexOf(filter) !== -1) {
+      rows[i].style.display = '';
+    } else {
+      rows[i].style.display = 'none';
+    }
+  }
+}
+
+var INFO_POPUP_TEXTS = {
+  branches: 'Total number of branches in this repository, including main, project, and customer branches.',
+  prs: 'Number of currently open pull requests awaiting review or merge.',
+  issues: 'Number of open issues tracked in this repository.',
+  release: 'The most recent tagged release version published to this repository.',
+  actions: 'Status of the last GitHub Actions workflow run (success, failure, or in_progress).',
+  compliance: 'Percentage of customer branches that are based on the current master version. Higher is better.',
+  purpose: 'AI-inferred one-line description of what this repository does, generated via Azure OpenAI.'
+};
+
+function showInfoPopup(event, key) {
+  event.stopPropagation();
+  // Remove any existing popup
+  var existing = document.querySelector('.info-popup');
+  if (existing) {
+    existing.parentNode.removeChild(existing);
+  }
+
+  var btn = event.currentTarget || event.target;
+  var rect = btn.getBoundingClientRect();
+
+  var title = key.charAt(0).toUpperCase() + key.slice(1);
+  var text = INFO_POPUP_TEXTS[key] || 'No description available.';
+
+  var popup = document.createElement('div');
+  popup.className = 'info-popup';
+  popup.innerHTML = '<button class="info-popup-close" onclick="closeInfoPopup()">\u00d7</button>'
+    + '<div class="info-popup-title">' + title + '</div>'
+    + '<div class="info-popup-text">' + text + '</div>';
+
+  document.body.appendChild(popup);
+
+  // Position near the button
+  var top = rect.bottom + 8;
+  var left = rect.left - 120;
+  // Keep within viewport
+  if (left < 8) { left = 8; }
+  if (left + 290 > window.innerWidth) { left = window.innerWidth - 298; }
+  if (top + 120 > window.innerHeight) { top = rect.top - 120; }
+
+  popup.style.top = top + 'px';
+  popup.style.left = left + 'px';
+
+  // Close on outside click
+  setTimeout(function() {
+    document.addEventListener('click', _closeInfoPopupOnOutside);
+  }, 0);
+}
+
+function closeInfoPopup() {
+  var existing = document.querySelector('.info-popup');
+  if (existing) {
+    existing.parentNode.removeChild(existing);
+  }
+  document.removeEventListener('click', _closeInfoPopupOnOutside);
+}
+
+function _closeInfoPopupOnOutside(e) {
+  var popup = document.querySelector('.info-popup');
+  if (popup && !popup.contains(e.target) && !e.target.classList.contains('info-btn')) {
+    closeInfoPopup();
+  }
+}
+
+// ── Customer Adoption Page — Registry Tab ─────────────────────────────────────
+
+var _customersData = [];
+var _customersSha = null;
+var _editingCustomerIndex = -1;
+
+function renderCustomerTable(customers) {
+  if (!customers || customers.length === 0) {
+    return '<table class="data-table"><thead><tr>'
+      + '<th>Name</th><th>Email</th><th>Status</th><th>Actions</th>'
+      + '</tr></thead><tbody><tr><td colspan="4" style="color:var(--muted);text-align:center;padding:20px;">No customers registered yet.</td></tr></tbody></table>';
+  }
+  var html = '<table class="data-table"><thead><tr>';
+  html += '<th>Name</th><th>Email</th><th>Status</th><th>Actions</th>';
+  html += '</tr></thead><tbody>';
+  for (var i = 0; i < customers.length; i++) {
+    var c = customers[i];
+    var status = c.status || '\u2014';
+    var statusColor = status === 'active' ? 'var(--master)' : status === 'onboarding' ? 'var(--amber)' : 'var(--muted)';
+    html += '<tr>';
+    html += '<td style="font-weight:600;">' + (c.name || '\u2014') + '</td>';
+    html += '<td style="font-size:11px;color:var(--muted);">' + (c.email || '\u2014') + '</td>';
+    html += '<td><span style="color:' + statusColor + ';font-size:11px;font-weight:600;">' + status + '</span></td>';
+    html += '<td class="actions-cell">';
+    html += '<button class="btn-edit" onclick="editCustomer(' + i + ')">Edit</button>';
+    html += '<button class="btn-delete" onclick="deleteCustomer(' + i + ')">Delete</button>';
+    html += '</td>';
+    html += '</tr>';
+  }
+  html += '</tbody></table>';
+  return html;
+}
+
+function _detectSolutionsForCustomer(customer) {
+  // Auto-detect which solutions have branches containing this customer's name
+  var detected = [];
+  if (!customer || !customer.name || !window._repoMetaData) {
+    return Array.isArray(customer.solutions) ? customer.solutions : [];
+  }
+  var custNameLower = customer.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+  var repoKeys = Object.keys(window._repoMetaData);
+  for (var r = 0; r < repoKeys.length; r++) {
+    var meta = window._repoMetaData[repoKeys[r]];
+    if (meta && meta.branches) {
+      for (var b = 0; b < meta.branches.length; b++) {
+        var branchName = typeof meta.branches[b] === 'string' ? meta.branches[b] : (meta.branches[b].name || '');
+        if (branchName.indexOf('customer-') === 0) {
+          var branchCustPart = branchName.slice(9).toLowerCase().replace(/[^a-z0-9]/g, '');
+          if (branchCustPart.indexOf(custNameLower) === 0 || custNameLower.indexOf(branchCustPart) === 0) {
+            if (detected.indexOf(repoKeys[r]) === -1) {
+              detected.push(repoKeys[r]);
+            }
+          }
+        }
+      }
+    }
+  }
+  // Merge with manually assigned solutions
+  var manual = Array.isArray(customer.solutions) ? customer.solutions : [];
+  for (var m = 0; m < manual.length; m++) {
+    if (detected.indexOf(manual[m]) === -1) {
+      detected.push(manual[m]);
+    }
+  }
+  return detected;
+}
+
+function renderCustomerForm() {
+  var settings = window._appSettings || getSettings();
+  var repos = settings.repos || [];
+  // Build solution checkboxes from registry keys or settings repos
+  var solutionKeys = [];
+  if (window._registryData) {
+    solutionKeys = Object.keys(window._registryData);
+  } else if (repos.length > 0) {
+    for (var r = 0; r < repos.length; r++) {
+      solutionKeys.push(repos[r].name || repos[r]);
+    }
+  }
+  if (solutionKeys.length === 0) {
+    solutionKeys = ['dbops_versol1', 'dbops_versol2'];
+  }
+
+  var html = '<div id="customer-form-error" class="form-error"></div>';
+  html += '<form id="customer-form" onsubmit="submitCustomerForm(event)">';
+  html += '<div class="form-grid">';
+
+  // Name
+  html += '<div class="form-group">';
+  html += '<label>Customer Name <span class="required">*</span></label>';
+  html += '<input type="text" id="cust-name" placeholder="e.g. Acme Corp"/>';
+  html += '</div>';
+
+  // Email
+  html += '<div class="form-group">';
+  html += '<label>Contact Email</label>';
+  html += '<input type="email" id="cust-email" placeholder="contact@example.com"/>';
+  html += '</div>';
+
+  // Status
+  html += '<div class="form-group">';
+  html += '<label>Status</label>';
+  html += '<select id="cust-status">';
+  html += '<option value="active">Active</option>';
+  html += '<option value="onboarding">Onboarding</option>';
+  html += '<option value="inactive">Inactive</option>';
+  html += '</select>';
+  html += '</div>';
+
+  // Notes
+  html += '<div class="form-group">';
+  html += '<label>Notes</label>';
+  html += '<textarea id="cust-notes" placeholder="Optional notes..."></textarea>';
+  html += '</div>';
+
+  html += '</div>';
+
+  // Solutions — auto-detected from branches, shown as info
+  html += '<div class="form-group">';
+  html += '<label>Solutions <span style="font-size:10px;color:var(--muted);font-weight:400;">(auto-detected from branches containing customer name)</span></label>';
+  html += '<div id="cust-solutions" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:4px;">';
+  for (var s = 0; s < solutionKeys.length; s++) {
+    html += '<label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--fg);cursor:pointer;">';
+    html += '<input type="checkbox" class="cust-solution-cb" value="' + solutionKeys[s] + '"/> ';
+    html += solutionKeys[s];
+    html += '</label>';
+  }
+  html += '</div>';
+  html += '<p style="font-size:10px;color:var(--muted);margin-top:6px;">Solutions will also be tracked automatically if any solution branch contains this customer\'s name (customer-* pattern).</p>';
+  html += '</div>';
+
+  // Buttons
+  html += '<div style="display:flex;gap:10px;margin-top:8px;">';
+  html += '<button type="submit" class="btn-primary" id="cust-submit-btn">Register Customer</button>';
+  html += '<button type="button" class="btn-secondary" onclick="resetCustomerForm()">Cancel</button>';
+  html += '</div>';
+
+  html += '</form>';
+  return html;
+}
+
+function validateCustomerForm() {
+  var name = (document.getElementById('cust-name').value || '').trim();
+  var checkboxes = document.querySelectorAll('.cust-solution-cb');
+  var selectedSolutions = [];
+  for (var i = 0; i < checkboxes.length; i++) {
+    if (checkboxes[i].checked) {
+      selectedSolutions.push(checkboxes[i].value);
+    }
+  }
+
+  var errorEl = document.getElementById('customer-form-error');
+  if (!name) {
+    errorEl.textContent = 'Customer name is required.';
+    errorEl.style.display = 'block';
+    return null;
+  }
+
+  // Auto-detect solutions from branches containing customer name
+  if (selectedSolutions.length === 0 && window._repoMetaData) {
+    var custNameLower = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+    var repoKeys = Object.keys(window._repoMetaData);
+    for (var r = 0; r < repoKeys.length; r++) {
+      var meta = window._repoMetaData[repoKeys[r]];
+      if (meta && meta.branches) {
+        for (var b = 0; b < meta.branches.length; b++) {
+          var branchName = typeof meta.branches[b] === 'string' ? meta.branches[b] : (meta.branches[b].name || '');
+          if (branchName.indexOf('customer-') === 0) {
+            var branchCustPart = branchName.slice(9).toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (branchCustPart.indexOf(custNameLower) === 0 || custNameLower.indexOf(branchCustPart) === 0) {
+              if (selectedSolutions.indexOf(repoKeys[r]) === -1) {
+                selectedSolutions.push(repoKeys[r]);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  errorEl.style.display = 'none';
+  return {
+    name: name,
+    email: (document.getElementById('cust-email').value || '').trim(),
+    solutions: selectedSolutions,
+    status: document.getElementById('cust-status').value,
+    notes: (document.getElementById('cust-notes').value || '').trim()
+  };
+}
+
+function submitCustomerForm(event) {
+  event.preventDefault();
+  var data = validateCustomerForm();
+  if (!data) {
+    return;
+  }
+
+  var now = new Date().toISOString();
+  if (_editingCustomerIndex >= 0) {
+    // Edit existing
+    var existing = _customersData[_editingCustomerIndex];
+    existing.name = data.name;
+    existing.email = data.email;
+    existing.solutions = data.solutions;
+    existing.status = data.status;
+    existing.notes = data.notes;
+    existing.updatedAt = now;
+  } else {
+    // Add new
+    var newCustomer = {
+      id: 'cust_' + Date.now(),
+      name: data.name,
+      email: data.email,
+      solutions: data.solutions,
+      status: data.status,
+      notes: data.notes,
+      createdAt: now,
+      updatedAt: now
+    };
+    _customersData.push(newCustomer);
+  }
+
+  // Save to GitHub
+  saveCustomers(_customersData, _customersSha).then(function(result) {
+    if (result.ok) {
+      _customersSha = result.newSha;
+      _editingCustomerIndex = -1;
+      // Close modal and refresh matrix
+      closeCustomerModal();
+    } else {
+      // On failure: show error, preserve form data
+      var errorEl = document.getElementById('customer-form-error');
+      errorEl.textContent = 'Save failed: ' + (result.error || 'Unknown error');
+      errorEl.style.display = 'block';
+      // Revert the change in memory
+      if (_editingCustomerIndex < 0) {
+        _customersData.pop();
+      }
+    }
+  });
+}
+
+function editCustomer(index) {
+  if (index < 0 || index >= _customersData.length) {
+    return;
+  }
+  // Open the registration modal for editing
+  openCustomerModal('new-customer');
+
+  _editingCustomerIndex = index;
+  var c = _customersData[index];
+
+  // Populate form fields (slight delay to ensure modal DOM is ready)
+  setTimeout(function() {
+    document.getElementById('cust-name').value = c.name || '';
+    document.getElementById('cust-email').value = c.email || '';
+    document.getElementById('cust-status').value = c.status || 'active';
+    document.getElementById('cust-notes').value = c.notes || '';
+
+    // Check solution checkboxes
+    var checkboxes = document.querySelectorAll('.cust-solution-cb');
+    var solutions = Array.isArray(c.solutions) ? c.solutions : [];
+    for (var i = 0; i < checkboxes.length; i++) {
+      checkboxes[i].checked = solutions.indexOf(checkboxes[i].value) !== -1;
+    }
+
+    // Update button text and modal title
+    var btn = document.getElementById('cust-submit-btn');
+    if (btn) { btn.textContent = 'Update Customer'; }
+    var title = document.getElementById('customer-modal-title');
+    if (title) { title.textContent = 'Edit Customer'; }
+
+    // Clear error
+    var errorEl = document.getElementById('customer-form-error');
+    if (errorEl) { errorEl.style.display = 'none'; }
+  }, 50);
+}
+
+function deleteCustomer(index) {
+  if (index < 0 || index >= _customersData.length) {
+    return;
+  }
+  var removed = _customersData.splice(index, 1)[0];
+
+  saveCustomers(_customersData, _customersSha).then(function(result) {
+    if (result.ok) {
+      _customersSha = result.newSha;
+      // Refresh the registry table in the modal
+      var body = document.getElementById('customer-modal-body');
+      if (body) {
+        body.innerHTML = renderCustomerTable(_customersData);
+      }
+      // Refresh the matrix
+      var matrixArea = document.getElementById('adoption-matrix-area');
+      if (matrixArea) {
+        matrixArea.innerHTML = renderAdoptionMatrix(_customersData, window._registryData || {}, window._repoMetaData || {});
+      }
+    } else {
+      // Restore customer on failure
+      _customersData.splice(index, 0, removed);
+      var errorEl = document.getElementById('customer-form-error');
+      if (errorEl) {
+        errorEl.textContent = 'Delete failed: ' + (result.error || 'Unknown error');
+        errorEl.style.display = 'block';
+      }
+    }
+  });
+}
+
+function resetCustomerForm() {
+  _editingCustomerIndex = -1;
+  var nameEl = document.getElementById('cust-name');
+  var emailEl = document.getElementById('cust-email');
+  var statusEl = document.getElementById('cust-status');
+  var notesEl = document.getElementById('cust-notes');
+  if (nameEl) { nameEl.value = ''; }
+  if (emailEl) { emailEl.value = ''; }
+  if (statusEl) { statusEl.value = 'active'; }
+  if (notesEl) { notesEl.value = ''; }
+
+  var checkboxes = document.querySelectorAll('.cust-solution-cb');
+  for (var i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].checked = false;
+  }
+
+  var btn = document.getElementById('cust-submit-btn');
+  if (btn) {
+    btn.textContent = 'Register Customer';
+  }
+
+  var errorEl = document.getElementById('customer-form-error');
+  if (errorEl) {
+    errorEl.style.display = 'none';
+  }
+}
+
+// ── Customer Adoption Page — Adoption Matrix Tab ──────────────────────────────
+
+function getCellData(customer, repoKey, registry, branchList) {
+  if (!customer || !repoKey || !registry || !branchList) {
+    return null;
+  }
+  // Check if customer has adopted this solution
+  var solutions = Array.isArray(customer.solutions) ? customer.solutions : [];
+  if (solutions.indexOf(repoKey) === -1) {
+    return null;
+  }
+
+  var repoData = registry[repoKey];
+  if (!repoData) {
+    return null;
+  }
+
+  // Filter branchList for customer-* pattern matching this customer
+  var customerName = (customer.name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  var matchingBranches = [];
+  for (var i = 0; i < branchList.length; i++) {
+    var branchName = typeof branchList[i] === 'string' ? branchList[i] : (branchList[i].name || '');
+    if (branchName.indexOf('customer-') === 0) {
+      // Match customer-{customerName} pattern (case-insensitive, alphanumeric)
+      var branchCustomerPart = branchName.slice(9).toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (branchCustomerPart === customerName || branchName.toLowerCase().indexOf('customer-' + customerName) === 0) {
+        matchingBranches.push(branchName);
+      }
+    }
+  }
+
+  if (matchingBranches.length === 0) {
+    // No matching customer branch found — check registry teams for this customer
+    var teams = repoData.teams || {};
+    var teamKeys = Object.keys(teams);
+    for (var t = 0; t < teamKeys.length; t++) {
+      var team = teams[teamKeys[t]];
+      if (team.branch && team.branch.indexOf('customer-') === 0) {
+        var teamCustPart = team.branch.slice(9).toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (teamCustPart === customerName) {
+          // Found in registry teams
+          return _determineCellStatus(team, repoData.master_version);
+        }
+      }
+    }
+    return null;
+  }
+
+  // Use the first matching branch — look up in registry teams
+  var matchedBranch = matchingBranches[0];
+  var teams2 = repoData.teams || {};
+  var teamKeys2 = Object.keys(teams2);
+  for (var j = 0; j < teamKeys2.length; j++) {
+    var teamData = teams2[teamKeys2[j]];
+    if (teamData.branch === matchedBranch) {
+      return _determineCellStatus(teamData, repoData.master_version);
+    }
+  }
+
+  // Branch exists but not in registry — treat as unapproved-drift
+  return {
+    status: 'unapproved-drift',
+    version: matchedBranch,
+    branch: matchedBranch,
+    lastUpdated: null
+  };
+}
+
+function _determineCellStatus(teamData, masterVersion) {
+  var status = 'behind';
+  if (teamData.based_on_master === masterVersion) {
+    if (teamData.wants_merge) {
+      status = 'wants-merge';
+    } else if (teamData.deviation) {
+      status = 'approved-deviation';
+    } else {
+      status = 'master';
+    }
+  } else {
+    // Not on master version
+    if (teamData.deviation) {
+      status = 'approved-deviation';
+    } else if (teamData.wants_merge) {
+      status = 'wants-merge';
+    } else {
+      status = 'behind';
+    }
+  }
+
+  return {
+    status: status,
+    version: teamData.local_version || teamData.branch || '\u2014',
+    branch: teamData.branch || '\u2014',
+    lastUpdated: teamData.last_updated || null
+  };
+}
+
+function renderAdoptionMatrix(customers, registry, branchData) {
+  if (!customers || customers.length === 0) {
+    return '<p style="color:var(--muted);font-size:13px;">No customers found. Click "New Customer Registration" to add customers.</p>';
+  }
+  if (!registry || Object.keys(registry).length === 0) {
+    return '<p style="color:var(--muted);font-size:13px;">No solutions found in registry.</p>';
+  }
+
+  var repoKeys = Object.keys(registry);
+  var html = '<div class="matrix-grid">';
+  html += '<table class="matrix-table">';
+
+  // Header row
+  html += '<thead><tr>';
+  html += '<th>Customer</th>';
+  for (var h = 0; h < repoKeys.length; h++) {
+    html += '<th>' + repoKeys[h] + '</th>';
+  }
+  html += '</tr></thead>';
+
+  // Data rows — one per customer
+  html += '<tbody>';
+  for (var c = 0; c < customers.length; c++) {
+    var customer = customers[c];
+    html += '<tr>';
+    html += '<td>' + (customer.name || '\u2014') + '</td>';
+
+    for (var r = 0; r < repoKeys.length; r++) {
+      var repoKey = repoKeys[r];
+      var branches = branchData && branchData[repoKey] && branchData[repoKey].branches
+        ? branchData[repoKey].branches
+        : [];
+      var usageInfo = _checkSolutionInUse(customer, repoKey, branches);
+
+      if (usageInfo.inUse) {
+        var tooltip = 'In Use \u2014 Branch "' + usageInfo.branch + '" found in ' + repoKey + ' matching customer "' + customer.name + '".';
+        html += '<td><span class="matrix-cell status-in-use" title="' + tooltip + '">';
+        html += '<span>\u2713 In Use</span>';
+        html += '</span></td>';
+      } else {
+        var notUsedTooltip = 'Not In Use \u2014 No branch containing "' + (customer.name || '') + '" found in ' + repoKey + '.';
+        html += '<td><span class="matrix-cell status-not-in-use" title="' + notUsedTooltip + '">';
+        html += '<span>\u2717 Not In Use</span>';
+        html += '</span></td>';
+      }
+    }
+    html += '</tr>';
+  }
+  html += '</tbody></table></div>';
+
+  // Legend
+  html += '<div class="matrix-legend">';
+  html += '<div class="legend-item"><span class="legend-dot" style="background:var(--master);"></span> In Use (branch found)</div>';
+  html += '<div class="legend-item"><span class="legend-dot" style="background:var(--muted);"></span> Not In Use (no matching branch)</div>';
+  html += '</div>';
+
+  return html;
+}
+
+function _checkSolutionInUse(customer, repoKey, branchList) {
+  // Check if any branch in this repo contains the customer name (case-insensitive)
+  if (!customer || !customer.name || !branchList || branchList.length === 0) {
+    return { inUse: false, branch: null };
+  }
+  var custNameLower = customer.name.toLowerCase().replace(/\s+/g, '');
+  for (var i = 0; i < branchList.length; i++) {
+    var branchName = typeof branchList[i] === 'string' ? branchList[i] : (branchList[i].name || '');
+    var branchLower = branchName.toLowerCase().replace(/\s+/g, '');
+    if (branchLower.indexOf(custNameLower) !== -1) {
+      return { inUse: true, branch: branchName };
+    }
+  }
+  return { inUse: false, branch: null };
+}
+
+// ── Customer Adoption Page Rendering ──────────────────────────────────────────
+
+function renderCustomerRegistryPage() {
+  var container = document.getElementById('page-customer-adoption');
+  if (!container) { return; }
+
+  var html = '';
+
+  // Action buttons at the top
+  html += '<div style="display:flex;gap:10px;margin-bottom:18px;">';
+  html += '<button class="btn-primary" onclick="openCustomerModal(\'new-customer\')">+ New Customer Registration</button>';
+  html += '<button class="btn-secondary" onclick="openCustomerModal(\'registry\')">Customer Registry</button>';
+  html += '</div>';
+
+  // Adoption Matrix — always visible as main focus
+  html += '<div id="adoption-matrix-area">';
+  html += renderAdoptionMatrix(_customersData, window._registryData || {}, window._repoMetaData || {});
+  html += '</div>';
+
+  // Modal overlay for New Customer Registration / Customer Registry
+  html += '<div id="customer-modal-overlay" class="modal-overlay" style="display:none;" onclick="closeCustomerModal(event)">';
+  html += '<div class="modal-content" onclick="event.stopPropagation()">';
+  html += '<div class="modal-header">';
+  html += '<span id="customer-modal-title" style="font-size:15px;font-weight:700;color:#fff;">New Customer Registration</span>';
+  html += '<button class="chatbot-close" onclick="closeCustomerModal()">&times;</button>';
+  html += '</div>';
+  html += '<div id="customer-modal-body"></div>';
+  html += '</div>';
+  html += '</div>';
+
+  container.innerHTML = html;
+}
+
+function openCustomerModal(mode) {
+  var overlay = document.getElementById('customer-modal-overlay');
+  var title = document.getElementById('customer-modal-title');
+  var body = document.getElementById('customer-modal-body');
+  if (!overlay || !body) { return; }
+
+  if (mode === 'new-customer') {
+    title.textContent = 'New Customer Registration';
+    body.innerHTML = renderCustomerForm();
+  } else if (mode === 'registry') {
+    title.textContent = 'Customer Registry';
+    body.innerHTML = renderCustomerTable(_customersData);
+  }
+  overlay.style.display = 'flex';
+}
+
+function closeCustomerModal(event) {
+  if (event && event.target && !event.target.classList.contains('modal-overlay')) {
+    return;
+  }
+  var overlay = document.getElementById('customer-modal-overlay');
+  if (overlay) { overlay.style.display = 'none'; }
+  // Refresh the matrix in case data changed
+  var matrixArea = document.getElementById('adoption-matrix-area');
+  if (matrixArea) {
+    matrixArea.innerHTML = renderAdoptionMatrix(_customersData, window._registryData || {}, window._repoMetaData || {});
+  }
+}
+
+function showCustomerSubTab(tabId, clickedBtn) {
+  // Legacy — no longer used but kept for compatibility
+}
+
+// ── Settings Page Rendering ───────────────────────────────────────────────────
+
+function renderSettingsPage() {
+  var container = document.getElementById('page-settings');
+  if (!container) { return; }
+  var settings = getSettings();
+  var html = '';
+
+  // GitHub section
+  html += '<div class="settings-section">';
+  html += '<div class="settings-section-title" onclick="toggleSettingsSection(this)">GitHub Configuration</div>';
+  html += '<div class="settings-section-body">';
+  html += '<div class="form-group">';
+  html += '<label>Personal Access Token <span class="required">*</span></label>';
+  html += '<div style="position:relative;">';
+  html += '<input type="password" id="settings-pat" placeholder="ghp_..." value="' + _escAttr(settings.github.pat) + '" onchange="autoSaveSettings()" style="padding-right:60px;"/>';
+  html += '<button type="button" onclick="togglePatVisibility()" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);font-size:11px;cursor:pointer;font-family:DM Mono,monospace;" id="pat-toggle-btn">Show</button>';
+  html += '</div>';
+  html += '</div>';
+  html += '<div class="form-group">';
+  html += '<label>Organization / Owner</label>';
+  html += '<input type="text" id="settings-org" placeholder="sachin-dehran" value="' + _escAttr(settings.github.org) + '" onchange="autoSaveSettings()"/>';
+  html += '</div>';
+  html += '<div style="display:flex;align-items:center;gap:12px;margin-top:8px;">';
+  html += '<button class="btn-primary" type="button" onclick="testGitHubConnection()">Test Connection</button>';
+  html += '<span id="settings-connection-msg" style="font-size:12px;color:var(--muted);"></span>';
+  html += '</div>';
+  html += '</div>';
+  html += '</div>';
+
+  // Azure OpenAI section
+  html += '<div class="settings-section">';
+  html += '<div class="settings-section-title" onclick="toggleSettingsSection(this)">Azure OpenAI Configuration</div>';
+  html += '<div class="settings-section-body">';
+  html += '<div class="form-grid">';
+  html += '<div class="form-group">';
+  html += '<label>Endpoint URL</label>';
+  html += '<input type="text" id="settings-azure-endpoint" placeholder="https://{resource}.openai.azure.com" value="' + _escAttr(settings.azure.endpoint) + '" onchange="autoSaveSettings()"/>';
+  html += '</div>';
+  html += '<div class="form-group">';
+  html += '<label>Deployment Name</label>';
+  html += '<input type="text" id="settings-azure-deployment" placeholder="gpt-4o" value="' + _escAttr(settings.azure.deployment) + '" onchange="autoSaveSettings()"/>';
+  html += '</div>';
+  html += '</div>';
+  html += '<div class="form-group">';
+  html += '<label>API Key</label>';
+  html += '<div style="position:relative;">';
+  html += '<input type="password" id="settings-azure-key" placeholder="Enter API key" value="' + _escAttr(settings.azure.apiKey) + '" onchange="autoSaveSettings()" style="padding-right:60px;"/>';
+  html += '<button type="button" onclick="toggleAzureKeyVisibility()" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);font-size:11px;cursor:pointer;font-family:DM Mono,monospace;" id="azure-key-toggle-btn">Show</button>';
+  html += '</div>';
+  html += '</div>';
+  html += '<div style="display:flex;align-items:center;gap:12px;margin-top:8px;">';
+  html += '<button class="btn-primary" type="button" onclick="testAIConnection()">Test AI Connection</button>';
+  html += '<span id="settings-ai-msg" style="font-size:12px;color:var(--muted);"></span>';
+  html += '</div>';
+  html += '</div>';
+  html += '</div>';
+
+  // Monitored Repos section
+  html += '<div class="settings-section">';
+  html += '<div class="settings-section-title" onclick="toggleSettingsSection(this)">Monitored Repositories</div>';
+  html += '<div class="settings-section-body">';
+  var registry = window._registryData || {};
+  var repoKeys = Object.keys(registry);
+  if (repoKeys.length === 0 && settings.repos.length === 0) {
+    html += '<p style="color:var(--muted);font-size:12px;">No repositories found. Configure your GitHub PAT and organization first.</p>';
+  } else {
+    var repoList = settings.repos.length > 0 ? settings.repos : repoKeys.map(function(k) { return { name: k, enabled: true }; });
+    for (var i = 0; i < repoList.length; i++) {
+      var repo = repoList[i];
+      var isEnabled = repo.enabled !== false;
+      html += '<div class="repo-list-item">';
+      html += '<span style="font-family:DM Mono,monospace;font-size:12px;color:var(--fg);">' + _escHtml(repo.name) + '</span>';
+      html += '<div class="toggle-switch' + (isEnabled ? ' active' : '') + '" data-repo-index="' + i + '" onclick="toggleRepoEnabled(this, ' + i + ')"></div>';
+      html += '</div>';
+    }
+  }
+  html += '<div style="margin-top:12px;">';
+  html += '<button class="btn-secondary" type="button" onclick="discoverRepos()">Discover Repos</button>';
+  html += '</div>';
+  html += '</div>';
+  html += '</div>';
+
+  // Preferences section
+  html += '<div class="settings-section">';
+  html += '<div class="settings-section-title" onclick="toggleSettingsSection(this)">Preferences</div>';
+  html += '<div class="settings-section-body">';
+  html += '<div class="form-grid">';
+  html += '<div class="form-group">';
+  html += '<label>Theme</label>';
+  html += '<div style="display:flex;align-items:center;gap:10px;">';
+  html += '<span style="font-size:12px;color:var(--muted);">Dark</span>';
+  html += '<div class="toggle-switch' + (settings.prefs.theme === 'light' ? ' active' : '') + '" id="theme-toggle" onclick="toggleTheme(this)"></div>';
+  html += '<span style="font-size:12px;color:var(--muted);">Light</span>';
+  html += '</div>';
+  html += '</div>';
+  html += '<div class="form-group">';
+  html += '<label>Auto-Refresh Interval (seconds)</label>';
+  html += '<input type="number" id="settings-refresh-interval" min="30" max="3600" value="' + settings.prefs.refreshInterval + '" onchange="autoSaveSettings()"/>';
+  html += '</div>';
+  html += '</div>';
+  html += '</div>';
+  html += '</div>';
+
+  // Backup & Restore section
+  html += '<div class="settings-section">';
+  html += '<div class="settings-section-title" onclick="toggleSettingsSection(this)">Backup & Restore</div>';
+  html += '<div class="settings-section-body">';
+  html += '<p style="font-size:11px;color:var(--muted);margin-bottom:12px;">Settings are automatically backed up to your GitHub repo. Use these options to manually export/import or restore from repo.</p>';
+  html += '<div style="display:flex;gap:10px;flex-wrap:wrap;">';
+  html += '<button class="btn-primary" type="button" onclick="exportSettings()">Export Settings</button>';
+  html += '<button class="btn-secondary" type="button" onclick="importSettings()">Import Settings</button>';
+  html += '<button class="btn-secondary" type="button" onclick="restoreSettingsFromRepo()">Restore from GitHub</button>';
+  html += '</div>';
+  html += '<span id="settings-backup-msg" style="display:block;font-size:11px;color:var(--muted);margin-top:8px;"></span>';
+  html += '<input type="file" id="settings-import-file" accept=".json" style="display:none;" onchange="handleSettingsImport(event)"/>';
+  html += '</div>';
+  html += '</div>';
+
+  container.innerHTML = html;
+}
+
+function _escAttr(str) {
+  if (!str) { return ''; }
+  return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function _escHtml(str) {
+  if (!str) { return ''; }
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function exportSettings() {
+  var settings = getSettings();
+  var blob = new Blob([JSON.stringify(settings, null, 2)], { type: 'application/json' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'dbops-governance-settings.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  var msg = document.getElementById('settings-backup-msg');
+  if (msg) { msg.textContent = 'Settings exported successfully.'; msg.style.color = 'var(--master)'; }
+}
+
+function importSettings() {
+  var fileInput = document.getElementById('settings-import-file');
+  if (fileInput) { fileInput.click(); }
+}
+
+function handleSettingsImport(event) {
+  var file = event.target.files[0];
+  if (!file) { return; }
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var imported = JSON.parse(e.target.result);
+      saveSettings(imported);
+      var msg = document.getElementById('settings-backup-msg');
+      if (msg) { msg.textContent = 'Settings imported successfully. Reloading...'; msg.style.color = 'var(--master)'; }
+      setTimeout(function() { location.reload(); }, 1000);
+    } catch (err) {
+      var msg = document.getElementById('settings-backup-msg');
+      if (msg) { msg.textContent = 'Invalid settings file: ' + err.message; msg.style.color = 'var(--red)'; }
+    }
+  };
+  reader.readAsText(file);
+}
+
+function restoreSettingsFromRepo() {
+  var msg = document.getElementById('settings-backup-msg');
+  if (msg) { msg.textContent = 'Restoring from GitHub...'; msg.style.color = 'var(--muted)'; }
+
+  // Need at least a PAT to fetch from repo — check localStorage first
+  var currentSettings = getSettings();
+  if (!currentSettings.github.pat) {
+    if (msg) { msg.textContent = 'Enter your GitHub PAT first, then restore.'; msg.style.color = 'var(--red)'; }
+    return;
+  }
+
+  _loadSettingsFromRepo().then(function(restored) {
+    if (restored) {
+      if (msg) { msg.textContent = 'Settings restored from GitHub. Reloading...'; msg.style.color = 'var(--master)'; }
+      setTimeout(function() { location.reload(); }, 1000);
+    } else {
+      if (msg) { msg.textContent = 'No backup found in GitHub repo.'; msg.style.color = 'var(--amber)'; }
+    }
+  });
+}
+
+function toggleSettingsSection(titleEl) {
+  var body = titleEl.nextElementSibling;
+  if (!body || !body.classList.contains('settings-section-body')) { return; }
+  var isExpanded = titleEl.classList.contains('expanded');
+  if (isExpanded) {
+    titleEl.classList.remove('expanded');
+    body.classList.remove('expanded');
+  } else {
+    titleEl.classList.add('expanded');
+    body.classList.add('expanded');
+  }
+}
+
+function togglePatVisibility() {
+  var input = document.getElementById('settings-pat');
+  var btn = document.getElementById('pat-toggle-btn');
+  if (!input || !btn) { return; }
+  if (input.type === 'password') {
+    input.type = 'text';
+    btn.textContent = 'Hide';
+  } else {
+    input.type = 'password';
+    btn.textContent = 'Show';
+  }
+}
+
+function toggleAzureKeyVisibility() {
+  var input = document.getElementById('settings-azure-key');
+  var btn = document.getElementById('azure-key-toggle-btn');
+  if (!input || !btn) { return; }
+  if (input.type === 'password') {
+    input.type = 'text';
+    btn.textContent = 'Hide';
+  } else {
+    input.type = 'password';
+    btn.textContent = 'Show';
+  }
+}
+
+function toggleRepoEnabled(el, index) {
+  var settings = getSettings();
+  if (settings.repos.length === 0) {
+    var registry = window._registryData || {};
+    var repoKeys = Object.keys(registry);
+    settings.repos = repoKeys.map(function(k) { return { name: k, enabled: true }; });
+  }
+  if (index >= 0 && index < settings.repos.length) {
+    settings.repos[index].enabled = !settings.repos[index].enabled;
+    el.classList.toggle('active');
+    saveSettings(settings);
+    window._appSettings = settings;
+  }
+}
+
+function discoverRepos() {
+  var settings = getSettings();
+  var org = settings.github.org || 'sachin-dehran';
+  var pat = settings.github.pat;
+
+  if (!pat) {
+    alert('Please configure your GitHub PAT first.');
+    return;
+  }
+
+  // Show modal with loading state
+  var html = '<div class="modal-overlay" id="discover-repos-overlay" onclick="closeDiscoverRepos(event)" style="display:flex;">';
+  html += '<div class="modal-content" onclick="event.stopPropagation()" style="max-width:550px;">';
+  html += '<div class="modal-header">';
+  html += '<span style="font-size:15px;font-weight:700;color:#fff;">Discover Repositories</span>';
+  html += '<button class="chatbot-close" onclick="closeDiscoverRepos()">&times;</button>';
+  html += '</div>';
+  html += '<div id="discover-repos-body"><p style="color:var(--muted);font-size:12px;">Loading repositories from ' + org + '...</p></div>';
+  html += '</div></div>';
+  document.body.insertAdjacentHTML('beforeend', html);
+
+  // Fetch all repos from the org/user (including private)
+  var url = GITHUB_API_BASE + '/user/repos?per_page=100&sort=updated&affiliation=owner,collaborator,organization_member';
+  safeGitHubFetch(url).then(function(result) {
+    var body = document.getElementById('discover-repos-body');
+    if (!body) { return; }
+
+    if (!result.ok) {
+      body.innerHTML = '<p style="color:var(--red);font-size:12px;">Failed to fetch repos: ' + (result.error || 'Unknown error') + '</p>';
+      return;
+    }
+
+    var allRepos = result.data || [];
+    var currentRepoNames = settings.repos.map(function(r) { return r.name; });
+
+    var listHtml = '<p style="font-size:11px;color:var(--muted);margin-bottom:12px;">Found ' + allRepos.length + ' repositories. Toggle to enable/disable monitoring.</p>';
+    listHtml += '<div>';
+
+    for (var i = 0; i < allRepos.length; i++) {
+      var repo = allRepos[i];
+      var repoName = repo.name;
+      var isMonitored = currentRepoNames.indexOf(repoName) !== -1;
+      var isEnabled = false;
+      if (isMonitored) {
+        for (var j = 0; j < settings.repos.length; j++) {
+          if (settings.repos[j].name === repoName) {
+            isEnabled = settings.repos[j].enabled !== false;
+            break;
+          }
+        }
+      }
+
+      listHtml += '<div class="repo-list-item">';
+      listHtml += '<div style="display:flex;flex-direction:column;">';
+      listHtml += '<span style="font-family:DM Mono,monospace;font-size:12px;color:var(--fg);">' + repoName + '</span>';
+      listHtml += '<span style="font-size:10px;color:var(--muted);">' + (repo.description || 'No description') + '</span>';
+      listHtml += '</div>';
+      listHtml += '<div class="toggle-switch' + (isEnabled ? ' active' : '') + '" onclick="toggleDiscoveredRepo(this, \'' + repoName + '\')"></div>';
+      listHtml += '</div>';
+    }
+
+    listHtml += '</div>';
+    body.innerHTML = listHtml;
+  });
+}
+
+function toggleDiscoveredRepo(el, repoName) {
+  var settings = getSettings();
+  var found = false;
+  for (var i = 0; i < settings.repos.length; i++) {
+    if (settings.repos[i].name === repoName) {
+      settings.repos[i].enabled = !settings.repos[i].enabled;
+      found = true;
+      break;
+    }
+  }
+  if (!found) {
+    // Add new repo to monitored list
+    settings.repos.push({ name: repoName, enabled: true });
+  }
+  el.classList.toggle('active');
+  saveSettings(settings);
+  window._appSettings = settings;
+}
+
+function closeDiscoverRepos(event) {
+  if (event && event.target && !event.target.classList.contains('modal-overlay')) { return; }
+  var overlay = document.getElementById('discover-repos-overlay');
+  if (overlay) { overlay.remove(); }
+  // Re-render settings page to reflect changes
+  renderSettingsPage();
+}
+
+function toggleTheme(el) {
+  var settings = getSettings();
+  if (settings.prefs.theme === 'dark') {
+    settings.prefs.theme = 'light';
+    el.classList.add('active');
+  } else {
+    settings.prefs.theme = 'dark';
+    el.classList.remove('active');
+  }
+  saveSettings(settings);
+  window._appSettings = settings;
+}
+
+// ── Test Connection ───────────────────────────────────────────────────────────
+
+function testGitHubConnection() {
+  var msgEl = document.getElementById('settings-connection-msg');
+  if (msgEl) {
+    msgEl.textContent = 'Testing...';
+    msgEl.style.color = 'var(--muted)';
+  }
+
+  // Save current PAT first so the fetch uses it
+  autoSaveSettings();
+
+  var settings = getSettings();
+  if (!settings.github.pat) {
+    if (msgEl) {
+      msgEl.textContent = 'No PAT configured';
+      msgEl.style.color = 'var(--red)';
+    }
+    updateConnectionStatus(false);
+    return;
+  }
+
+  safeGitHubFetch(GITHUB_API_BASE + '/user').then(function(result) {
+    if (result.ok) {
+      if (msgEl) {
+        var login = result.data && result.data.login ? result.data.login : 'authenticated';
+        msgEl.textContent = 'Connected as ' + login;
+        msgEl.style.color = 'var(--master)';
+      }
+      updateConnectionStatus(true);
+    } else {
+      if (msgEl) {
+        msgEl.textContent = result.error || 'Connection failed';
+        msgEl.style.color = 'var(--red)';
+      }
+      updateConnectionStatus(false);
+    }
+  });
+}
+
+function testAIConnection() {
+  var msgEl = document.getElementById('settings-ai-msg');
+  if (msgEl) {
+    msgEl.textContent = 'Testing AI connection...';
+    msgEl.style.color = 'var(--muted)';
+  }
+
+  // Save current settings first
+  autoSaveSettings();
+
+  var settings = getSettings();
+  var endpoint = settings.azure.endpoint;
+  var apiKey = settings.azure.apiKey;
+  var deployment = settings.azure.deployment;
+
+  if (!endpoint || !apiKey || !deployment) {
+    if (msgEl) {
+      msgEl.textContent = 'Please fill in all Azure OpenAI fields (endpoint, API key, deployment)';
+      msgEl.style.color = 'var(--red)';
+    }
+    return;
+  }
+
+  var url = endpoint + '/openai/deployments/' + deployment + '/chat/completions?api-version=2024-02-15-preview';
+  var body = {
+    messages: [
+      { role: 'system', content: 'You are a test assistant. Reply with exactly: CONNECTION_OK' },
+      { role: 'user', content: 'Test' }
+    ],
+    max_tokens: 10,
+    temperature: 0
+  };
+
+  var controller = new AbortController();
+  var timeoutId = setTimeout(function() { controller.abort(); }, 15000);
+
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'api-key': apiKey
+    },
+    body: JSON.stringify(body),
+    signal: controller.signal
+  }).then(function(response) {
+    clearTimeout(timeoutId);
+    if (response.ok) {
+      return response.json().then(function(data) {
+        if (msgEl) {
+          var model = data.model || deployment;
+          msgEl.textContent = 'AI Connected \u2014 Model: ' + model;
+          msgEl.style.color = 'var(--master)';
+        }
+      });
+    } else {
+      return response.json().then(function(errBody) {
+        if (msgEl) {
+          msgEl.textContent = 'Failed: ' + (errBody.error && errBody.error.message ? errBody.error.message : 'HTTP ' + response.status);
+          msgEl.style.color = 'var(--red)';
+        }
+      }).catch(function() {
+        if (msgEl) {
+          msgEl.textContent = 'Failed: HTTP ' + response.status;
+          msgEl.style.color = 'var(--red)';
+        }
+      });
+    }
+  }).catch(function(err) {
+    clearTimeout(timeoutId);
+    if (msgEl) {
+      if (err.name === 'AbortError') {
+        msgEl.textContent = 'Timed out (15s)';
+      } else {
+        msgEl.textContent = 'Error: ' + (err.message || 'Network error');
+      }
+      msgEl.style.color = 'var(--red)';
+    }
+  });
+}
+
+function updateConnectionStatus(isConnected) {
+  var dot = document.getElementById('connection-dot');
+  if (!dot) { return; }
+  if (isConnected) {
+    dot.classList.add('connected');
+    dot.title = 'Connected to GitHub API';
+  } else {
+    dot.classList.remove('connected');
+    dot.title = 'Not connected to GitHub API';
+  }
+}
+
+function updateAlertBadge(count) {
+  var badge = document.getElementById('alert-badge');
+  if (!badge) { return; }
+  if (count > 0) {
+    badge.textContent = count;
+    badge.style.display = 'inline-block';
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+// ── Settings Auto-Save ────────────────────────────────────────────────────────
+
+function autoSaveSettings() {
+  var pat = document.getElementById('settings-pat');
+  var org = document.getElementById('settings-org');
+  var azureEndpoint = document.getElementById('settings-azure-endpoint');
+  var azureKey = document.getElementById('settings-azure-key');
+  var azureDeployment = document.getElementById('settings-azure-deployment');
+  var refreshInterval = document.getElementById('settings-refresh-interval');
+
+  var settings = getSettings();
+
+  if (pat) { settings.github.pat = pat.value.trim(); }
+  if (org) { settings.github.org = org.value.trim(); }
+  if (azureEndpoint) { settings.azure.endpoint = azureEndpoint.value.trim(); }
+  if (azureKey) { settings.azure.apiKey = azureKey.value.trim(); }
+  if (azureDeployment) { settings.azure.deployment = azureDeployment.value.trim(); }
+  if (refreshInterval) {
+    var val = parseInt(refreshInterval.value, 10);
+    if (!isNaN(val) && val >= 30 && val <= 3600) {
+      settings.prefs.refreshInterval = val;
+    }
+  }
+
+  var result = saveSettings(settings);
+  if (!result.ok) {
+    var msgEl = document.getElementById('settings-connection-msg');
+    if (msgEl) {
+      msgEl.textContent = result.error || 'Save failed';
+      msgEl.style.color = 'var(--red)';
+    }
+  }
+}
+
+function populateSettingsFromStorage() {
+  var settings = getSettings();
+
+  var pat = document.getElementById('settings-pat');
+  var org = document.getElementById('settings-org');
+  var azureEndpoint = document.getElementById('settings-azure-endpoint');
+  var azureKey = document.getElementById('settings-azure-key');
+  var azureDeployment = document.getElementById('settings-azure-deployment');
+  var refreshInterval = document.getElementById('settings-refresh-interval');
+
+  if (pat) { pat.value = settings.github.pat || ''; }
+  if (org) { org.value = settings.github.org || ''; }
+  if (azureEndpoint) { azureEndpoint.value = settings.azure.endpoint || ''; }
+  if (azureKey) { azureKey.value = settings.azure.apiKey || ''; }
+  if (azureDeployment) { azureDeployment.value = settings.azure.deployment || ''; }
+  if (refreshInterval) { refreshInterval.value = settings.prefs.refreshInterval || 300; }
+}
+
+function showWelcomeState() {
+  var settings = getSettings();
+  if (!settings.github.pat) {
+    var repoPage = document.getElementById('page-repo-inventory');
+    if (repoPage && !repoPage.querySelector('.welcome-state')) {
+      var welcomeHtml = '<div class="welcome-state" style="text-align:center;padding:60px 20px;">';
+      welcomeHtml += '<div style="font-size:48px;margin-bottom:16px;">&#128075;</div>';
+      welcomeHtml += '<h2 style="font-size:20px;font-weight:700;color:#fff;margin-bottom:10px;">Welcome to DBOps Governance</h2>';
+      welcomeHtml += '<p style="color:var(--muted);font-size:13px;max-width:400px;margin:0 auto 20px;">Configure your GitHub Personal Access Token in Settings to get started.</p>';
+      welcomeHtml += '<button class="btn-primary" onclick="showPage(\'settings\', document.getElementById(\'tab-settings\'))">Go to Settings</button>';
+      welcomeHtml += '</div>';
+      repoPage.innerHTML = welcomeHtml;
+    }
+    return true;
+  }
+  return false;
+}
+
+// ── Initialization ────────────────────────────────────────────────────────────
+
+function initDashboard() {
+  // Load settings from localStorage
+  var settings = loadSettings();
+
+  // Render settings page (always available)
+  renderSettingsPage();
+  populateSettingsFromStorage();
+
+  // If no PAT configured, show welcome state and stop
+  if (!settings.github.pat) {
+    showWelcomeState();
+    updateConnectionStatus(false);
+    return;
+  }
+
+  // Show skeleton loaders while fetching
+  var repoPage = document.getElementById('page-repo-inventory');
+  if (repoPage) {
+    repoPage.innerHTML = renderSkeletonCards(4);
+  }
+
+  // Fetch registry, customers, and metadata in parallel
+  var registryPromise = fetchRegistry();
+  var customersPromise = fetchCustomers();
+
+  Promise.all([registryPromise, customersPromise]).then(function(results) {
+    var registryResult = results[0];
+    var customersResult = results[1];
+
+    // Store registry data globally
+    var registry = {};
+    if (registryResult.ok && registryResult.data) {
+      registry = registryResult.data;
+    }
+    window._registryData = registry;
+
+    // Store customers data globally
+    _customersData = customersResult.customers || [];
+    _customersSha = customersResult.sha || null;
+
+    // Update connection status (if registry fetch succeeded, we're connected)
+    updateConnectionStatus(registryResult.ok);
+
+    // Sync repos list in settings if empty
+    var currentSettings = getSettings();
+    if (currentSettings.repos.length === 0) {
+      var repoKeys = Object.keys(registry);
+      currentSettings.repos = repoKeys.map(function(k) { return { name: k, enabled: true }; });
+      saveSettings(currentSettings);
+    }
+
+    // Fetch metadata for all repos in parallel
+    var repoKeys = Object.keys(registry);
+    var enabledRepos = [];
+    var settingsRepos = currentSettings.repos || [];
+    for (var i = 0; i < repoKeys.length; i++) {
+      var repoEntry = null;
+      for (var j = 0; j < settingsRepos.length; j++) {
+        if (settingsRepos[j].name === repoKeys[i]) {
+          repoEntry = settingsRepos[j];
+          break;
+        }
+      }
+      if (!repoEntry || repoEntry.enabled !== false) {
+        enabledRepos.push(repoKeys[i]);
+      }
+    }
+
+    var metaPromises = enabledRepos.map(function(repoName) {
+      return fetchRepoMetadata(repoName).then(function(meta) {
+        return { name: repoName, meta: meta };
+      });
+    });
+
+    return Promise.all(metaPromises).then(function(metaResults) {
+      var repoMeta = {};
+      for (var m = 0; m < metaResults.length; m++) {
+        repoMeta[metaResults[m].name] = metaResults[m].meta;
+      }
+      window._repoMetaData = repoMeta;
+
+      // Render repo inventory page
+      if (repoPage) {
+        repoPage.innerHTML = renderRepoCards(registry, repoMeta);
+      }
+
+      // Render customer adoption page
+      renderCustomerRegistryPage();
+
+      // Re-render settings page with repo list
+      renderSettingsPage();
+      populateSettingsFromStorage();
+
+      // Calculate alert badge count (open PRs + issues across all repos)
+      var alertCount = 0;
+      for (var r = 0; r < enabledRepos.length; r++) {
+        var rMeta = repoMeta[enabledRepos[r]];
+        if (rMeta) {
+          if (Array.isArray(rMeta.prs)) { alertCount += rMeta.prs.length; }
+          if (Array.isArray(rMeta.issues)) { alertCount += rMeta.issues.length; }
+        }
+      }
+      updateAlertBadge(alertCount);
+
+      // Detect AI purpose for each repo (non-blocking)
+      for (var p = 0; p < enabledRepos.length; p++) {
+        (function(repoName) {
+          var rMeta = repoMeta[repoName];
+          var readmeContent = '';
+          if (rMeta && rMeta.readme && rMeta.readme.content) {
+            try {
+              readmeContent = atob(rMeta.readme.content.replace(/\n/g, ''));
+            } catch (e) {
+              readmeContent = '';
+            }
+          }
+          detectRepoPurpose(repoName, readmeContent).then(function(purpose) {
+            // Update the card with the detected purpose
+            var purposeEl = document.getElementById('purpose-' + repoName);
+            if (purposeEl) {
+              purposeEl.textContent = purpose;
+            }
+          });
+        })(enabledRepos[p]);
+      }
+    });
+  }).catch(function(err) {
+    // On catastrophic failure, show error state
+    if (repoPage) {
+      repoPage.innerHTML = '<p style="color:var(--red);font-size:13px;">Failed to load dashboard data: ' + (err.message || 'Unknown error') + '</p>';
+    }
+    updateConnectionStatus(false);
+  });
+}
+
+// ── Nav Clock ─────────────────────────────────────────────────────────────────
+function _updateNavClock() {
+  var el = document.getElementById('nav-datetime');
+  if (!el) { return; }
+  var now = new Date();
+  var days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var day = days[now.getDay()];
+  var date = now.getDate();
+  var month = months[now.getMonth()];
+  var year = now.getFullYear();
+  var h = now.getHours();
+  var m = now.getMinutes();
+  var s = now.getSeconds();
+  var ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  var timeStr = day + ', ' + date + ' ' + month + ' ' + year + ' ' + h + ':' + (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s + ' ' + ampm;
+  el.textContent = timeStr;
+}
+
+// ── Event Wiring ──────────────────────────────────────────────────────────────
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize the dashboard
+  initDashboard();
+
+  // Start clock
+  _updateNavClock();
+  setInterval(_updateNavClock, 1000);
+
+  // Tab button clicks are wired via inline onclick in HTML (showPage)
+  // Chatbot toggle is wired via inline onclick in HTML (toggleChatbot)
+  // Chatbot input Enter key is wired via inline onkeydown in HTML
+
+  // Settings form auto-save: listen for changes on settings inputs
+  document.addEventListener('change', function(e) {
+    var target = e.target;
+    if (target && target.id && target.id.indexOf('settings-') === 0) {
+      autoSaveSettings();
+    }
+  });
+
+  document.addEventListener('input', function(e) {
+    var target = e.target;
+    if (target && target.id && target.id.indexOf('settings-') === 0) {
+      // Debounce auto-save on input for text fields
+      if (window._settingsDebounce) {
+        clearTimeout(window._settingsDebounce);
+      }
+      window._settingsDebounce = setTimeout(function() {
+        autoSaveSettings();
+      }, 500);
+    }
+  });
+
+  // Customer form submission via event delegation
+  document.addEventListener('submit', function(e) {
+    var form = e.target;
+    if (form && form.id === 'customer-form') {
+      e.preventDefault();
+      if (typeof submitCustomerForm === 'function') {
+        submitCustomerForm();
+      }
+    }
+  });
+
+  // Close info popups when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.info-btn') && !e.target.closest('.info-popup')) {
+      var popups = document.querySelectorAll('.info-popup');
+      for (var i = 0; i < popups.length; i++) {
+        popups[i].remove();
+      }
+    }
+  });
+});
 </script>
 
 </body>
