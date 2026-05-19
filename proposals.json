@@ -37,13 +37,14 @@
     "description": "Test3",
     "proposer": "Test@test",
     "status": "pending",
-    "stage": "Proposal",
+    "stage": "Review",
     "stageDates": {
-      "Proposal": "19/05/2026"
+      "Proposal": "19/05/2026",
+      "Review": "19/05/2026"
     },
     "jiraTicket": "",
     "createdAt": "2026-05-19T16:17:30.898Z",
-    "updatedAt": "2026-05-19T16:17:30.898Z",
+    "updatedAt": "2026-05-19T16:17:46.306Z",
     "approvedBy": null
   }
 ]
