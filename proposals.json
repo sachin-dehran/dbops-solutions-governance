@@ -4,9 +4,9 @@
     "title": "Test",
     "description": "Test",
     "proposer": "sachin.dehran@rackspace.com",
-    "status": "pending",
+    "status": "approved",
     "createdAt": "2026-05-19T15:10:05.723Z",
-    "updatedAt": "2026-05-19T15:10:05.723Z",
-    "approvedBy": null
+    "updatedAt": "2026-05-19T15:11:40.249Z",
+    "approvedBy": "Sachin Dehran"
   }
 ]
