@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "id": "cust_1779202486397",
+    "name": "Team1",
+    "email": "",
+    "solutions": [],
+    "status": "active",
+    "notes": "",
+    "createdAt": "2026-05-19T14:54:46.397Z",
+    "updatedAt": "2026-05-19T14:54:46.397Z"
+  }
+]
