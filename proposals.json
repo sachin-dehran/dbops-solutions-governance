@@ -36,7 +36,7 @@
     "title": "Test3",
     "description": "Test3",
     "proposer": "Test@test",
-    "status": "pending",
+    "status": "approved",
     "stage": "Review",
     "stageDates": {
       "Proposal": "19/05/2026",
@@ -44,7 +44,7 @@
     },
     "jiraTicket": "",
     "createdAt": "2026-05-19T16:17:30.898Z",
-    "updatedAt": "2026-05-19T16:17:46.306Z",
-    "approvedBy": null
+    "updatedAt": "2026-05-19T16:17:59.982Z",
+    "approvedBy": "sachin.dehran@test.com"
   }
 ]
